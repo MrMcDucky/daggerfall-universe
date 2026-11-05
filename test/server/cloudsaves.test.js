@@ -93,7 +93,7 @@ async function stand() {
     SAVES: r2(),
     IDENTITY_PRIVATE_KEY: pkcs8,
     ACCOUNT_VERSION: 'test1',
-    ALLOWED_ORIGIN: 'https://daggerfalljs.dev',
+    ALLOWED_ORIGIN: 'https://mrmcducky.github.io',
   };
   /** JSON in, JSON out. */
   const call = async (method, path, body, bearer = null) => {

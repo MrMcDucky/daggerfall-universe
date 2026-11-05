@@ -45,6 +45,9 @@ concurrency:
   group: account-deploy
   cancel-in-progress: false
 
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
+
 jobs:
   restore:
     runs-on: ubuntu-latest

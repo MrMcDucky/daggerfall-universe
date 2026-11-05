@@ -123,7 +123,7 @@ case "$sql" in *"blob2 = 'CRON'"*) cp "$FAKE_DIR/cron.json" "$out"; echo -n "$FA
     writeFileSync(summary, '');
     const out = execFileSync('bash', ['-c', `set -euo pipefail\n${stepRun(wf, 'Read the service\'s metrics')}`], {
       cwd: root, encoding: 'utf8',
-      env: { ...process.env, PATH: `${dir}:${process.env.PATH}`, FAKE_DIR: dir, FAKE_CODE: code, HOURS: '2', RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' },
+      env: { ...process.env, PATH: `${dir}:${process.env.PATH}`, FAKE_DIR: dir, FAKE_CODE: code, HOURS: '2', RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x', CLOUDFLARE_ACCOUNT_ID: '0123456789abcdef0123456789abcdef' },
     });
     return { out, summary: readFileSync(summary, 'utf8') };
   };

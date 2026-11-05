@@ -28,6 +28,7 @@ import {
   dawnClimb, dawnMarkAngle, dawnSpireH, AURA_CLOCK_PERIOD,
 } from '../../../src/render/auraRing.js';   // SPIRE-FIRST: Firstlight rebuilt - its climb's law and its measures
 import { glslFunctions } from '../../glsl.mjs';
+import { withFixtureLists } from '../../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const { subtle } = globalThis.crypto;
 const SPIRE_TITLES = ['spirewalker', 'beaconlighter', 'kynbane', 'unfallen', 'lonebeacon', 'battlemage', 'wellheadwalker', 'mastergallery', 'mastercairn', 'mastershade', 'masterwellhead', 'spirechampion', 'spirefirst'];
@@ -164,7 +165,7 @@ test('EG-E2 SPIRE CHAMPION: each Descent bracket\'s top ten companies at a seaso
 });
 
 test('EG-E2 FIRST OF THE SPIRE: granted as Hour\'s First is - a list in config (EG_FIRST_HANDLES, in wrangler.toml; SPIRE-FIRST: the account Serveride, who took Redoubt 10 first, alone), the title and Firstlight while listed, any case, never a guest or a near name - nor his character\'s name, which the herald read (SPIRE-FIRST-NAME) (mutants: the list not read; the aura without the list; a guest by name; Serveride left off; the character\'s name listed)', () => {
-  const m = /^EG_FIRST_HANDLES = "([^"]*)"$/m.exec(readFileSync(new URL('../../../server-account/wrangler.toml', import.meta.url), 'utf8'));
+  const m = /^EG_FIRST_HANDLES = "([^"]*)"$/m.exec(withFixtureLists(readFileSync(new URL('../../../server-account/wrangler.toml', import.meta.url), 'utf8')));
   assert.ok(m, 'a var beside Hour\'s First\'s');
   assert.equal(m[1], 'Serveride', 'SPIRE-FIRST: the first company\'s account, and nobody else (PIN MOVED: it read empty until that company came; SPIRE-FIRST-NAME: then Severide, his character\'s name off the herald, which no account\'s handle is)');
   const named = { EG_FIRST_HANDLES: m[1] }, acct = (handle) => ({ handle, created_at: 1_900_000_000, registered_at: 1_900_000_000 });

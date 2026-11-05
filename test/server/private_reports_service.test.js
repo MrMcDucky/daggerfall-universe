@@ -14,6 +14,7 @@ import {
   reportHead, reportInboxHead, reportWhole, reportWordsOf, charsOf,
 } from '../../src/net/reportLaw.js';
 import { REFUSALS } from '../../src/net/accountClient.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const ROUTE_LIST = ['/v1/report/send', '/v1/report/mine', '/v1/report/inbox', '/v1/report/read', '/v1/report/close'];
@@ -39,7 +40,7 @@ test('PRIVATE-REPORT the table and the doors: 0129 lays private_reports - one re
     assert.equal(typeof REFUSALS[w], 'string', w);
   }
   // AUDIT PRIVATE-REPORT TEST-16: the readers by name - who reads an unfixed exploit is a change a pin moves on purpose
-  assert.match(src('server-account/wrangler.toml'), /^REPORT_READER_HANDLES = "Lattymoy"$/m, 'the readers are named in config');
+  assert.match(withFixtureLists(src('server-account/wrangler.toml')), /^REPORT_READER_HANDLES = "Lattymoy"$/m, 'the readers are named in config');
 
   const svc = await standService();
   const g = await svc.guest();

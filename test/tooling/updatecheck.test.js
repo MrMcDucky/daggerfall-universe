@@ -94,13 +94,13 @@ test('DA6: the wiring pins - one API, two gates, and probes never touch the netw
   // at every launch, beside the check and behind its two gates, for the
   // launcher's news panel; still read-only, still the repo's releases,
   // still nothing else.
-  assert.ok(main.includes("'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases/latest'"),
+  assert.ok(main.includes("'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases/latest'"),
     'the check asks the releases API');
   const apis = [...main.matchAll(/'(https:\/\/api\.github\.com\/[^']*)'/g)].map((m) => m[1]).sort();
   assert.deepEqual(apis, [
-    'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases/latest',
-    'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases/tags/',
-    'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases?per_page=20',
+    'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases/latest',
+    'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases/tags/',
+    'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases?per_page=20',
   ], 'and nothing else');
   // the private server's pinned release, read by its tag (hostingGame) - still the repo's own releases
   assert.equal((main.match(/net\.fetch\(RELEASES_TAG_API \+ HOSTING_PIN,/g) ?? []).length, 1);
@@ -114,7 +114,7 @@ test('DA6: the wiring pins - one API, two gates, and probes never touch the netw
   assert.match(door, /if \(typeof url !== 'string' \|\| !url\.startsWith\(`\$\{RELEASES_URL\}\/download\/`\)\) return Promise\.reject\(/, 'the release\'s own download links, and nothing else');
   assert.match(door, /return net\.fetch\(url, init\);/);
   assert.equal((main.match(/net\.fetch\(url, init\)/g) ?? []).length, 1, 'the one door');
-  assert.equal(require('../../app/lib/downloads.cjs').RELEASES_URL, 'https://github.com/Lattymoy/daggerfall-js-source/releases');
+  assert.equal(require('../../app/lib/downloads.cjs').RELEASES_URL, 'https://github.com/MrMcDucky/daggerfall-universe/releases');
   // The two gates on the launch check: the config checkbox (default
   // ON, off is `updateCheck: false`) and the probe env.
   assert.match(main, /loadConfig\(\)\.updateCheck !== false && !process\.env\.DAGGER_NO_UPDATE_CHECK/,

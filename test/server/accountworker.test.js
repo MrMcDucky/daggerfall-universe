@@ -738,7 +738,7 @@ async function stand() {
   const kp = await subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
   const pkcs8 = Buffer.from(new Uint8Array(await subtle.exportKey('pkcs8', kp.privateKey))).toString('base64');
   const pubB64 = Buffer.from(new Uint8Array(await subtle.exportKey('raw', kp.publicKey))).toString('base64url');
-  const env = { DB: d1(), IDENTITY_PRIVATE_KEY: pkcs8, ACCOUNT_VERSION: 'test1', ALLOWED_ORIGIN: 'https://daggerfalljs.dev' };
+  const env = { DB: d1(), IDENTITY_PRIVATE_KEY: pkcs8, ACCOUNT_VERSION: 'test1', ALLOWED_ORIGIN: 'https://mrmcducky.github.io' };
   // AUDIT-ACC F13: a GET presents its credential in the
   // `Authorization` header, never in the URL - a query string is
   // written into Cloudflare's logs, into a Referer and into history.
@@ -762,7 +762,7 @@ test('ACC1b: the Worker mints a guest, then a token the RELAY\'s public key veri
   const health = await call('GET', '/v1/health');
   assert.equal(health.status, 200);
   assert.equal(health.body.v, 'test1', '/health names the deploy, as the relay\'s does');
-  assert.equal(health.headers.get('access-control-allow-origin'), 'https://daggerfalljs.dev');
+  assert.equal(health.headers.get('access-control-allow-origin'), 'https://mrmcducky.github.io');
 
   const guest = (await call('POST', '/v1/auth/guest', { label: 'desktop', ...ACCEPTED })).body;
   assert.match(guest.id, ID_RE);

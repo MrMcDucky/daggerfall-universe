@@ -144,8 +144,8 @@ test('MWFIX2: the mesh-viewer link resolved to the SITE ROOT, from the game as w
     return new URL(page, root).href;
   };
   const cases = [
-    ['https://daggerfalljs.dev/play/', 'https://daggerfalljs.dev/mw-viewer.html'],
-    ['https://daggerfalljs.dev/menu.html', 'https://daggerfalljs.dev/mw-viewer.html'],
+    ['https://mrmcducky.github.io/play/', 'https://mrmcducky.github.io/mw-viewer.html'],
+    ['https://mrmcducky.github.io/menu.html', 'https://mrmcducky.github.io/mw-viewer.html'],
     ['https://x.github.io/repo/play/', 'https://x.github.io/repo/mw-viewer.html'],
     ['https://x.github.io/repo/menu.html', 'https://x.github.io/repo/mw-viewer.html'],
   ];

@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs';
 import { standService, T0 } from '../accountDb.mjs';
 import { titlesHeld, isNamedFirstWyrm } from '../../server-account/src/titles.js';
 import { utcDay } from '../../src/net/marksLaw.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const NOON = utcDay(T0) * 86_400 + 12 * 3600;
 const RIDERS = ['wyrmrider', 'firstwyrmrider', 'aetherrider', 'firstaetherrider'];
@@ -22,7 +23,7 @@ test('FIRST-WYRM THE LAW: a listed handle holds First Wyrm Rider, case-folded, n
   const earliest = { handle: 'Other', masteryMarks: ['wyrmrider', 'firstwyrmrider', 'aetherrider', 'firstaetherrider'] };
   assert.deepEqual(riders(earliest, env), ['wyrmrider', 'aetherrider', 'firstaetherrider'], 'the named First is the one First');
   assert.deepEqual(riders(earliest, {}), RIDERS, 'an empty list leaves the derived First');
-  assert.match(readFileSync(new URL('../../server-account/wrangler.toml', import.meta.url), 'utf8'), /^FIRST_WYRM_RIDER_HANDLES = "Seanobi"$/m, 'the owner\'s grant, by handle');
+  assert.match(withFixtureLists(readFileSync(new URL('../../server-account/wrangler.toml', import.meta.url), 'utf8')), /^FIRST_WYRM_RIDER_HANDLES = "Seanobi"$/m, 'the owner\'s grant, by handle');
 });
 
 test('FIRST-WYRM THE SERVICE: the listed account wears First Wyrm Rider though another tamed first; the earliest tamer is refused it (mutants: the wardrobe reads the rows alone)', async (t) => {

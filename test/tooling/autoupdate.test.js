@@ -89,7 +89,7 @@ test('DA7: the shell - the updater downloads on its own, installs on quit, never
 
 test('DA7: the build - a publish PROVIDER (so latest.yml and app-update.yml are written), the updater a RUNTIME dependency, and the workflow attaches the metadata beside the installers', () => {
   const pkg = JSON.parse(read('app/package.json'));
-  assert.deepEqual(pkg.build.publish, [{ provider: 'github', owner: 'Lattymoy', repo: 'daggerfall-js-source' }],
+  assert.deepEqual(pkg.build.publish, [{ provider: 'github', owner: 'MrMcDucky', repo: 'daggerfall-universe' }],
     'the provider names the repo the notice already reads; without a provider electron-builder writes no update metadata at all');
   assert.ok(pkg.dependencies?.['electron-updater'], 'a runtime dependency - electron-builder packs `dependencies`, never devDependencies');
   assert.ok(!pkg.devDependencies?.['electron-updater']);

@@ -491,6 +491,9 @@ concurrency:
   group: account-deploy
   cancel-in-progress: false
 
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
+
 jobs:
   # SCALE1 (2026-09-30, the scaling audit): THE SUITE FIRST. This service
   # deployed on every push that touched it whatever the check said - on
@@ -753,7 +756,7 @@ jobs:
       - name: Turn on the database's read replicas
         run: |
           set -uo pipefail
-          acct=$(grep -oP '^account_id\s*=\s*"\K[^"]+' server-account/wrangler.toml)
+          acct="$CLOUDFLARE_ACCOUNT_ID"
           # AUDIT SCALE4d A3: curl's own -w says 000 when it reaches nothing - `|| echo 000` printed it twice
           code=$(curl -sS --max-time 20 -o /tmp/replicas.json -w '%{http_code}' -X PUT \
             "https://api.cloudflare.com/client/v4/accounts/$acct/d1/database/${{ steps.d1.outputs.id }}" \
@@ -801,7 +804,7 @@ jobs:
           set -euo pipefail
           # AUDIT-ACC F16: THE URL IS READ OFF THE DEPLOY, NOT TYPED.
           # The verify steps used to build the host from the worker name
-          # plus a hardcoded `mackcothran` subdomain - the name derived
+          # plus a hardcoded workers.dev subdomain - the name derived
           # from the config, the account typed beside it. That is a
           # second home for a fact, and it is the exact shape SLAM13
           # burned the relay on: a check pointed at a stale fact keeps

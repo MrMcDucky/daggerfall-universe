@@ -7,9 +7,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { standService } from '../accountDb.mjs';
 import { canModerate, isModerator, glyphsOf, MOD_TIERS, TIER_LISTS } from '../../server-account/src/titles.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const rd = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
-const toml = rd('server-account/wrangler.toml');
+const toml = withFixtureLists(rd('server-account/wrangler.toml'));
 const v = (k) => new RegExp(`^${k} = "([^"]*)"$`, 'm').exec(toml)?.[1];
 
 test('SHADOW-FANG-MOD THE GRANT: Shadow Fang is a title that moderates; SirMcMobdon, on its list in any case, may moderate without the shield; off the list, a guest and a near name may not (mutants: MOD_TIERS emptied; canModerate not reading it)', () => {

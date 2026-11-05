@@ -24,6 +24,9 @@ concurrency:
   group: sd-clears
   cancel-in-progress: false
 
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
+
 jobs:
   read:
     runs-on: ubuntu-latest

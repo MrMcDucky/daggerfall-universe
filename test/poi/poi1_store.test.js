@@ -15,6 +15,7 @@ import { poiDocProblems, poiAssetProblems, poiAssetsOf, mintPoiId, unitQuat, pro
 import { standService } from '../accountDb.mjs';
 import { poiPathOf } from '../../server-account/src/service.js';
 import { forgetPoiFeed, POI_FEED_KEEP_MS } from '../../server-account/src/poi.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 /** Problems as lines, `path: code`, for a regex to read. */
@@ -338,7 +339,7 @@ test('POI-1 STORE: the feed kept in the isolate - asked again inside its keep, n
 
 test('POI-1 RECORDS: the store is in the migrations, the roles in the config, its shared law in the account deploy\'s filter', () => {
   assert.match(src('server-account/migrations/0116_poi.sql'), /CREATE TABLE IF NOT EXISTS poi_revs/);
-  const toml = src('server-account/wrangler.toml');
+  const toml = withFixtureLists(src('server-account/wrangler.toml'));
   assert.match(toml, /^APPROVER_HANDLES = "Lattymoy"$/m);
   assert.match(toml, /^BUILDER_HANDLES = ""$/m);
   const wf = src('.github/workflows/account-deploy.yml');

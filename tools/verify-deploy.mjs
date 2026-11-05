@@ -127,7 +127,7 @@ export function gitContains(a, d) {
 }
 
 async function main() {
-  const url = process.argv[2] || 'https://daggerfalljs.dev/play/'; // U64: the custom domain is the live site
+  const url = process.argv[2] || 'https://mrmcducky.github.io/daggerfall-universe/play/'; // the fork's GitHub Pages site
   const localHtml = await readFile('dist/play/index.html', 'utf8');
   const bundle = entryBundle(localHtml);
   if (!bundle) {

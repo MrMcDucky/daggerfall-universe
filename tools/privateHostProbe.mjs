@@ -59,7 +59,7 @@ try {
     const errors = [];
     const asked = [];
     page.on('pageerror', (e) => errors.push(e.message));
-    page.on('request', (r) => { if (/workers\.dev|daggerfalljs\.dev/.test(r.url())) asked.push(r.url()); });   // private.invalid is the no-service address, which never answers
+    page.on('request', (r) => { if (/unconfigured\.invalid|workers\.dev|github\.io/.test(r.url())) asked.push(r.url()); });   // private.invalid is the no-service address, which never answers
     page.on('console', (m) => { if (/\[(online|private|realm)\]/.test(m.text())) console.log(`   p${i} ${m.type()}: ${m.text().slice(0, 200)}`); });
     // the player's own character, loaded as the game's Load door loads one - the private hook takes the boot online
     await page.goto(`http://localhost:${PORT}/play/?world&load&loadkey=1&novideo&shot&play`);

@@ -21,6 +21,7 @@ import { HOST_COMMANDS, parseChatLine } from '../../src/net/chatCommands.js';
 import { ChatLog } from '../../src/net/chat.js';
 import { OnlineSession } from '../../src/net/online.js';
 import { CHAT_CSS } from '../../src/ui/chatPanel.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const rd = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
 const ofType = (ws, t) => ws.sent.filter((m) => m.t === t);
@@ -64,7 +65,7 @@ test('TITLE-R founder: no account registered after the cutoff can obtain Founder
 });
 
 test('TITLE-N grants: the Dungeon Master is SquidKamer\'s alone and Disciple is Dutchess\'s, each from its handle list, case-folded; each held title brings its glyph; a guest and anyone else hold none, and cannot wear one (mutants: the lists crossed; a guest granted; the glyph without the title)', () => {
-  const toml = rd('server-account/wrangler.toml');
+  const toml = withFixtureLists(rd('server-account/wrangler.toml'));
   const v = (k) => new RegExp(`^${k} = "([^"]*)"$`, 'm').exec(toml)?.[1];
   assert.equal(v('DUNGEON_MASTER_HANDLES'), 'SquidKamer', 'Mac: "This goes strictly to the account SquidKamer"');
   assert.equal(v('DISCIPLE_HANDLES'), 'Dutchess,Satranath,Skibbster,Flylighter,valenvalarys', 'Mac: "The account Dutchess will recieve the Disciple title/glyph", then "Satranath please add this account as a disciple also", then "Skibbster needs to be a disciple ingame", then "Grant Flylighter the disciple title/glyph", then "Add valenvalarys as a disciple ingame"');

@@ -381,7 +381,7 @@ test('DA13: which path a release takes - the channel for the same shell and gene
   assert.equal(G.routeFor({ seed, manifest: m, failed: ['0.1.10'] }).route, 'game');
   assert.equal(G.routeFor({ seed: null, manifest: m }).route, 'installer');
   // the release's game, as the release lists it - its own download links, and the pack's size
-  const base = 'https://github.com/Lattymoy/daggerfall-js-source/releases/download/app-v0.1.11/';
+  const base = 'https://github.com/MrMcDucky/daggerfall-universe/releases/download/app-v0.1.11/';
   const rel = { assets: [{ name: G.GAME_FILES.manifest, size: 9, browser_download_url: base + G.GAME_FILES.manifest }, { name: G.GAME_FILES.pack, size: 99, browser_download_url: base + G.GAME_FILES.pack }] };
   assert.deepEqual(G.gameAssetsOf(rel), { manifest: base + G.GAME_FILES.manifest, pack: base + G.GAME_FILES.pack, packSize: 99 });
   assert.equal(G.gameAssetsOf({ assets: rel.assets.slice(0, 1) }), null, 'a release with no pack carries no game');
@@ -499,7 +499,7 @@ test('DA13: a readied version is switched to only by a navigation that can commi
   assert.equal(switchesReadyGame(navigation('dagger://game/play/index.html')), true, 'a reload or the game\'s own navigation');
   assert.equal(switchesReadyGame(navigation('dagger://game/play/index.html?load=2')), true, 'a load that carries its search');
   // Electron raises did-start-navigation for these before will-navigate cancels them (seen on Electron 42.11.8)
-  assert.equal(switchesReadyGame(navigation('https://discord.gg/jM2JdwSM8w')), false, 'a web link the fence hands to the browser');
+  assert.equal(switchesReadyGame(navigation('https://example.com/somewhere')), false, 'a web link the fence hands to the browser');
   assert.equal(switchesReadyGame(navigation('file:///C:/Users/x/save.zip')), false, 'a file the fence refuses');
   assert.equal(switchesReadyGame(navigation('dagger://launcher/index.html')), false, 'the launcher\'s pages are not the game\'s');
   assert.equal(switchesReadyGame(navigation('dagger://game/play/index.html', { isSameDocument: true })), false, 'a hash or history step keeps the document');

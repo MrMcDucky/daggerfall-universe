@@ -203,7 +203,7 @@ test('DA10: the shell - Play is the only way in, the news is the check\'s own re
   assert.match(main, /const returning = !cfg\.lastPlayed && cfg\.launcherSeen !== true && Object\.keys\(cfg\)\.length > 0;\s*if \(cfg\.launcherSeen !== true\) saveConfig\(\{ \.\.\.loadConfig\(\), launcherSeen: true \}\);/);
   assert.match(main, /\n\s*returning,\n/);
   // the news: the check's own request, asked beside it inside the gates, kept in news.json
-  assert.match(main, /const RELEASES_LIST_API = 'https:\/\/api\.github\.com\/repos\/Lattymoy\/daggerfall-js-source\/releases\?per_page=20';/);
+  assert.match(main, /const RELEASES_LIST_API = 'https:\/\/api\.github\.com\/repos\/MrMcDucky\/daggerfall-universe\/releases\?per_page=20';/);
   const news = main.slice(main.indexOf('async function fetchNews()'), main.indexOf('/** An update, told to the game'));
   assert.match(news, /const items = newsFrom\(await res\.json\(\)\);\s*saveNews\(items\);\s*launcherDispatch\(\{ type: 'news', items \}\);/);
   assert.match(news, /catch \{ launcherDispatch\(\{ type: 'news-failed' \}\); \}/);

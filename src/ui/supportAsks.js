@@ -9,9 +9,6 @@
 // menu's night - and test/ui/enhanced/landing.test.js holds the site's links, README.md, SUPPORT.md and the repository's Sponsor
 // button (.github/FUNDING.yml) to SUPPORT_ASKS.
 //
-// PATREON1 (2026-09-25, Mac: "Replace website KOFI with patreon") had made Patreon the only ask. Ko-fi is back beside
-// it at Mac's new page; U64's ko-fi.com/dfjs is no longer the project's.
-//
 // THE MARKS ARE DRAWN, NOT PICTURED. Each is a pixel list painted in box-shadow, as the site's corner mark has been since
 // U64: the site carries no raster (test/ui/enhanced/landing.test.js, U60), and the door's pixel face is the same square pixel.
 // Patreon's is PATREON1's own drawing. Ko-fi's is U64's cup with one change: its handle is a RING. U64's handle was a
@@ -39,31 +36,9 @@ export const MARK_PX = 4;
  *  it draws finds the rest in its border (the site's plaque found the mug's steam in its top edge). */
 export const MARK_BODY_ROWS = 5;
 
-/** Patreon's two shapes (PATREON1): the bar in the dim, standing the full height, a column of air, and the disc in the
- *  brass - five across with its four corners cut, which is what a circle is at this size. */
-const PATREON_ART = Object.freeze(['+..###.', '+.#####', '+.#####', '+.#####', '+..###.']);
-
-/** Ko-fi's mug (U64's cup, the handle a ring): two wisps of steam in the dim, a row of air, then the filled body with
- *  its handle on the right - five rows, Patreon's height. */
-const KOFI_ART = Object.freeze(['.+.+..', '+.+...', '......', '####..', '######', '####.#', '######', '####..']);
-
-/** @type {readonly SupportAsk[]} The asks, in the order both doors show them - Patreon first, as it was the only one. */
-export const SUPPORT_ASKS = Object.freeze([
-  Object.freeze({
-    id: 'patreon',
-    name: 'Patreon',
-    label: 'Support on Patreon',
-    url: 'https://www.patreon.com/c/dfenhanced',
-    art: PATREON_ART,
-  }),
-  Object.freeze({
-    id: 'kofi',
-    name: 'Ko-fi',
-    label: 'Support on Ko-fi',
-    url: 'https://ko-fi.com/daggerfallonline',
-    art: KOFI_ART,
-  }),
-]);
+/** @type {readonly SupportAsk[]} The asks, in the order both doors show them. None: the fork carries no
+ *  upstream funding links. Add an entry (id, name, label, url, art) to show one on the site and the menu. */
+export const SUPPORT_ASKS = Object.freeze([]);
 
 /**
  * One mark's rules: a box the size of its whole drawing, and a ::before one art pixel square at the box's top-left

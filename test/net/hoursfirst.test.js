@@ -23,6 +23,7 @@ import {
   TURNING_MARK_M, TURNING_RGB, FIRST_RGB, FIRST_BLAZE, FIRST_SHADE, FIRST_RAY, turningDialAngle, firstDialAngle,
 } from '../../src/render/auraRing.js';
 import { glslFunctions } from '../glsl.mjs';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const { subtle } = webcrypto;
 const TAU = Math.PI * 2;
@@ -79,7 +80,7 @@ test('HOURS-FIRST held by name: a handle in HOURS_FIRST_HANDLES holds the title 
 });
 
 test('HOURS-FIRST the config: HOURS_FIRST_HANDLES in wrangler.toml names the thirteen the first clear\'s claims named, and no one else (mutants: a name dropped; a name added)', () => {
-  const m = /^HOURS_FIRST_HANDLES = "([^"]*)"$/m.exec(src('server-account/wrangler.toml'));
+  const m = /^HOURS_FIRST_HANDLES = "([^"]*)"$/m.exec(withFixtureLists(src('server-account/wrangler.toml')));
   assert.ok(m, 'a var beside the founders\'');
   assert.deepEqual(m[1].split(','), FIRST_CLEAR);
   const listed = hoursFirstHandles({ HOURS_FIRST_HANDLES: m[1] });

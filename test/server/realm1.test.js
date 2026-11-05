@@ -62,7 +62,7 @@ function r2() {
 
 async function stand() {
   _resetKeyForTests();
-  const env = { DB: d1(), SAVES: r2(), ACCOUNT_VERSION: 'test1', ALLOWED_ORIGIN: 'https://daggerfalljs.dev' };
+  const env = { DB: d1(), SAVES: r2(), ACCOUNT_VERSION: 'test1', ALLOWED_ORIGIN: 'https://mrmcducky.github.io' };
   const call = async (method, path, body, bearer = null) => {
     const res = await worker.fetch(new Request(`https://accounts.invalid${path}`, {
       method,

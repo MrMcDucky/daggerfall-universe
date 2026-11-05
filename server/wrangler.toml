@@ -29,7 +29,7 @@
 name = "daggerfall-online"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
-account_id = "a27adccb38c8e8b82fa32e5736274a94"
+# account_id is not kept here: wrangler reads CLOUDFLARE_ACCOUNT_ID (CI: vars.CLOUDFLARE_ACCOUNT_ID).
 workers_dev = true
 
 # ═══ ACC1d: THE KEY THE RELAY VERIFIES NAMES WITH ══════════════════
@@ -46,7 +46,7 @@ workers_dev = true
 # admits everybody, which is what it did before this slice; it does not
 # refuse the room and it does not pretend it checked.
 [vars]
-IDENTITY_PUBLIC_KEY = "2ZbUhjpY80Hne60_ucjzCZMF0i5DsarfaWW9SDU5ei4"
+IDENTITY_PUBLIC_KEY = ""
 # The lifetime ceiling this relay will honour, beside the key it
 # belongs with (AUDIT-ACC F8, bible ACC1d D3). `MAX_TTL_S` in
 # src/net/identityToken.js is the hard ceiling the module itself
@@ -98,7 +98,7 @@ REGION_SHARDS = ""
 # the hub holds none.
 # The role: its id handed over 2026-10-02, before the WB12/WB13 merge (it was
 # 1554215379817988167, World Events, from 2026-09-28).
-GATE_DISCORD_ROLE = "1555589839825670258"
+GATE_DISCORD_ROLE = ""
 # ═══ SERPENT2: THE ROLE THE SERPENT'S BELLS PING ═══════════════════
 #
 # The Discord id of the opt-in role the hub pings on each sea serpent's
@@ -159,7 +159,7 @@ KT_DISCORD_THREAD = ""
 # retried: a batch the service does not take is dropped. EMPTY IS A
 # LEGAL STATE: nothing is kept and nothing is posted. The service drops
 # what it is fed while its reviewer is off (MOD_AI, or no key).
-MOD_FEED_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/feed"
+MOD_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/feed"
 # ═══ GRANT2: THE SPAWN GRANTS' MEASURE ═══════════════════════════════
 #
 # Where each cell posts its window of spawn grant asks for the account
@@ -185,7 +185,7 @@ MOD_FEED_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/feed"
 # reason; once it does, set it here as well as at the hub, so a room just
 # woken (or one whose hub did not answer) never reads it off. Leases are
 # signed with a key derived from GATE_SIGNING_KEY; no new secret.
-GRANT_FEED_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/grant-feed"
+GRANT_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/grant-feed"
 # COST-2 part two (bible/11-Multiplayer/Scale-Arc.md): THE CELL TREE MOVES.
 # The setting `cellSeed` (CELL_SEED, off unset) is the level the cell
 # directory seeds its tree at - 2 is 64-pixel cells. It stays off until the
@@ -211,7 +211,7 @@ CELL_MERGE_DWELL_MS = "600000"
 # EMPTY (or no GATE_SIGNING_KEY) CLOSES EVERY PRIVATE HOME TO A HIDDEN
 # SOCKET (server/src/staffHidden.js hiddenSeenOn): an entry the log
 # would not hold is never made.
-HIDDEN_SEEN_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/hidden-seen"
+HIDDEN_SEEN_URL = "https://daggerfall-accounts.invalid/v1/mod/hidden-seen"
 # ═══ STAFF-PANEL5-FEEDS: THE STAFF PANEL'S NET AND BOT-CHECK FEEDS ═════
 #
 # . Where
@@ -229,8 +229,8 @@ HIDDEN_SEEN_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/hi
 # Only these vars change, so RELAY_VERSION does not move: the relay deploy
 # is a manual run of the relay's deploy with `redeploy` ticked (a plain
 # dispatch deploys only on drift), which drops every connected player once.
-STAFF_NET_FEED_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/staff/net-feed"
-REACTION_FEED_URL = "https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/reaction-feed"
+STAFF_NET_FEED_URL = "https://daggerfall-accounts.invalid/v1/staff/net-feed"
+REACTION_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/reaction-feed"
 # ═══ INT11-INT14: THE LINE THE BOSS FIGHTS' COUNT RUNS BY ════════════
 #
 # The relay counts each fighter's body in a gate, an Abyss Dungeon and

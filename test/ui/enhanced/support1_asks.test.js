@@ -40,51 +40,19 @@ function mediaRule(cond, sel) {
   return rule(sel, `\n${blocks[0][2]}`);
 }
 
-test('SUPPORT1: the asks are Patreon then Ko-fi, at Mac\'s two addresses - one home, both doors read it', () => {
-  assert.deepEqual(SUPPORT_ASKS.map(({ id, name, label, url }) => ({ id, name, label, url })), [
-    { id: 'patreon', name: 'Patreon', label: 'Support on Patreon', url: 'https://www.patreon.com/c/dfenhanced' },   // PATREON1's
-    { id: 'kofi', name: 'Ko-fi', label: 'Support on Ko-fi', url: 'https://ko-fi.com/daggerfallonline' },   // SUPPORT1's - not U64's dfjs
-  ]);
-  assert.ok(Object.isFrozen(SUPPORT_ASKS) && SUPPORT_ASKS.every((a) => Object.isFrozen(a) && Object.isFrozen(a.art)), 'read by two doors, written by none');
+test('SUPPORT1: the fork carries no asks - the list both doors read is empty, and frozen', () => {
+  assert.deepEqual(SUPPORT_ASKS, []);
+  assert.ok(Object.isFrozen(SUPPORT_ASKS), 'read by two doors, written by none');
 });
 
-test('SUPPORT1: the marks are the drawings - PATREON1\'s bar and disc, U64\'s cup with its handle a ring - each body five rows', () => {
-  const [patreon, kofi] = SUPPORT_ASKS;
-  // PATREON1's mark, the very pixels index.html carried as a box-shadow list: the bar in the dim, five tall; a column
-  // of air; the disc in the brass, five across with its corners cut
-  assert.deepEqual(patreon.art, [
-    '+..###.',
-    '+.#####',
-    '+.#####',
-    '+.#####',
-    '+..###.',
-  ]);
-  // the mug: two wisps of steam in the dim, a row of air, the FILLED body (U64's lesson - a ring body read as an 'o')
-  // and the handle a ring (the hole is what says mug rather than goblet, standing alone on the game's door)
-  assert.deepEqual(kofi.art, [
-    '.+.+..',
-    '+.+...',
-    '......',
-    '####..',
-    '######',
-    '####.#',
-    '######',
-    '####..',
-  ]);
-  // every body is its last five rows, and nothing brass stands above one - so a door stands both on their feet and
-  // their bodies centre together
-  assert.equal(MARK_BODY_ROWS, 5);
-  for (const a of SUPPORT_ASKS) {
-    const above = a.art.slice(0, -MARK_BODY_ROWS), body = a.art.slice(-MARK_BODY_ROWS);
-    assert.ok(above.every((r) => !r.includes('#')), `${a.id}: only steam rises above the body`);
-    assert.ok(body[0].includes('#') && body.at(-1).includes('#'), `${a.id}: the body fills its five rows top to foot`);
-    assert.ok(a.art.every((r) => /^[#+.]+$/.test(r) && r.length === a.art[0].length), `${a.id}: a rectangle of three inks`);
-  }
-});
+/** A drawn mark for markCss to paint: the list itself is empty in the fork. */
+const FIXTURE_ASKS = Object.freeze([
+  Object.freeze({ id: 'demo', name: 'Demo', label: 'Support on Demo', url: 'https://example.invalid/', art: Object.freeze(['+..###.', '+.#####', '+.#####', '+.#####', '+..###.']) }),
+]);
 
 test('SUPPORT1: markCss paints every pixel once, on the 4px grid, in the mark\'s two inks, and lays out the whole drawing', () => {
   assert.equal(MARK_PX, 4, 'the site\'s grid and the door\'s');
-  for (const a of SUPPORT_ASKS) {
+  for (const a of FIXTURE_ASKS) {
     const css = markCss(a);
     const box = css.match(new RegExp(`\\.supmark-${a.id} \\{ width: (\\d+)px; height: (\\d+)px; \\}`));
     assert.ok(box, `${a.id}: the box`);

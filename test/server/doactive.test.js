@@ -18,7 +18,7 @@ import { fakeCloudflare, NS_ROOM, NS_GATE } from '../fixtures/doActiveGraphql.mj
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const src = (p) => readFileSync(join(ROOT, p), 'utf8');
-const ACCT = src('server/wrangler.toml').match(/^account_id\s*=\s*"([^"]+)"/m)[1];
+const ACCT = '0123456789abcdef0123456789abcdef';   // a fake account id: the real one is vars.CLOUDFLARE_ACCOUNT_ID, not in the tree
 const NOW = Date.parse('2026-10-24T15:00:00Z');
 
 test('COST-0 the window and the law: whole days 1 to a week (empty: the week), the last whole UTC days before now, an account id of 32 hex, an object-day $0.135 (128 MB a day at $12.50 per million GB-s), the unit the one that puts the busiest object-day nearest a whole day without passing it, the histogram\'s edges (mutants: the window\'s guard; the day the window ends; the price; the unit\'s rule; an edge)', () => {
@@ -171,7 +171,7 @@ test('COST-0 the workflow: run by hand only, its one input read once as environm
     writeFileSync(summary, '');
     let out, status = 0;
     try {
-      out = execFileSync('bash', ['-c', stepRun(wf, 'Read the objects\' active time')], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, DAYS: '2', GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' } });
+      out = execFileSync('bash', ['-c', stepRun(wf, 'Read the objects\' active time')], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_ACCOUNT_ID: ACCT, PATH: `${bin}:${process.env.PATH}`, DAYS: '2', GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' } });
     } catch (e) { out = `${e.stdout}${e.stderr}`; status = e.status; }
     return { out, status, summary: readFileSync(summary, 'utf8') };
   };

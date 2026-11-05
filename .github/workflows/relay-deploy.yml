@@ -74,6 +74,11 @@ concurrency:
   group: relay-deploy
   cancel-in-progress: false
 
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
+  RELAY_BASE: ${{ vars.RELAY_BASE_URL }}       # this fork's relay, e.g. https://daggerfall-online.<subdomain>.workers.dev
+  ACCOUNT_BASE: ${{ vars.ACCOUNT_BASE_URL }}   # this fork's account service
+
 jobs:
   # SCALE1 (2026-09-30, the scaling audit): THE SUITE BEFORE A DEPLOY THAT
   # DROPS EVERY PLAYER - and only then. Most pushes deploy nothing here
@@ -91,7 +96,7 @@ jobs:
           REDEPLOY: ${{ github.event.inputs.redeploy }}
         run: |
           v=$(grep -oP "^export const RELAY_VERSION = '\\K[^']+" src/net/wire.js || true)
-          got=$(curl -fsS --max-time 15 'https://daggerfall-online.mackcothran.workers.dev/health' | sed -n 's/.*"version":"\([^"]*\)".*/\1/p' || true)
+          got=$(curl -fsS --max-time 15 "${RELAY_BASE}/health" | sed -n 's/.*"version":"\([^"]*\)".*/\1/p' || true)
           if [ -n "$v" ] && { [ "$v" != "$got" ] || [ "$REDEPLOY" = "true" ]; }; then echo "deploying=true" >> "$GITHUB_OUTPUT"; else echo "deploying=false" >> "$GITHUB_OUTPUT"; fi
           echo "source says '${v}', live says '${got:-unreachable}'"
 
@@ -136,7 +141,7 @@ jobs:
       - name: Ask the live relay what it is serving
         id: live
         run: |
-          url='https://daggerfall-online.mackcothran.workers.dev/health'
+          url="${RELAY_BASE}/health"
           got=$(curl -fsS --max-time 15 "$url" | sed -n 's/.*"version":"\([^"]*\)".*/\1/p' || true)
           echo "version=$got" >> "$GITHUB_OUTPUT"
           echo "live is serving '${got:-unreachable}'"
@@ -179,7 +184,7 @@ jobs:
             echo "::error::server/wrangler.toml carries no IDENTITY_PUBLIC_KEY - this relay could vouch for nobody"
             exit 1
           fi
-          url='https://daggerfall-accounts.mackcothran.workers.dev/v1/pubkey'
+          url="${ACCOUNT_BASE}/v1/pubkey"
           got=$(curl -fsS --max-time 10 "$url" | sed -n 's/.*"key":"\([^"]*\)".*/\1/p' || true)
           if [ -z "$got" ]; then
             echo "::warning::/v1/pubkey did not answer - the relay's key could not be checked against it"
@@ -205,7 +210,7 @@ jobs:
       - name: Wait out any live siege (the blackout)
         if: (steps.live.outputs.version != steps.ver.outputs.version || github.event.inputs.redeploy == 'true') && github.event.inputs.force != 'true'
         run: |
-          url='https://daggerfall-accounts.mackcothran.workers.dev/v1/seats/sieges/live'
+          url="${ACCOUNT_BASE}/v1/seats/sieges/live"
           while :; do
             got=$(curl -fsS --max-time 10 "$url" || true)
             if [ -z "$got" ]; then
@@ -234,7 +239,7 @@ jobs:
       - name: The Spire's drain and hold
         if: (steps.live.outputs.version != steps.ver.outputs.version || github.event.inputs.redeploy == 'true') && github.event.inputs.force != 'true'
         run: |
-          url='https://daggerfall-online.mackcothran.workers.dev/v1/eg/live'
+          url="${RELAY_BASE}/v1/eg/live"
           laws=$(node -e "const s=require('fs').readFileSync('src/net/eliteGates/egDurable.js','utf8');const m=/export const EG_LAWS = Object\.freeze\(\{([^}]*)\}/.exec(s);process.stdout.write(m?[...m[1].matchAll(/(\d+)\s*:/g)].map((x)=>x[1]).join(' '):'')")
           if [ -z "$laws" ]; then echo "::error::could not read EG_LAWS from src/net/eliteGates/egDurable.js - refusing to drain against an empty list, where every live breach looks like a law this build does not draw and the wait never ends"; exit 1; fi
           echo "this build draws the spec laws: ${laws}"
@@ -295,7 +300,7 @@ jobs:
         if: steps.live.outputs.version != steps.ver.outputs.version || github.event.inputs.redeploy == 'true'
         run: |
           want='${{ steps.ver.outputs.version }}'
-          url='https://daggerfall-online.mackcothran.workers.dev/health'
+          url="${RELAY_BASE}/health"
           for i in $(seq 1 30); do
             got=$(curl -fsS --max-time 10 "$url" | sed -n 's/.*"version":"\([^"]*\)".*/\1/p' || true)
             echo "attempt $i: live reports '${got:-unreachable}', want '$want'"

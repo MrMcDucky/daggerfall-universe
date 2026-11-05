@@ -38,10 +38,11 @@ import {
   WARD_GLYPH_H, auraGlyphCards,
 } from '../../src/render/auraRing.js';
 import { glslFunctions, GlslDiscard } from '../glsl.mjs';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const rd = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
 const { subtle } = webcrypto;
-const toml = rd('server-account/wrangler.toml');
+const toml = withFixtureLists(rd('server-account/wrangler.toml'));
 const v = (k) => new RegExp(`^${k} = "([^"]*)"$`, 'm').exec(toml)?.[1];
 /** The Worker's config as it reads it: every handle list. */
 const ENV = Object.fromEntries([...toml.matchAll(/^([A-Z_]+_HANDLES) = "([^"]*)"$/gm)].map((m) => [m[1], m[2]]));

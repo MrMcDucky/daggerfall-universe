@@ -135,7 +135,7 @@ test('STAFF-CHAT-RED HIDDEN: Red still speaks; Me asks first and a second press 
 });
 
 /** A window for the staff door: its listeners, what it posted, and a way to answer as another sender. */
-function fakeWin(origin = 'https://daggerfalljs.dev') {
+function fakeWin(origin = 'https://mrmcducky.github.io') {
   const listeners = new Set(), posted = [];
   const win = {
     location: { origin },
@@ -150,7 +150,7 @@ function fakeWin(origin = 'https://daggerfalljs.dev') {
 test('STAFF-CHAT-RED THE DOOR\'S ASK: staffShowMe posts { dfoStaff: hide, on: false } to the page\'s own origin and resolves the panel\'s ok - from this window and origin only, the ask itself no answer; no answer in STAFF_TOKEN_WAIT_MS is a no, and the listener goes either way (mutants: the ask to any origin; another sender\'s answer taken; the ask heard as its own answer; no timeout)', async () => {
   const a = fakeWin();
   const p = staffShowMe(a.win, { setTimer: () => 1, clearTimer: () => {} });
-  assert.deepEqual(a.posted, [[{ dfoStaff: 'hide', on: false }, 'https://daggerfalljs.dev']]);
+  assert.deepEqual(a.posted, [[{ dfoStaff: 'hide', on: false }, 'https://mrmcducky.github.io']]);
   a.hear({ dfoStaff: 'hide', on: false });   // the ask itself, which this window hears too
   a.hear({ dfoStaff: 'hide', on: false, ok: true }, { source: {} });
   a.hear({ dfoStaff: 'hide', on: false, ok: true }, { from: 'https://evil.test' });

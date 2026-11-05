@@ -132,8 +132,8 @@ function buildTagMeta() {
 }
 
 // base is './' - RELATIVE, so the same build serves from a project path
-// (lattymoy.github.io/daggerfall-js-source/) and from the apex of the
-// custom domain (daggerfalljs.dev, U64) without a rebuild.
+// (mrmcducky.github.io/daggerfall-universe/) and from the apex of a
+// custom domain without a rebuild.
 export default defineConfig({
   base: './',
   build: {

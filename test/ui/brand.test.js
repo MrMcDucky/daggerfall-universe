@@ -17,10 +17,10 @@
 // JSON manifest; the constants below are the source, and every surface
 // is asserted against them.
 //
-// It also pins what did NOT change, and why. The GitHub repository
-// (Lattymoy/daggerfall-js-source), the live domain (daggerfalljs.dev)
-// and the desktop app's identifier (dev.daggerfalljs.app) still carry
-// the old spelling. Those are not branding, they are keys other systems
+// It also pins what did NOT change, and why. Upstream, the GitHub
+// repository, the live domain and the desktop app's identifier kept
+// the old spelling; this fork pins its own (MrMcDucky/daggerfall-universe,
+// its GitHub Pages site, io.github.mrmcducky.daggerfalluniverse). Those are not branding, they are keys other systems
 // hold: renaming the repo breaks every link in the bible and every
 // release URL, changing the domain breaks the site, and changing the
 // appId orphans every installed copy from its updates - an install-over
@@ -51,7 +51,7 @@
 // would break.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -179,11 +179,11 @@ test('BR1: what the rebrand deliberately did NOT touch, and why', () => {
   // THE KEYS OTHER SYSTEMS HOLD. Each of these is the old spelling on
   // purpose; changing one here without the matching move outside the
   // tree breaks something live, so each fails loudly instead.
-  assert.match(read('app/package.json'), /"appId": "dev\.daggerfalljs\.app"/,
+  assert.match(read('app/package.json'), /"appId": "io\.github\.mrmcducky\.daggerfalluniverse"/,
     'the appId is an INSTALL IDENTITY - change it and every installed copy stops seeing updates and an install-over leaves two apps');
-  assert.match(read('app/package.json'), /"homepage": "https:\/\/daggerfalljs\.dev\/"/,
-    'the domain is live - it moves with DNS, not with a commit');
-  assert.match(read('app/main.cjs'), /api\.github\.com\/repos\/Lattymoy\/daggerfall-js-source\/releases\/latest/,
+  assert.match(read('app/package.json'), /"homepage": "https:\/\/mrmcducky\.github\.io\/daggerfall-universe\/"/,
+    'the fork\'s site - it moves with DNS, not with a commit');
+  assert.match(read('app/main.cjs'), /api\.github\.com\/repos\/MrMcDucky\/daggerfall-universe\/releases\/latest/,
     'the releases API is the REPOSITORY\'s name - a rename redirects, but the bible\'s links and every past release URL are written against this one');
   assert.equal(JSON.parse(read('package.json')).name, 'daggerfall-js-source', 'and the package name follows the repository');
   assert.match(read('src/systems/modSettings.js'), /const STORE_KEY = 'dfjs-mod-settings';/,
@@ -297,17 +297,10 @@ test('BR4: what the rebrand deliberately did NOT touch, and why', () => {
   // each of those files is refused on import.
   assert.match(read('src/systems/customClass.js'), /export const CLASS_FILE_FORMAT = 'daggerfall-enhanced\/custom-class';/,
     'exported class files keep importing');
-  // THE ADDRESSES OTHER PEOPLE HOLD. The Patreon page and the Discord
-  // invite are accounts outside the tree, as the domain was for BR1: the
-  // tree follows them and never leads. The invite has since moved twice
-  // on Discord's side - discord.gg/dfenhanced stopped resolving and the
-  // server's invite was discord.gg/daggerfallonline (2026-09-28), then Mac
-  // gave discord.gg/jM2JdwSM8w (2026-10-09) - and the pin moved with it
-  // each time. The Patreon page keeps the old spelling.
-  assert.ok(read('index.html').includes('https://www.patreon.com/c/dfenhanced'), 'the Patreon page is where it is');
-  assert.ok(read('index.html').includes('https://discord.gg/jM2JdwSM8w'), 'and so is the Discord');
+  // THE ADDRESSES OTHER PEOPLE HOLD. The fork carries no upstream Patreon, Ko-fi or Discord links.
+  assert.doesNotMatch(read('index.html'), /patreon\.com\/c\/|ko-fi\.com\/|discord\.gg\//, 'no upstream community or funding link');
   // The desktop shell's install identity and storage root, as BR1 left them.
-  assert.match(read('app/package.json'), /"appId": "dev\.daggerfalljs\.app"/, 'an update installs over the copy that is there');
+  assert.match(read('app/package.json'), /"appId": "io\.github\.mrmcducky\.daggerfalluniverse"/, 'an update installs over the copy that is there');
   assert.match(read('app/main.cjs'), /app\.setPath\('userData', path\.join\(app\.getPath\('appData'\), 'Daggerfall JavaScript'\)\)/,
     'and the saves stay where they are');
 });
@@ -456,17 +449,16 @@ test('BR5: the keys other systems hold keep their spelling, and what moving each
   // domain: each is a name another system holds, and each moves with that
   // system or not at all. Mac weighed them (2026-10-11): the domain and the
   // servers can move together behind a new domain, a migration of its own.
-  assert.match(read('src/net/online.js'), /export const DEFAULT_SERVER = 'wss:\/\/daggerfall-online\.mackcothran\.workers\.dev';/,
-    'the relay\'s address - every client of every version dials it; it moves with a new hostname, not a commit');
-  assert.match(read('src/net/accountClient.js'), /export const DEFAULT_ACCOUNT_SERVICE = 'https:\/\/daggerfall-accounts\.mackcothran\.workers\.dev';/,
+  assert.match(read('src/net/online.js'), /export const DEFAULT_SERVER = 'wss:\/\/relay\.unconfigured\.invalid';/,
+    'the relay\'s address - unconfigured in the fork until it hosts one');
+  assert.match(read('src/net/accountClient.js'), /export const DEFAULT_ACCOUNT_SERVICE = 'https:\/\/accounts\.unconfigured\.invalid';/,
     'the account service\'s - the same');
   assert.match(read('server/wrangler.toml'), /^name = "daggerfall-online"$/m, 'the relay Worker\'s name IS its hostname');
   // PIN MOVED (SHOP): the sealing moved to sealed.js, shared with the shop - the salt is still Patreon's own constant
   assert.match(read('server-account/src/patreon.js'), /const PATREON_SEAL_SALT = 'daggerfall-accounts patreon-link';/,
     'a key-derivation salt - change it and every linked Patreon\'s stored secret stops opening');
   assert.match(read('.github/workflows/account-deploy.yml'), /DB_NAME: daggerfall-accounts/, 'the D1 database, by its name');
-  assert.ok(read('.github/FUNDING.yml').includes('ko_fi: daggerfallonline'), 'the Ko-fi page is where it is - an account outside the tree, as the Patreon is');
-  assert.ok(read('src/ui/supportAsks.js').includes("url: 'https://ko-fi.com/daggerfallonline'"), 'and the game links it there');
+  assert.ok(!existsSync(join(root, '.github/FUNDING.yml')), 'no upstream Sponsor button');
   assert.equal(JSON.parse(read('app/package.json')).name, 'daggerfall-js-app', 'the shell\'s package, and the User-Agent GitHub\'s API sees');
   assert.match(read('src/systems/modSettings.js'), /const STORE_KEY = 'dfjs-mod-settings';/, 'a live localStorage key, as BR1 pinned it');
   // AUDIT BR5: the names a copy built before the rename downloads by - it asks releases/latest/download/<name> for

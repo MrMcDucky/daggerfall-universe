@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { d1, standService } from '../accountDb.mjs';
 import {
-  postHandles, postBatch, postWords, postItem, sqlText, lookSql, sendSql, hoursFirstSql, hoursFirstHandles, HOURS_FIRST, HOURS_FIRST_RECORD, POST_ITEMS,
+  postHandles, postBatch, postWords, postItem, sqlText, lookSql, sendSql, hoursFirstSql, HOURS_FIRST, HOURS_FIRST_RECORD, POST_ITEMS,
   POST_RECIPIENTS_MAX, tamrielPostSql, TAMRIEL_POST, TAMRIEL_POST_RECORD,
 } from '../../tools/sendServerPost.mjs';
 import { seatRealm } from '../realmSeat.mjs';
@@ -19,6 +19,7 @@ import { portalStones, isPortalStone } from '../../src/systems/gate/gateSpoils.j
 import { postBoxOf } from '../../server-account/src/post.js';
 import { POST_SENDER, POST_BODY_MAX, POST_SUBJECT_MAX } from '../../src/net/postLaw.js';
 import { mintHourlock, mintGilded, HOURLOCK_GUN_ERA, validGildedMarks } from '../../src/systems/gilded.js';
+import { UPSTREAM_LISTS } from '../fixtures/upstreamLists.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -86,7 +87,7 @@ test('HOURS-FIRST THE FIRST SEND, migration 0094: the tool\'s own statement to t
   const first = postHandles(HOURS_FIRST.handles);
   assert.equal(first.length, 13);
   assert.deepEqual(first, HOURS_FIRST.handles.split(',').map((h) => h.toLowerCase()), 'thirteen names, each a handle');
-  const titled = new Set(postHandles(hoursFirstHandles()));
+  const titled = new Set(postHandles(UPSTREAM_LISTS.HOURS_FIRST_HANDLES));   // upstream's list: the fork's config leaves it empty
   assert.ok(first.every((h) => titled.has(h)), 'every one sent the gun holds the title (HOURS_FIRST_HANDLES) - a name added there later is sent the gun by the workflow');
   // PIN MOVED (GUNS-UNFOUND): the Hourlock is a bow now - the thirteen's gun is its gun era's mint, lawful still
   assert.deepEqual(JSON.parse(HOURS_FIRST_RECORD), mintGilded(HOURLOCK_GUN_ERA), 'the frozen record is the gun era\'s mint - a change to it makes every unclaimed gift a forgery');

@@ -40,9 +40,10 @@ import { ILIAC_CHAMPION_MIN_GAMES, ILIAC_CHAMPION_MIN_FOES } from '../../server-
 import { GAMBIT_CHAMPION_MIN_GAMES, GAMBIT_CHAMPION_MIN_FOES } from '../../server-account/src/gambit.js';
 import { EMBERS_EARNED_SQL } from '../../server-account/src/accounts.js';
 import { giveBinder } from '../../src/systems/iliac/iliacItems.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
-const WRANGLER = read('server-account/wrangler.toml');
+const WRANGLER = withFixtureLists(read('server-account/wrangler.toml'));
 /** A `KEY = "value"` line of the service's config. */
 const configOf = (key) => WRANGLER.match(new RegExp(`^${key} = "([^"]*)"`, 'm'))?.[1] ?? null;
 const FESTIVAL = FESTIVALS[0];

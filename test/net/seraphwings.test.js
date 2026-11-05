@@ -31,10 +31,11 @@ import { createEotbBody } from '../../src/player/eyeOfTheBeholder/eotbBody.js';
 import { createPeerWalkers, createPeerRiders, createEotbArt } from '../../src/net/peer/peerRiders.js';
 import { RIDE_EYE_HEIGHT, EYE_HEIGHT } from '../../src/player/motor.js';
 import { glslFunctions, GlslDiscard } from '../glsl.mjs';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const rd = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
 const { subtle } = webcrypto;
-const toml = rd('server-account/wrangler.toml');
+const toml = withFixtureLists(rd('server-account/wrangler.toml'));
 const v = (k) => new RegExp(`^${k} = "([^"]*)"$`, 'm').exec(toml)?.[1];
 const ENV = Object.fromEntries([...toml.matchAll(/^([A-Z_]+_HANDLES) = "([^"]*)"$/gm)].map((m) => [m[1], m[2]]));
 const AFTER = 1_900_000_000;

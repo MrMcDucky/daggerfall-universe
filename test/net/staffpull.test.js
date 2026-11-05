@@ -163,7 +163,7 @@ test('STAFF-PULL host: staff send their own place; a player lands through the /t
 
 test('STAFF-PULL hook: the panel\'s pull of an account answers with the line or the error', async () => {
   const listeners = [], posted = [];
-  const win = { location: { origin: 'https://daggerfalljs.dev' }, addEventListener: (k, f) => listeners.push(f), postMessage: (m) => posted.push(m) };
+  const win = { location: { origin: 'https://mrmcducky.github.io' }, addEventListener: (k, f) => listeners.push(f), postMessage: (m) => posted.push(m) };
   const asked = [];
   staffHookDoor(win, () => null, { pull: async (sub) => { asked.push(sub); if (sub === 'acct-gone') throw new Error('That player is not online.'); return 'Bran was brought to you.'; } });
   const say = (data) => listeners.forEach((f) => f({ source: win, origin: win.location.origin, data }));

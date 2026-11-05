@@ -40,6 +40,9 @@ concurrency:
   group: d1-load
   cancel-in-progress: false
 
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
+
 jobs:
   read:
     runs-on: ubuntu-latest
@@ -112,7 +115,7 @@ jobs:
       - name: Read the service's metrics
         run: |
           set -euo pipefail
-          acct=$(grep -oP '^account_id\s*=\s*"\K[^"]+' server-account/wrangler.toml)
+          acct="$CLOUDFLARE_ACCOUNT_ID"
           echo "**Window: the last ${HOURS:-1} hour(s), to $(date -u +%H:%M) UTC**" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           failed=0

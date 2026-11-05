@@ -649,10 +649,10 @@ test('PATREON-LINK: back from the browser, the card reads the account again - an
 test('PATREON-LINK: its secrets never touch a file - the toml carries Mac\'s client id and his tier map (Disciple, Herald and Hierophant: Supporter holds none) and no secret, linking waits for the deploy\'s secret, and the deploy puts both from the repository through one pipe after the Worker is up; every word the service says has a sentence (mutants: a secret written as a var; the secrets echoed; a tier mapped Mac did not name; the Hierophant tier unmapped)', () => {
   const toml = src('server-account/wrangler.toml');
   const id = /^PATREON_CLIENT_ID = "([^"]*)"$/m.exec(toml)?.[1];
-  assert.match(id ?? '', /^[A-Za-z0-9_-]{32,128}$/, 'the client\'s id - public, it rides every authorize URL');
+  assert.equal(id, '', 'the client\'s id - unset in the fork until it registers its own Patreon client');
   assert.equal(patreonLinkOn({ PATREON_CLIENT_ID: id }), false, 'and linking waits for the secret the deploy puts beside it');
-  const tiers = /^PATREON_TIERS = "([^"]*)"$/m.exec(toml)?.[1];
-  assert.equal(tiers, '29666211:disciple,29666234:herald,29666221:hierophant', 'Mac\'s Disciple tier, his Herald since HERALD gave it its title, and his $50 Hierophant (HIEROPHANT-TIER)');
+  assert.equal(/^PATREON_TIERS = "([^"]*)"$/m.exec(toml)?.[1], '', 'no tier map in the fork\'s config');
+  const tiers = '29666211:disciple,29666234:herald,29666221:hierophant';   // a fixture: the shape a tier map takes
   const map = patreonTierMap({ PATREON_TIERS: tiers });
   assert.deepEqual([...map], [['29666211', 'disciple'], ['29666234', 'herald'], ['29666221', 'hierophant']]);
   assert.equal(map.get('29701293'), undefined, 'Supporter grants nothing by its pledge');

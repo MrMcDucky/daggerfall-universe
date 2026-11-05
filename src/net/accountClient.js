@@ -83,8 +83,9 @@ import { MINT_VERSION } from './productRecord.js';   // AUDIT FB1026d C3: a craf
 /** WHERE THE SERVICE IS. Its own constant beside the relay's
  *  DEFAULT_SERVER (net/online.js), because they are two Workers and
  *  ACC0's whole argument is that they deploy apart - a player pointing
- *  at a test relay has not moved their account. */
-export const DEFAULT_ACCOUNT_SERVICE = 'https://daggerfall-accounts.mackcothran.workers.dev';
+ *  at a test relay has not moved their account. Unconfigured: `.invalid`
+ *  never resolves (RFC 2606); set your own deployed account service here. */
+export const DEFAULT_ACCOUNT_SERVICE = 'https://accounts.unconfigured.invalid';
 /** The account service on a private server - none (`.invalid` never resolves, RFC 2606). */
 export const PRIVATE_NO_SERVICE = 'https://private.invalid';
 

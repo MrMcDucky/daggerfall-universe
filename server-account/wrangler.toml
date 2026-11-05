@@ -46,7 +46,7 @@
 name = "daggerfall-accounts"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
-account_id = "a27adccb38c8e8b82fa32e5736274a94"
+# account_id is not kept here: wrangler reads CLOUDFLARE_ACCOUNT_ID (CI: vars.CLOUDFLARE_ACCOUNT_ID).
 workers_dev = true
 
 # An uncaught error is logged, not lost - AUDIT ONLINE A17's law, on
@@ -161,33 +161,33 @@ ALLOWED_ORIGIN = "*"
 # the trade-freeze review's clear and roll back - and the staff panel's Admin role (server-account/src/staff.js), which is
 # this list. SHADOW_FANG_HANDLES still names them: that title, glyph and cloak stay theirs to wear.
 # STAFF-PANEL1 (2026-10-22): the account kpblca_1, with the same whole set.
-DEVELOPER_HANDLES = "Lattymoy,LostMyLeg,Tabby,RookieG,Roderic,SirMcMobdon,kpblca_1"
+DEVELOPER_HANDLES = ""
 # STAFF-PANEL1 (2026-10-22, server-account/src/staff.js): THE STAFF PANEL'S OWNERS (read the audit
 # log) - staff who may also read the audit log of every staff sign-in and act, invite a staff member to enrol one more
 # extension (a new invite replaces the member's unspent one; keys stay) and cut one off (every key and session ended). A handle here that no role list names is no owner (staff.js isOwner). Comma-separated,
 # case-insensitive, read at every call.
-OWNER_HANDLES = "Lattymoy,SirMcMobdon"
+OWNER_HANDLES = ""
 # STAFF-PANEL1: AN OWNER'S FIRST WAY IN - `handle:publicKey`, comma-separated, the key raw Ed25519 in base64url. The owner's own
 # staff panel extension minted the pair on their computer and holds the private half; this half only checks its signature,
 # so it is safe in a public repository. It is that owner's first way in; every other staff member is invited from the
 # panel. Empty: no owner can enrol (no key is a shut door, never an open one).
 # STAFF-PANEL1 (2026-10-22, the key the first owner's panel showed): the first owner's computer. Latty enrols by that owner's invite,
 # or adds a pair here.
-OWNER_KEYS = "SirMcMobdon:1c9fniJJmmIwXevvrTVajM6SeIFagO8KEzYiAM08mYM"
+OWNER_KEYS = ""
 # POI-1 (2026-10-14, the POI editor; bible/06-Systems/POI-Editor-Arc.md): WHO BUILDS AND WHO APPROVES. Mac, asked how a
 # POI reaches players: "I need to be able to approve changes"; asked who uses the editor: "Developers + Builders". A
 # BUILDER imports models, places POIs, saves drafts and submits them - every developer above is one, and BUILDER_HANDLES
 # adds map makers who are not. An APPROVER decides what goes live (server-account/src/poi.js); nothing reaches a player
 # unapproved. Comma-separated handles, case-insensitive, read at every call - a handle taken off loses the door at once.
 BUILDER_HANDLES = ""
-APPROVER_HANDLES = "Lattymoy"
+APPROVER_HANDLES = ""
 # PRIVATE-REPORT (2026-10-17, Mac: "Can we add a private disclosure method for exploits/bugs with the client";
 # bible/06-Systems/Private-Reports.md): WHO READS THE PRIVATE REPORTS - the exploits, bugs and security holes players
 # send from the mailbox (/bug). Nobody else sees one: not a moderator, not a developer this list does not name, because
 # an exploit read by one more person is one more person who can use it before it is fixed. Comma-separated handles,
 # case-insensitive, read at every call - a handle taken off loses the inbox on its next request. Empty: the reports wait,
 # unread, until a handle is written here.
-REPORT_READER_HANDLES = "Lattymoy"
+REPORT_READER_HANDLES = ""
 # MOD1: THE MODERATORS - the blue shield beside the name, and /mute and
 # /unmute in chat. Comma-separated handles, case-insensitive, the same
 # as the line above; a developer may already moderate without being
@@ -197,7 +197,7 @@ REPORT_READER_HANDLES = "Lattymoy"
 # MOD2 (2026-10-02, Mac: "give tabbyvish the moderator title/glyph for
 # ingame"): the second, with the same shield and commands. MOD3 (same
 # day, Mac: "Also add Starempire42 as a moderator"): the third.
-MODERATOR_HANDLES = "Asynian,tabbyvish,Starempire42"
+MODERATOR_HANDLES = ""
 # SAFE1-SAFE8 (2026-10-17, Mac: "Lets do every single thing here. I want a full fledged future proof system";
 # bible/11-Multiplayer/Chat-Safety-Arc.md): THE CHAT'S SAFETY.
 #
@@ -206,7 +206,7 @@ MODERATOR_HANDLES = "Asynian,tabbyvish,Starempire42"
 # hub applies and hands to its target's own client. Empty: the order lands on the target's next connection instead.
 # AUDIT SAFE RELAY S1: the order goes through the RELAY service binding below, which this address only names the path
 # for - one Worker fetching another's workers.dev address on the same account may be refused (Cloudflare's error 1042).
-RELAY_LAW_URL = "https://daggerfall-online.mackcothran.workers.dev/v1/law"
+RELAY_LAW_URL = "https://daggerfall-online.invalid/v1/law"
 # MOD_AI - SAFE5: the reviewer (src/modAi.js) - "off"; "shadow", which reads the relay's feed of public lines and the
 # reported cases and says its verdict beside each case, marked as a shadow's, and does nothing on it; or "on", which
 # also mutes for half an hour on its severest, surest verdicts. Shipped "shadow" (INT5's law, Mac's "Measure 7 days,
@@ -228,23 +228,23 @@ CLAUDE_STAFF_HANDLE = "Claude"
 CLAUDE_STAFF_MODEL = "claude-sonnet-5-5"
 CLAUDE_STAFF_DAILY_MAX = "200"
 CLAUDE_STAFF_QUIET_MIN = "50"
-CLAUDE_ORDER_HANDLES = "SirMcMobdon,kpblca_1,Lattymoy"
+CLAUDE_ORDER_HANDLES = ""
 # SAFE8: THE MODERATORS' QUEUE IN DISCORD (src/discord.js). DISCORD_MOD_CHANNEL: the private channel's id the bot posts
 # each case to. DISCORD_PUBLIC_KEY: the Discord application's public key (hex - not a secret), which every press and
 # /mod is signed with. DISCORD_MODERATORS: "<discord user id>:<game handle>", comma-separated - a press is that
 # handle's act, and only while it holds MODERATOR_HANDLES or DEVELOPER_HANDLES. The bot's token is DISCORD_BOT_TOKEN, a
 # secret the deploy puts, never here. Empty: no cards and no presses - the cases still gather, and the game's
 # /mute, /ban and /strikes still answer. The setup: bible/11-Multiplayer/Chat-Safety-Arc.md section 9.
-DISCORD_MOD_CHANNEL = "1560996671440293908"
-DISCORD_PUBLIC_KEY = "36e74945022f94ec7955a84ccccb270e63780100e558d30777742337b62de3e0"
+DISCORD_MOD_CHANNEL = ""
+DISCORD_PUBLIC_KEY = ""
 # 2026-10-17 (Mac): the queue's channel and the application's public key set. The moderators' Discord ids, each
 # `<discord user id>:<in-game handle>` - the handle must also stand in MODERATOR_HANDLES or DEVELOPER_HANDLES, which
 # every press and /mod re-checks (discord.js actorOf); anyone not here is answered that only the game's moderators may act
-DISCORD_MODERATORS = "128705730965536768:Lattymoy"
+DISCORD_MODERATORS = ""
 # STAFF-PANEL5-FREEZE (2026-10-22; design doc "DFO Staff Panel: design", Freeze player): DISCORD_INVITE_URL - the
 # server's Discord invite the frozen player's Staff tab shows beside its Copy button (server-account/src/staffFreeze.js
 # discordInvite), so it changes without a game update. An https address; empty, the tab shows none.
-DISCORD_INVITE_URL = "https://discord.gg/QADbZYQ73j"
+DISCORD_INVITE_URL = ""
 # FOUNDER5 (2026-10-07, Mac: "Can we grant every account before sept 25th
 # the founder title"): THE FOUNDERS BY NAME. Founder is held by every
 # registered account that first played by the end of 24 September on any
@@ -262,7 +262,7 @@ FOUNDER_HANDLES = ""
 # .github/workflows/sd-clears.yml). The title Hour's First and its aura, The
 # First Hour (titles.js isHoursFirst). Comma-separated handles,
 # case-insensitive, the same as the lines above; held while listed.
-HOURS_FIRST_HANDLES = "aether,ArtemisGodfrey,CycleD0se,Duck,Kobakk,MackyWackyDeeJew,mayaamano,Nirnroot,ofrizz,rosalina,ShikiX3,Temegast,Terra"
+HOURS_FIRST_HANDLES = ""
 # EG-E2 (2026-10-12, bible/11-Multiplayer/Elite-Gates.md section 19, THE
 # HONOURS): FIRST OF THE SPIRE - the first company ever to take Redoubt 10
 # of the Elite Breach, by name, granted as Hour's First is. The title First
@@ -280,7 +280,7 @@ HOURS_FIRST_HANDLES = "aether,ArtemisGodfrey,CycleD0se,Duck,Kobakk,MackyWackyDee
 # by (NAME-AS: the token's name is the account's or the character's) - and
 # this list is matched against the account's handle, never the name the
 # room reads. A handle goes here, never a name off the herald.
-EG_FIRST_HANDLES = "Serveride"
+EG_FIRST_HANDLES = ""
 # FIRST-WYRM (2026-10-31, the owner: "Seasoning needs to be granted the
 # first dragon rider. He hasnt recieved it"): FIRST WYRM RIDER by name, as
 # First of the Spire is (titles.js isNamedFirstWyrm). While this list names
@@ -289,12 +289,12 @@ EG_FIRST_HANDLES = "Serveride"
 # character's name. Comma-separated, case-insensitive; held while listed.
 # FIRST-WYRM-NAME (2026-10-31, the owner: "His name is Seanobi"): the
 # account is Seanobi.
-FIRST_WYRM_RIDER_HANDLES = "Seanobi"
+FIRST_WYRM_RIDER_HANDLES = ""
 # TITLE-N (2026-09-24, Mac): the Dungeon Master - the orange title, the
 # die beside the name, and /dm's orange line (the relay reads the right
 # off the `dm` glyph in the signed token, as /red reads `dev`). "This
 # goes strictly to the account SquidKamer."
-DUNGEON_MASTER_HANDLES = "SquidKamer"
+DUNGEON_MASTER_HANDLES = ""
 # TITLE-N: the three Patreon tiers, lowest first - each list grants its
 # title and its glyph. Dutchess and Satranath are the first Disciples (Mac); a tier that
 # lapses is a handle taken off, gone from that player's next token.
@@ -304,7 +304,7 @@ DUNGEON_MASTER_HANDLES = "SquidKamer"
 # Mac grants by name (a comp, a patron who will not link).
 # 2026-09-26, Mac: "Grant Flylighter the disciple title/glyph".
 # 2026-09-29, Mac: "Add valenvalarys as a disciple ingame".
-DISCIPLE_HANDLES = "Dutchess,Satranath,Skibbster,Flylighter,valenvalarys"
+DISCIPLE_HANDLES = ""
 # 2026-09-25, Mac: "Add the Shadow Fang account as an Apostle ingame title/glyph";
 # 2026-09-26, Mac: "the Shadow Fang account gets a brand new title/glyph. Remove them
 # from Apostle" - the list is empty again, and the grant is the line below.
@@ -318,7 +318,7 @@ HIEROPHANT_HANDLES = ""
 # for his account. A holo shadow cloak with red accents"): and the Holo
 # Shadow Cloak - the third list that grants an aura (titles.js TIER_AURA);
 # taking the handle off takes it too.
-SHADOW_FANG_HANDLES = "SirMcMobdon"
+SHADOW_FANG_HANDLES = ""
 # MARKS1 (PROF0 20): Marks open by this switch - "off", "dev" (the DEVELOPER_HANDLES alone) or "on". Shipped at "dev":
 # the currency is struck and spent by the developers first, and opened to everyone by this one line.
 # SWITCH-ON (2026-09-29, Mac: "Fuck it lets switch everything on"): "on" - Marks are everyone's.
@@ -399,7 +399,7 @@ DOMAINS_WEEK = "6"
 # its lozenge beside the name, one player's. The same law as the tiers: a
 # handle here grants the title and the glyph, and taking it off takes both
 # on the next token.
-PENITENT_HANDLES = "Diggleborf"
+PENITENT_HANDLES = ""
 # HERALD (2026-10-01, Mac: "Herald doesnt exist ingame yet" - "you'll need
 # to develop the herald title/glyph"): Herald - the azure title and the
 # herald's trumpet with its banner beside the name, the Patreon tier
@@ -414,7 +414,7 @@ HERALD_HANDLES = ""
 # a full ring of violet runes at the feet. The first list that grants an
 # AURA as well as a title and a glyph (titles.js TIER_AURA); taking the
 # handle off takes all three on the next token.
-AEGIS_HANDLES = "Sureme"
+AEGIS_HANDLES = ""
 # PRIMARCH (2026-10-04, GA00250, relayed by the owner: "the title will be
 # Primarch, the color will be that light gold color that you guys use in
 # some places in the game menu"; "can the aura be a golden light around the
@@ -423,7 +423,7 @@ AEGIS_HANDLES = "Sureme"
 # three-barred cross, in the same gold) and the Golden Radiance, a column of
 # golden light about the body. The second list that grants an aura (titles.js TIER_AURA);
 # taking the handle off takes all three on the next token.
-PRIMARCH_HANDLES = "GA00250"
+PRIMARCH_HANDLES = ""
 # CRYSTAL-FIST (2026-10-05, the owner, for Flylighter: "Title: Crystal Fist",
 # the glyph "referenced above" - three purple slashes - and the aura "also
 # purple, would be a circle of tiny purple squares going up and down out of
@@ -434,7 +434,7 @@ PRIMARCH_HANDLES = "GA00250"
 # aura (titles.js TIER_AURA); taking the handle off takes all three on the
 # next token. Flylighter stays a Disciple (DISCIPLE_HANDLES) - a second title
 # held, one worn.
-CRYSTAL_FIST_HANDLES = "Flylighter"
+CRYSTAL_FIST_HANDLES = ""
 # WIKIMAID (2026-10-17, for SylviaBun: "Honestly as dumb as this is gonna
 # sound the WikiMaid title and a purple aura with bunnies would be dope as
 # hell" - "Lets go all out for this"): WikiMaid - the title in an amethyst
@@ -443,7 +443,7 @@ CRYSTAL_FIST_HANDLES = "Flylighter"
 # hopping round the feet on a ring of lilac light, their prints fading
 # behind them. A list that grants an aura (titles.js TIER_AURA); taking the
 # handle off takes all three on the next token.
-WIKIMAID_HANDLES = "SylviaBun"
+WIKIMAID_HANDLES = ""
 # NIRNROOT-SAGE (2026-10-26, for Blob-Marley, an Immortal backer - his final
 # idea: "billowing smoke, circling nirn roots around midsection, small glowing
 # green runes encircling feet"): Nirnroot Sage - the title in a nirnroot's
@@ -452,7 +452,7 @@ WIKIMAID_HANDLES = "SylviaBun"
 # billowing up about the body, nirnroots circling the waist and green runes
 # glowing in a ring round the feet. A list that grants an aura (titles.js
 # TIER_AURA); taking the handle off takes all three on the next token.
-NIRNROOT_SAGE_HANDLES = "Blob-Marley"
+NIRNROOT_SAGE_HANDLES = ""
 # BLOOD-OF-COLDHARBOUR (2026-10-30, for trakel, a $200 patron - the owner: "Travel
 # is a $200 patron but isnt listed. All $200 patrons ingame have custom stuff";
 # Trakel's own words: the title "Blood of Coldharbour", "violet and crimson",
@@ -462,7 +462,7 @@ NIRNROOT_SAGE_HANDLES = "Blob-Marley"
 # coldharbour glyph (a rose in a ring of thorns, a drop of blood at its foot)
 # and the Vampiric Haze. A list that grants an aura (titles.js TIER_AURA);
 # taking the handle off takes all three on the next token.
-COLDHARBOUR_HANDLES = "trakel"
+COLDHARBOUR_HANDLES = ""
 # PATREON-LINK (2026-10-01, Mac: "With patron and having to manually hand
 # out titles. Im running into a workflow where its really hard to keep up
 # with it"; asked, "Patreon auto-link"): A PATRON'S TITLE FOLLOWS THEIR
@@ -476,7 +476,7 @@ COLDHARBOUR_HANDLES = "trakel"
 # off too. The two secrets are NOT here and must never be: the deploy puts
 # PATREON_CLIENT_SECRET and PATREON_WEBHOOK_SECRET from the repository's
 # own secrets (.github/workflows/account-deploy.yml), as it puts the keys.
-PATREON_CLIENT_ID = "xyF8_xJg78YwVgT0xRhs6uhPVeAdOzJu7_dcpaGqvqH-5DNdbLp-gugahtfgH-Ui"
+PATREON_CLIENT_ID = ""
 # Which Patreon tier grants which title: "<tier id>:<title>", comma-
 # separated, the titles disciple, apostle, herald and hierophant. A tier's id is
 # the number in its Join link on the Patreon page (`rid=`). A tier not
@@ -491,7 +491,7 @@ PATREON_CLIENT_ID = "xyF8_xJg78YwVgT0xRhs6uhPVeAdOzJu7_dcpaGqvqH-5DNdbLp-gugahtf
 # title/glyph ingame. The Heirophant"): Hierophant (29666221) is mapped
 # too - its pledge holds TITLE-N's Hierophant, the rose title and the
 # crown. A title made for one patron is still granted by name, beside it.
-PATREON_TIERS = "29666211:disciple,29666234:herald,29666221:hierophant"
+PATREON_TIERS = ""
 # AUDIT PATRON-AURUM H1 (2026-10-31): the campaign whose patrons' totals are paid as Aurum - its id on
 # Patreon (public, not a secret). Set, a link pays that campaign's member's total and no other; empty, a link
 # pays only where Patreon granted the `identity` scope alone, and the member webhook (signed, this campaign's

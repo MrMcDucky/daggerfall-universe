@@ -499,7 +499,7 @@ test('ACC1d D2: the service\'s deploy checks the RELAY\'s copy of the public key
   // THE KEY IS NEVER TYPED HERE, in either workflow: one home, which is
   // the relay's own config.
   const key = /^IDENTITY_PUBLIC_KEY\s*=\s*"([^"]+)"/m.exec(rd('server/wrangler.toml'))?.[1] ?? '';
-  assert.doesNotMatch(wf, new RegExp(key.slice(0, 20)), 'no literal copy in the workflow');
+  if (key) assert.doesNotMatch(wf, new RegExp(key.slice(0, 20)), 'no literal copy in the workflow');   // FORK: empty until configured
 });
 
 test('ACC2: the deploy creates the SAVE BUCKET the same way it creates the database, and reads its name from the config it ships', () => {

@@ -81,8 +81,10 @@ test('TERMS1: the words are held to a hash - editing a document means deciding w
     // game too, the reporters' automatic mute named, the names a line's own words carry, the second review before a
     // mute, a letter from a blocked player undelivered, every retention said and the Discord copies deleted with the
     // case's; the Terms' agreement the game asks for, never one it enforces
-    terms: '62fd0b8a5477d53b0d2341ca0d1801743e9ac08b4716d28104704fff077b612f',
-    privacy: '4c152e82901b17a2a05688b7f38d812af56e5795bc6ac05467282d391c6d6a4a',
+    // FORK (2026-11-05): the contact moved from upstream's Discord to this fork's issue tracker, and the
+    // website line to its GitHub Pages site - not a new version: the terms themselves are unchanged
+    terms: '577b66148f894a5c2bcb5ba45143f294cc5080b4cac52dc914d26801f1cead45',
+    privacy: 'cb18c3b3e31bd4331eeebc873251fe5033fe0a34ce5c6d90a2ba8b9ec3d23eb8',
   };
   for (const [name, d] of Object.entries(DOCS)) {
     const words = wordsOf(read(d.file));
@@ -91,13 +93,13 @@ test('TERMS1: the words are held to a hash - editing a document means deciding w
   }
 });
 
-test('TERMS1: nothing of the draft is left unfilled - no placeholder, no old name, and the contact is the Discord the site links', () => {
+test('TERMS1: nothing of the draft is left unfilled - no placeholder, no old name, and the contact is the fork\'s issue tracker', () => {
   // The draft carried [DATE] and three [... EMAIL] placeholders, and the
   // project's name from before BR4. The answer to all three contacts was
   // the Discord server, so each is THE LANDING PAGE'S OWN INVITE - read
   // from it, so a new invite moves the documents with it or reddens here.
-  const invite = /<a class="plaque" href="(https:\/\/discord\.gg\/[\w-]+)" rel="noopener">Discord<\/a>/.exec(read('index.html'))?.[1];
-  assert.ok(invite, 'the landing page no longer carries its Discord plaque');
+  // The fork's contact is its issue tracker: it carries no upstream Discord.
+  const invite = 'https://github.com/MrMcDucky/daggerfall-universe/issues';
   const counts = { terms: 2, privacy: 2 };   // the IP contact and the contact block; the requests line and the contact block
   for (const [name, d] of Object.entries(DOCS)) {
     const html = read(d.file);
@@ -108,12 +110,13 @@ test('TERMS1: nothing of the draft is left unfilled - no placeholder, no old nam
     // sweep is case-sensitive and the draft's titles were all capitals.
     assert.doesNotMatch(html, /DAGGERFALLJS/, `${name}: the old name survives in a title`);
     assert.equal((words.match(/DFO Online/g) ?? []).length > 10, true, `${name}: the documents speak of the project by its name`);
-    const contacts = [...html.matchAll(/<a href="(https:\/\/discord\.gg\/[\w-]+)" rel="noopener">discord\.gg\/([\w-]+)<\/a>/g)];
-    assert.equal(contacts.length, counts[name], `${name}: every contact is the Discord`);
+    const contacts = [...html.matchAll(/<a href="(https:\/\/github\.com\/[\w/-]+)" rel="noopener">(github\.com\/[\w/-]+)<\/a>/g)];
+    assert.equal(contacts.length, counts[name], `${name}: every contact is the issue tracker`);
     for (const [, href, text] of contacts) {
-      assert.equal(href, invite, `${name}: a contact is not the invite the site links`);
-      assert.equal(`https://discord.gg/${text}`, href, `${name}: the link says one invite and goes to another`);
+      assert.equal(href, invite, `${name}: a contact is not the fork's issue tracker`);
+      assert.equal(`https://${text}`, href, `${name}: the link says one address and goes to another`);
     }
+    assert.doesNotMatch(html, /discord\.gg/, `${name}: no upstream Discord`);
   }
 });
 
@@ -149,10 +152,10 @@ test('TERMS1: the documents ship - build inputs, served at the paths the form li
   assert.equal(input.terms, DOCS.terms.file, 'terms/index.html works under npm run dev and never ships');
   assert.equal(input.privacy, DOCS.privacy.file, 'privacy/index.html works under npm run dev and never ships');
   // The form's links are ABSOLUTE (the desktop app's dagger:// cannot
-  // reach the site relatively), on the site the README names, at the
-  // directory each page is built into.
-  const site = /Play it: (https:\/\/[^/\s]+\/)/.exec(read('README.md'))?.[1];
-  assert.ok(site, 'the README no longer names the site');
+  // reach the site relatively), on the site the desktop app names as its
+  // homepage, at the directory each page is built into.
+  const site = JSON.parse(read('app/package.json')).homepage;
+  assert.match(site ?? '', /^https:\/\/\S+\/$/, 'the desktop app names no site');
   assert.equal(TERMS_URL, `${site}${DOCS.terms.file.replace('index.html', '')}`);
   assert.equal(PRIVACY_URL, `${site}${DOCS.privacy.file.replace('index.html', '')}`);
   // ...and the site itself links them, from its foot, relatively.

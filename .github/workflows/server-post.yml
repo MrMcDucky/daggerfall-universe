@@ -57,6 +57,9 @@ concurrency:
   group: server-post
   cancel-in-progress: false
 
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
+
 jobs:
   send:
     runs-on: ubuntu-latest

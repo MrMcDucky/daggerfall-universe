@@ -128,16 +128,16 @@ test('STAFF-MAP: a token\'s hidden mark is read off its body - anything else is 
 test('STAFF-MAP: the panel\'s door - `regions?` answers the politic map\'s names, `map?` picks a region or stops, from this window alone', () => {
   const posted = [];
   const listeners = [];
-  const win = { location: { origin: 'https://daggerfalljs.dev' }, postMessage: (m) => posted.push(m), addEventListener: (_t, f) => listeners.push(f) };
+  const win = { location: { origin: 'https://mrmcducky.github.io' }, postMessage: (m) => posted.push(m), addEventListener: (_t, f) => listeners.push(f) };
   const picks = [];
   const map = { pick: (r) => picks.push(r), regions: () => ['A', 'B'] };
   staffHookDoor(win, () => null, { mapOf: () => map });
-  const send = (data, source = win, origin = 'https://daggerfalljs.dev') => { for (const f of listeners) f({ data, source, origin }); };
+  const send = (data, source = win, origin = 'https://mrmcducky.github.io') => { for (const f of listeners) f({ data, source, origin }); };
   send({ dfoStaff: 'regions?' });
   assert.deepEqual(posted.at(-1), { dfoStaff: 'regions', names: ['A', 'B'] });
   send({ dfoStaff: 'map?', region: 5 });
   send({ dfoStaff: 'map?', region: null });
-  send({ dfoStaff: 'map?', region: 9 }, {}, 'https://daggerfalljs.dev');
+  send({ dfoStaff: 'map?', region: 9 }, {}, 'https://mrmcducky.github.io');
   send({ dfoStaff: 'map?', region: 9 }, win, 'https://evil.example');
   assert.deepEqual(picks, [5, null]);
 });

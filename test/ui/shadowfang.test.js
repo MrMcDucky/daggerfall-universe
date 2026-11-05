@@ -27,10 +27,11 @@ import { readBadge, NAME_MAX } from '../../src/net/wire.js';
 import { createNameLayer } from '../../src/ui/nameLayer.js';
 import { RemotePlayers, PEER_HEIGHT } from '../../src/net/remotePlayers.js';
 import { perspective, mirrorProjectionX, lookAt } from '../../src/world/mat4.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const rd = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
 const { subtle } = webcrypto;
-const toml = rd('server-account/wrangler.toml');
+const toml = withFixtureLists(rd('server-account/wrangler.toml'));
 const v = (k) => new RegExp(`^${k} = "([^"]*)"$`, 'm').exec(toml)?.[1];
 
 // ── the fake document (acc3badge's shape) ──

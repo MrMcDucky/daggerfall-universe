@@ -62,7 +62,7 @@ export const DISCORD_SKEW_S = 300;
 export const DISCORD_POST_MS = 8000;
 /** The User-Agent Discord's API asks of every bot (AUDIT SAFE DISCORD-10: "requests that do not have a valid User
  *  Agent specified may be blocked"). */
-export const DISCORD_USER_AGENT = 'DiscordBot (https://github.com/Lattymoy/daggerfall-js-source, 1)';
+export const DISCORD_USER_AGENT = 'DiscordBot (https://github.com/MrMcDucky/daggerfall-universe, 1)';
 /** An answer to a moderator, at most this long (Discord's 2,000, with room). */
 export const SAY_MAX = 1900;
 /** The most of a case's lines a card draws - the newest. */

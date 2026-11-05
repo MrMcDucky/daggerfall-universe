@@ -14,6 +14,7 @@ import { CLAUDE_ROUTES } from '../../server-account/src/staffClaude.js';
 import { orderWords, ORDER_KEYS_MAX } from '../../server-account/src/staffOrder.js';
 import { STAFF_ROUTES } from '../../server-account/src/service.js';
 import { MINUTE_JOBS, HOUR_JOBS } from '../../server-account/src/cron.js';
+import { withFixtureLists } from '../fixtures/upstreamLists.mjs';   // upstream's role lists: the fork's config leaves them empty
 
 const { subtle } = globalThis.crypto;
 const enc = new TextEncoder();
@@ -102,7 +103,7 @@ test('off: the sweep reads nothing and calls nothing, with the switch off, or on
 
 test('shipped off in the config, and wired: the cron jobs and the staff doors exist', async () => {
   const { readFileSync } = await import('node:fs');
-  const toml = readFileSync(new URL('../../server-account/wrangler.toml', import.meta.url), 'utf8');
+  const toml = withFixtureLists(readFileSync(new URL('../../server-account/wrangler.toml', import.meta.url), 'utf8'));
   assert.match(toml, /^CLAUDE_STAFF = "off"$/m);
   assert.match(toml, /^MOD_AI = "shadow"$/m);
   assert.match(toml, /^CLAUDE_ORDER_HANDLES = "SirMcMobdon,kpblca_1,Lattymoy"$/m);

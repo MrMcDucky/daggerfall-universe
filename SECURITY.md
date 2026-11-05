@@ -14,7 +14,7 @@ reports are listed under the form, so you can see whether a developer has read o
 reports need a registered account (a username and a password).
 
 **On GitHub (for security vulnerabilities in the code or the servers).** If this repository's
-[Security tab](https://github.com/Lattymoy/daggerfall-js-source/security) shows a **Report a vulnerability** button, use
+[Security tab](https://github.com/MrMcDucky/daggerfall-universe/security) shows a **Report a vulnerability** button, use
 it: it creates a private advisory that only you and the maintainers can see, and it needs no game account. If the button
 is not there, private reporting on GitHub is not switched on yet, so report in the game with `/bug` from a registered
 account.
@@ -34,7 +34,7 @@ in the chat instead. That goes to the moderators.
 
 ## What counts
 
-The game client (the site at daggerfalljs.dev and the desktop app), the account service, the multiplayer relay, and
+The game client (the website and the desktop app), the account service, the multiplayer relay, and
 the code in this repository. For example:
 
 - creating or duplicating gold, silver, items or other value; getting past a limit, a cooldown or a lock;
@@ -48,7 +48,7 @@ data is not part of this project.
 
 ## Acting in good faith
 
-The [Terms of Service](https://daggerfalljs.dev/terms/) forbid exploiting the multiplayer service. Testing a finding
+The [Terms of Service](https://mrmcducky.github.io/daggerfall-universe/terms/) forbid exploiting the multiplayer service. Testing a finding
 only as far as you need to confirm it, on your own account and characters, then reporting it privately and promptly,
 is the kind of report this page asks for. When you do this:
 

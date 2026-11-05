@@ -72,7 +72,7 @@ test('the page plays on the private server the shell names - a loopback ws:// ad
   assert.equal(privateServer({ privateServer: null }), null);
   assert.equal(privateServer(undefined), null);
   assert.equal(privateServer({ privateServer: { url: 'ws://192.168.1.20:7777' } }), null, 'a LAN address is the bridge\'s to reach, never the page\'s');
-  assert.equal(privateServer({ privateServer: { url: 'wss://daggerfall-online.mackcothran.workers.dev' } }), null, 'never the main relay');
+  assert.equal(privateServer({ privateServer: { url: 'wss://relay.unconfigured.invalid' } }), null, 'never the main relay');
 });
 
 test('on a private server the page asks the host for its token and reaches no account service', async () => {

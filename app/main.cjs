@@ -487,10 +487,10 @@ function handleDagger(req) {
 // check's own request - asked beside it at launch, under its two gates -
 // and its answer is kept in news.json, so the panel is never empty while
 // the next one is asked for, or when GitHub does not answer.
-const RELEASES_LATEST_API = 'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases/latest';
-const RELEASES_LIST_API = 'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases?per_page=20';
-const RELEASES_TAG_API = 'https://api.github.com/repos/Lattymoy/daggerfall-js-source/releases/tags/';   // + the hosting pin's tag
-const RELEASES_PAGE = 'https://github.com/Lattymoy/daggerfall-js-source/releases/latest';
+const RELEASES_LATEST_API = 'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases/latest';
+const RELEASES_LIST_API = 'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases?per_page=20';
+const RELEASES_TAG_API = 'https://api.github.com/repos/MrMcDucky/daggerfall-universe/releases/tags/';   // + the hosting pin's tag
+const RELEASES_PAGE = 'https://github.com/MrMcDucky/daggerfall-universe/releases/latest';
 const { isNewerRelease } = require('./lib/updateCheck.cjs');
 const { updateTransport } = require('./lib/autoUpdate.cjs');
 const { UNLOAD_ASK, leaves, restartAsk, reinstallAsk, installFailedAsk, goesAhead } = require('./lib/shellDialogs.cjs');
@@ -1591,8 +1591,7 @@ async function createWindow({ onShown = null } = {}) {
 const LAUNCHER_LINKS = Object.freeze({
   steam: 'https://store.steampowered.com/app/1812390/',
   gog: 'https://www.gog.com/game/the_elder_scrolls_chapter_ii_daggerfall',
-  site: 'https://daggerfalljs.dev/',
-  discord: 'https://discord.gg/jM2JdwSM8w',
+  site: 'https://mrmcducky.github.io/daggerfall-universe/',
   // the landing page's own link for the game files a Mac player can get (L5-3)
   zip: 'https://forums.dfworkshop.net/viewtopic.php?t=2360',
 });

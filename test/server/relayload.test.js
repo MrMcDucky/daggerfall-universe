@@ -153,7 +153,7 @@ sql=$(cat "\${data#@}")
 case "$sql" in *"ORDER BY peak DESC"*) cp "$FAKE_DIR/crowds.json" "$out"; echo -n "$FAKE_CODE";; *) echo '{"data":[]}' > "$out"; echo -n 200;; esac
 `);
   chmodSync(fake, 0o755);
-  const acct = src('server/wrangler.toml').match(/^account_id\s*=\s*"([^"]+)"/m)[1];
+  const acct = '0123456789abcdef0123456789abcdef';   // a fake account id, handed to the step as CI's vars.CLOUDFLARE_ACCOUNT_ID
   const run = (answer, code, hours = '2', all = '') => {
     writeFileSync(join(dir, 'crowds.json'), JSON.stringify(answer));
     const summary = join(dir, `summary-${code}-${hours}-${all}.md`);
@@ -162,7 +162,7 @@ case "$sql" in *"ORDER BY peak DESC"*) cp "$FAKE_DIR/crowds.json" "$out"; echo -
     try {
       out = execFileSync('bash', ['-c', stepRun(wf, 'Read the relay\'s metrics')], {   // H10: as written - its own `set -euo pipefail`
         cwd: root, encoding: 'utf8', stdio: 'pipe',
-        env: { ...process.env, PATH: `${dir}:${process.env.PATH}`, FAKE_DIR: dir, FAKE_CODE: code, FAKE_ALL: all, FAKE_ACCT: acct, HOURS: hours, RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' },
+        env: { ...process.env, PATH: `${dir}:${process.env.PATH}`, FAKE_DIR: dir, FAKE_CODE: code, FAKE_ALL: all, FAKE_ACCT: acct, CLOUDFLARE_ACCOUNT_ID: acct, HOURS: hours, RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' },
       });
     } catch (e) { out = `${e.stdout}`; status = e.status; }
     return { out, status, summary: readFileSync(summary, 'utf8') };

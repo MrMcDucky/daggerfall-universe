@@ -1465,7 +1465,7 @@ test('MAP1: the sprite is the port\'s own under the doctrine row, the paper and 
   assert.doesNotMatch(HELD_MAP_URL, /\/(?:assets|src)\//, 'the sprite hangs off the ROOT, never off the module directory');
   assert.equal(HELD_MAP_URL, new URL('art/held-map.png', appRootFrom(import.meta.url.replace('/test/', '/src/ui/'))).href,
     'the export IS appRootFrom\'s answer');
-  assert.equal(appRootFrom('https://daggerfalljs.dev/assets/main-abc123.js'), 'https://daggerfalljs.dev/',
+  assert.equal(appRootFrom('https://mrmcducky.github.io/assets/main-abc123.js'), 'https://mrmcducky.github.io/',
     'a build serves the module from <root>/assets/');
   assert.equal(appRootFrom('https://example.test/sub/path/assets/main-abc123.js'), 'https://example.test/sub/path/',
     '...and under a project sub-path, which is why base is relative');
@@ -1498,8 +1498,8 @@ test('MAP1: the sprite is the port\'s own under the doctrine row, the paper and 
     assert.equal(appRootFrom(noRoot), null, `no root to find in ${noRoot}`);
   }
   assert.doesNotThrow(() => appRootFrom('blob:https://h.test/0f0f'), 'and it never throws - the import chain rides on it');
-  assert.equal(new URL('art/held-map.png', appRootFrom('https://daggerfalljs.dev/assets/main-abc123.js')).href,
-    'https://daggerfalljs.dev/art/held-map.png', 'and the sprite lands at the site root, whatever page asked');
+  assert.equal(new URL('art/held-map.png', appRootFrom('https://mrmcducky.github.io/assets/main-abc123.js')).href,
+    'https://mrmcducky.github.io/art/held-map.png', 'and the sprite lands at the site root, whatever page asked');
   assert.ok(existsSync(new URL('../../public/art/held-map.png', import.meta.url)), 'the file ships');
   assert.match(read('test/tooling/doctrine.test.js'), /\['public\/art\/held-map\.png', "OURS - Mac's own painting/, 'under the OURS row');
   assert.deepEqual(SPRITE, { w: 1648, h: 1086 }, 'MAP-FIELD8: the fourth painting');

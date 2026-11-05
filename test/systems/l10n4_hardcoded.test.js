@@ -781,7 +781,6 @@ const HARDCODED = {
   'src/ui/spellbookWindow.js': 4,
   'src/ui/spyglassView.js': 2,
   'src/ui/statsCard.js': 5,
-  'src/ui/supportAsks.js': 2,
   'src/ui/tavernWindow.js': 2,
   'src/ui/techniqueCard.js': 8,
   'src/ui/techniqueGlyph.js': 2,

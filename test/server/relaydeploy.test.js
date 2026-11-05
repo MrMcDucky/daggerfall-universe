@@ -261,9 +261,11 @@ test('ACC1d D2: the relay\'s identity key is CHECKED against the service that pu
   // fetching it at runtime would put the account service in the relay's
   // startup path, which is the coupling ACC0's two-Worker split exists
   // to refuse.
-  const key = /^IDENTITY_PUBLIC_KEY\s*=\s*"([^"]+)"/m.exec(toml)?.[1];
-  assert.ok(key, 'the relay carries the public half');
-  assert.match(key, /^[A-Za-z0-9_-]{43}$/, 'a raw Ed25519 public key, base64url, no padding');
+  // FORK: the line is there and empty until this fork mints its own pair; the deploy refuses an empty key (below).
+  const key = /^IDENTITY_PUBLIC_KEY\s*=\s*"([^"]*)"/m.exec(toml)?.[1];
+  assert.ok(key !== undefined, 'the relay names the public half');
+  if (key) assert.match(key, /^[A-Za-z0-9_-]{43}$/, 'a raw Ed25519 public key, base64url, no padding');
+  assert.match(wf, /carries no IDENTITY_PUBLIC_KEY/, 'a deploy with no key stops');
   const ttl = /^IDENTITY_MAX_TTL_S\s*=\s*"(\d+)"/m.exec(toml)?.[1];
   assert.ok(ttl && Number(ttl) > 0, 'and the TTL ceiling beside it (D3), because a call site that passes its own is how a generous value spreads');
 
@@ -271,7 +273,7 @@ test('ACC1d D2: the relay\'s identity key is CHECKED against the service that pu
   // key typed into a workflow is a third home for a fact that already
   // has two, and it would agree with nothing on the day it drifts.
   assert.match(wf, /grep -oP '\^IDENTITY_PUBLIC_KEY[^']*' server\/wrangler\.toml/, 'the key comes out of the config the deploy ships');
-  assert.doesNotMatch(wf, new RegExp(key.slice(0, 20)), 'and never as a literal in the workflow');
+  if (key) assert.doesNotMatch(wf, new RegExp(key.slice(0, 20)), 'and never as a literal in the workflow');
   assert.match(wf, /\/v1\/pubkey/, 'checked against what the account service publishes');
 
   // AN UNREACHABLE SERVICE IS A WARNING, NOT A REFUSAL. Blocking the
