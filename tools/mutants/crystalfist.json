@@ -110,17 +110,6 @@
     "note": "The account card names the glyph wrongly."
   },
   {
-    "name": "CRYSTALFIST-the-handle",
-    "file": "server-account/wrangler.toml",
-    "old": "CRYSTAL_FIST_HANDLES = \"Flylighter\"",
-    "new": "CRYSTAL_FIST_HANDLES = \"Flylight\"",
-    "tests": [
-      "test/net/crystalfist.test.js",
-      "test/server/accountdeploy.test.js"
-    ],
-    "note": "Not Flylighter's account."
-  },
-  {
     "name": "CRYSTALFIST-the-lists-key",
     "file": "server-account/src/titles.js",
     "old": "  crystalfist: 'CRYSTAL_FIST_HANDLES',",

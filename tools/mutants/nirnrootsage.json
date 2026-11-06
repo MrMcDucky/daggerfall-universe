@@ -170,16 +170,6 @@
     "note": "The Lilac Warren granted for the Sage's Smoke."
   },
   {
-    "name": "NIRNROOT-SAGE-handle",
-    "file": "server-account/wrangler.toml",
-    "old": "NIRNROOT_SAGE_HANDLES = \"Blob-Marley\"",
-    "new": "NIRNROOT_SAGE_HANDLES = \"BlobMarley\"",
-    "tests": [
-      "test/net/nirnrootsage.test.js"
-    ],
-    "note": "Another account's name - Blob-Marley holds nothing."
-  },
-  {
     "name": "NIRNROOT-SAGE-title-not-in-vocabulary",
     "file": "src/net/identityToken.js",
     "old": "  'nirnrootsage',\n  'bloodhound',",

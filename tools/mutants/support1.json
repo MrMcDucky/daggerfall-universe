@@ -1,57 +1,5 @@
 [
   {
-    "name": "SUPPORT1-kofi-at-u64s-page",
-    "file": "src/ui/supportAsks.js",
-    "old": "  Object.freeze({\n    id: 'kofi',\n    name: 'Ko-fi',\n    label: 'Support on Ko-fi',\n    url: 'https://ko-fi.com/daggerfallonline',\n    art: KOFI_ART,\n  }),",
-    "new": "  Object.freeze({ id: 'kofi', name: 'Ko-fi', label: 'Support on Ko-fi', url: 'https://ko-fi.com/dfjs', art: KOFI_ART }),",
-    "tests": [
-      "test/ui/enhanced/support1_asks.test.js",
-      "test/ui/enhanced/landing.test.js"
-    ],
-    "note": "The ask goes to the page the project left in PATREON1."
-  },
-  {
-    "name": "SUPPORT1-asks-swapped",
-    "file": "src/ui/supportAsks.js",
-    "old": "    id: 'patreon',\n    name: 'Patreon',\n    label: 'Support on Patreon',\n    url: 'https://www.patreon.com/c/dfenhanced',\n    art: PATREON_ART,\n  }),\n  Object.freeze({\n    id: 'kofi',\n    name: 'Ko-fi',\n    label: 'Support on Ko-fi',\n    url: 'https://ko-fi.com/daggerfallonline',\n    art: KOFI_ART,",
-    "new": "    id: 'kofi',\n    name: 'Ko-fi',\n    label: 'Support on Ko-fi',\n    url: 'https://ko-fi.com/daggerfallonline',\n    art: KOFI_ART,\n  }),\n  Object.freeze({\n    id: 'patreon',\n    name: 'Patreon',\n    label: 'Support on Patreon',\n    url: 'https://www.patreon.com/c/dfenhanced',\n    art: PATREON_ART,",
-    "tests": [
-      "test/ui/enhanced/support1_asks.test.js",
-      "test/ui/enhanced/landing.test.js"
-    ],
-    "note": "Ko-fi before Patreon: the door and the site would disagree on the order."
-  },
-  {
-    "name": "SUPPORT1-patreon-disc-pixel",
-    "file": "src/ui/supportAsks.js",
-    "old": "const PATREON_ART = Object.freeze(['+..###.', '+.#####', '+.#####', '+.#####', '+..###.']);",
-    "new": "const PATREON_ART = Object.freeze(['+..##..', '+.#####', '+.#####', '+.#####', '+..###.']);",
-    "tests": [
-      "test/ui/enhanced/support1_asks.test.js"
-    ],
-    "note": "One pixel off PATREON1's disc."
-  },
-  {
-    "name": "SUPPORT1-mug-hole-filled",
-    "file": "src/ui/supportAsks.js",
-    "old": "const KOFI_ART = Object.freeze(['.+.+..', '+.+...', '......', '####..', '######', '####.#', '######', '####..']);",
-    "new": "const KOFI_ART = Object.freeze(['.+.+..', '+.+...', '......', '####..', '######', '######', '######', '####..']);",
-    "tests": [
-      "test/ui/enhanced/support1_asks.test.js"
-    ],
-    "note": "The handle a solid column again - U64's cup, which read as a goblet alone on the door."
-  },
-  {
-    "name": "SUPPORT1-steam-in-brass",
-    "file": "src/ui/supportAsks.js",
-    "old": "const KOFI_ART = Object.freeze(['.+.+..', '+.+...', '......', '####..', '######', '####.#', '######', '####..']);",
-    "new": "const KOFI_ART = Object.freeze(['.#.#..', '+.+...', '......', '####..', '######', '####.#', '######', '####..']);",
-    "tests": [
-      "test/ui/enhanced/support1_asks.test.js"
-    ],
-    "note": "Brass above the body: the steam lights with the mug and the bodies no longer stand on one line."
-  },
-  {
     "name": "SUPPORT1-mark-pixel-3px",
     "file": "src/ui/supportAsks.js",
     "old": "export const MARK_PX = 4;",
@@ -254,16 +202,6 @@
     "note": "The site's plaques carry empty marks."
   },
   {
-    "name": "SUPPORT1-site-kofi-at-u64s-page",
-    "file": "index.html",
-    "old": "<a class=\"ask\" href=\"https://ko-fi.com/daggerfallonline\"",
-    "new": "<a class=\"ask\" href=\"https://ko-fi.com/dfjs\"",
-    "tests": [
-      "test/ui/enhanced/landing.test.js"
-    ],
-    "note": "The site asks at the retired page."
-  },
-  {
     "name": "SUPPORT1-site-third-box",
     "file": "index.html",
     "old": "    .ask:hover, .ask:focus-visible {",
@@ -292,26 +230,6 @@
       "test/ui/enhanced/landing.test.js"
     ],
     "note": "On a phone the full words wrap the row onto the wordmark."
-  },
-  {
-    "name": "SUPPORT1-site-mark-spoken",
-    "file": "index.html",
-    "old": "<i class=\"supmark supmark-patreon\" aria-hidden=\"true\"></i>",
-    "new": "<i class=\"supmark supmark-patreon\"></i>",
-    "tests": [
-      "test/ui/enhanced/landing.test.js"
-    ],
-    "note": "A reader announces an empty element in the link."
-  },
-  {
-    "name": "SUPPORT1-sponsor-button-old-kofi",
-    "file": ".github/FUNDING.yml",
-    "old": "ko_fi: daggerfallonline",
-    "new": "ko_fi: dfjs",
-    "tests": [
-      "test/ui/enhanced/landing.test.js"
-    ],
-    "note": "GitHub's Sponsor button asks at the retired page."
   },
   {
     "name": "SUPPORT1-readme-old-kofi",

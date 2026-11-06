@@ -11,7 +11,7 @@
   {
     "name": "ARENA2-TRIAGE-the-book-by-its-url-case",
     "file": "vite.config.js",
-    "old": "          try { file = readdirSync(books).find((f) => f.toUpperCase() === name.toUpperCase()) ?? name; } catch { /* no books folder */ }\n",
+    "old": "        try { file = readdirSync(books).find((f) => f.toUpperCase() === name.toUpperCase()) ?? name; } catch { /* no books folder */ }\n",
     "new": "",
     "tests": [
       "test/tooling/audit68_repo.test.js"

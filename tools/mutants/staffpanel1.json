@@ -70,26 +70,6 @@
     ]
   },
   {
-    "name": "STAFF-PANEL1-owner-key-dropped",
-    "file": "server-account/wrangler.toml",
-    "old": "OWNER_KEYS = \"SirMcMobdon:1c9fniJJmmIwXevvrTVajM6SeIFagO8KEzYiAM08mYM\"",
-    "new": "OWNER_KEYS = \"\"",
-    "why": "the first owner computer is not named, so no owner can sign in after the deploy",
-    "tests": [
-      "test/server/staffpanel1.test.js"
-    ]
-  },
-  {
-    "name": "STAFF-PANEL1-owner-key-typo",
-    "file": "server-account/wrangler.toml",
-    "old": "OWNER_KEYS = \"SirMcMobdon:1c9fniJJmmIwXevvrTVajM6SeIFagO8KEzYiAM08mYM\"",
-    "new": "OWNER_KEYS = \"SirMcMobdon:1c9fniJJmmIwXevvrTVajM6SeIFagO8KEzYiAM08mY\"",
-    "why": "a key cut short in the config: refused at every sign-in",
-    "tests": [
-      "test/server/staffpanel1.test.js"
-    ]
-  },
-  {
     "name": "STAFF-PANEL1-every-read-a-row",
     "file": "server-account/src/staff.js",
     "old": "export const STAFF_READ_ROW_S = 10 * 60;",

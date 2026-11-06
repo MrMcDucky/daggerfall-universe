@@ -1127,8 +1127,8 @@
   {
     "name": "SEASON-BOOK-the-laurel-live-under-the-post",
     "file": "src/ui/enhanced/enhancedMenu.js",
-    "old": "postFocusBack = true; render(); }, { swallow: true });\n      for (const n of [stage, home.querySelector?.('.px-profile'), mark, envelope, laurel, gem])",
-    "new": "postFocusBack = true; render(); }, { swallow: true });\n      for (const n of [stage, home.querySelector?.('.px-profile'), mark, envelope, gem])",
+    "old": "postFocusBack = true; render(); }, { swallow: true });\n      for (const n of [stage, home.querySelector?.('.px-profile'), mark, envelope, laurel])",
+    "new": "postFocusBack = true; render(); }, { swallow: true });\n      for (const n of [stage, home.querySelector?.('.px-profile'), mark, envelope])",
     "tests": [
       "test/ui/enhanced/seasonbook.test.js",
       "test/ui/enhanced/seasonbook_face.test.js",
@@ -1139,7 +1139,7 @@
   {
     "name": "SEASON-BOOK-the-face-in-reach-under-the-window",
     "file": "src/ui/enhanced/enhancedMenu.js",
-    "old": "closeOnOutsideTap(home, '.px-seasonwin', closeSeason, { swallow: true });\n      for (const n of [stage, home.querySelector?.('.px-profile'), mark, envelope, laurel, gem]) n?.setAttribute?.('inert', '');",
+    "old": "closeOnOutsideTap(home, '.px-seasonwin', closeSeason, { swallow: true });\n      for (const n of [stage, home.querySelector?.('.px-profile'), mark, envelope, laurel]) n?.setAttribute?.('inert', '');",
     "new": "closeOnOutsideTap(home, '.px-seasonwin', closeSeason, { swallow: true });",
     "tests": [
       "test/ui/enhanced/seasonbook.test.js",
@@ -1172,7 +1172,7 @@
   {
     "name": "SEASON-BOOK-the-rebuild-keeps-the-tick",
     "file": "src/ui/enhanced/enhancedMenu.js",
-    "old": "  stopSeason();   // SEASON-BOOK: and the season window's\n  stopShop();",
+    "old": "  stopSeason();   // SEASON-BOOK: and the season window's\n  app.innerHTML = '';",
     "new": "  stopShop();",
     "tests": [
       "test/ui/enhanced/seasonbook.test.js"

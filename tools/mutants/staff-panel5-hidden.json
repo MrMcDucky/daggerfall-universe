@@ -1055,7 +1055,7 @@
   {
     "name": "STAFF-PANEL5-HIDDEN-FIX-seen-url-unset",
     "file": "server/wrangler.toml",
-    "old": "HIDDEN_SEEN_URL = \"https://daggerfall-accounts.mackcothran.workers.dev/v1/mod/hidden-seen\"",
+    "old": "HIDDEN_SEEN_URL = \"https://daggerfall-accounts.invalid/v1/mod/hidden-seen\"",
     "new": "HIDDEN_SEEN_URL = \"\"",
     "why": "finding 16: the relay never told where to report a home entered",
     "tests": [

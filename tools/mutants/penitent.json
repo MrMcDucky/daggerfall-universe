@@ -183,15 +183,6 @@
     "note": "HERALD (RE-AIMED by content: the lists end with herald now). AEGIS (re-aimed by content): the line gained Sureme's aegis. PRIMARCH (re-aimed by content): the line gained GA00250's primarch. CRYSTAL-FIST (re-aimed by content): the line gained Flylighter's crystalfist. WIKIMAID (re-aimed by content). NIRNROOT-SAGE (re-aimed by content): the list it quotes gained the Nirnroot Sage's word."
   },
   {
-    "name": "PENITENT-granted-to-another-account",
-    "file": "server-account/wrangler.toml",
-    "old": "PENITENT_HANDLES = \"Diggleborf\"",
-    "new": "PENITENT_HANDLES = \"SirMcMobdon\"",
-    "tests": [
-      "test/net/penitent.test.js"
-    ]
-  },
-  {
     "name": "PENITENT-title-not-in-the-vocabulary",
     "file": "src/net/identityToken.js",
     "old": "  'penitent',\n  'gatebreaker',",

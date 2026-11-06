@@ -791,16 +791,6 @@
     "note": "The four routes that carry an id or nothing would read six times the service's bound (AUDIT PRIVATE-REPORT TEST-1)."
   },
   {
-    "name": "PRIVREP-another-reader-named",
-    "file": "server-account/wrangler.toml",
-    "old": "REPORT_READER_HANDLES = \"Lattymoy\"",
-    "new": "REPORT_READER_HANDLES = \"Lattymoy,Asynian\"",
-    "tests": [
-      "test/server/private_reports_service.test.js"
-    ],
-    "note": "One more person would read unfixed exploits with no test moving (AUDIT PRIVATE-REPORT TEST-16)."
-  },
-  {
     "name": "PRIVREP-a-report-opened-still-counted",
     "file": "src/net/privateReport.js",
     "old": "    if (head && !head.read) {\n      head.read = true;\n      this._takeCounts({ ...this.counts, unread: Math.max(0, this.counts.unread - 1) });\n    }\n    this._changed();",

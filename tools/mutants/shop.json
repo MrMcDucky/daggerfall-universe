@@ -266,15 +266,6 @@
     ]
   },
   {
-    "name": "SHOP-gem-left-out-of-chain",
-    "file": "src/ui/enhanced/enhancedMenu.js",
-    "old": "  shopAnchor = anchorSeason(gem, chain, home.querySelector?.('.px-profile'), home);",
-    "new": "  shopAnchor = anchorSeason(gem, [], home.querySelector?.('.px-profile'), home);",
-    "tests": [
-      "test/ui/shop_window.test.js"
-    ]
-  },
-  {
     "name": "SHOP-failed-grant-told-done",
     "file": "server-account/src/shop.js",
     "old": "      if (i === 2) throw e; // never written: a 5xx, and Stripe tells it again",

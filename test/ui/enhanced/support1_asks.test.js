@@ -134,8 +134,9 @@ test('SUPPORT1: the corners\' band - the door\'s stage starts below its corner m
   const border = 2 * Number(plaque.match(/border: (\d+)px solid/)[1]);
   const width = border + 2 * px(plaque, 'padding') + SUPPORT_ASKS.length * px(icon, 'width') + (SUPPORT_ASKS.length - 1) * px(plaque, 'gap');
   const height = border + 2 * px(plaque, 'padding') + px(icon, 'height');
-  const asks = px(plaque, 'left') + width + OUTSET;
-  assert.equal(asks, 122);
+  // NO-ASKS (2026-11-06): the fork draws no asks, so no plaque reaches in; upstream's two reached 122px
+  const asks = SUPPORT_ASKS.length ? px(plaque, 'left') + width + OUTSET : 0;
+  assert.ok(asks <= 122);
   // THE PROFILE'S from the right: its offset, the portrait, the gap, the caption at the door's bound, the outset. The
   // bound is in PIXELS: the caption's own 14ch and 22ch are the font's (158px in Pixelify Sans), and a reach that is
   // the font's cannot be the band's

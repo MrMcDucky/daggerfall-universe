@@ -193,16 +193,6 @@
     "note": "The travel view's name draws the ears alone."
   },
   {
-    "name": "WIKIMAID-handle",
-    "file": "server-account/wrangler.toml",
-    "old": "WIKIMAID_HANDLES = \"SylviaBun\"",
-    "new": "WIKIMAID_HANDLES = \"SylviaB\"",
-    "tests": [
-      "test/net/wikimaid.test.js"
-    ],
-    "note": "Another account named."
-  },
-  {
     "name": "WIKIMAID-list-key",
     "file": "server-account/src/titles.js",
     "old": "  wikimaid: 'WIKIMAID_HANDLES',",

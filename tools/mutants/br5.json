@@ -274,7 +274,7 @@
   {
     "name": "BR5-relay-address-moved",
     "file": "src/net/online.js",
-    "old": "export const DEFAULT_SERVER = 'wss://daggerfall-online.mackcothran.workers.dev';",
+    "old": "export const DEFAULT_SERVER = 'wss://relay.unconfigured.invalid';",
     "new": "export const DEFAULT_SERVER = 'wss://dfo-online.mackcothran.workers.dev';",
     "tests": [
       "test/ui/brand.test.js"
@@ -290,16 +290,6 @@
       "test/ui/brand.test.js"
     ],
     "note": "BR5: the rebrand to DFO Online (2026-10-11) SHOP (re-aimed by content): the line it quotes grew with the shop."
-  },
-  {
-    "name": "BR5-kofi-moved",
-    "file": "src/ui/supportAsks.js",
-    "old": "url: 'https://ko-fi.com/daggerfallonline'",
-    "new": "url: 'https://ko-fi.com/dfoonline'",
-    "tests": [
-      "test/ui/brand.test.js"
-    ],
-    "note": "BR5: the rebrand to DFO Online (2026-10-11)"
   },
   {
     "name": "BR5-screenshot-old-name",

@@ -56,7 +56,7 @@
   {
     "name": "DA7-8-no-publish-provider-no-metadata-written",
     "file": "app/package.json",
-    "old": "    \"publish\": [\n      {\n        \"provider\": \"github\",\n        \"owner\": \"Lattymoy\",\n        \"repo\": \"daggerfall-js-source\"\n      }\n    ],\n",
+    "old": "    \"publish\": [\n      {\n        \"provider\": \"github\",\n        \"owner\": \"MrMcDucky\",\n        \"repo\": \"daggerfall-universe\"\n      }\n    ],\n",
     "new": "",
     "tests": ["test/tooling/autoupdate.test.js"],
     "note": "electron-builder writes latest.yml and app-update.yml only when a provider is configured, whatever --publish says."

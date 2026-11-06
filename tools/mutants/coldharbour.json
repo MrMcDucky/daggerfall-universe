@@ -63,15 +63,6 @@
     ]
   },
   {
-    "name": "COLDHARBOUR-handle",
-    "file": "server-account/wrangler.toml",
-    "old": "COLDHARBOUR_HANDLES = \"trakel\"",
-    "new": "COLDHARBOUR_HANDLES = \"Trakel1\"",
-    "tests": [
-      "test/net/coldharbour.test.js"
-    ]
-  },
-  {
     "name": "COLDHARBOUR-list-key",
     "file": "server-account/src/titles.js",
     "old": "  coldharbour: 'COLDHARBOUR_HANDLES',",

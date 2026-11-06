@@ -184,15 +184,6 @@
     ]
   },
   {
-    "name": "AUDIT3-C8-escape-shuts-the-shop-from-a-folio",
-    "file": "src/ui/enhanced/enhancedMenu.js",
-    "old": ": shopOpen && shopView ? () => { if (!shopView.back()) closeShop(); }",
-    "new": ": shopOpen && shopView ? () => closeShop()",
-    "tests": [
-      "test/ui/shop_window.test.js"
-    ]
-  },
-  {
     "name": "AUDIT3-C9-a-price-a-bare-number",
     "file": "src/ui/enhanced/enhancedPass.js",
     "old": "return [seen, el('span', 'sh-sr', W.price(n))];",
@@ -436,15 +427,6 @@
     "new": "export const shopNow = () => Date.now();",
     "tests": [
       "test/ui/storefront_audit3_window.test.js"
-    ]
-  },
-  {
-    "name": "AUDIT3-B8-the-menu-passes-no-clock",
-    "file": "src/ui/enhanced/enhancedMenu.js",
-    "old": "wearer: shopBody, now: shopNow });",
-    "new": "wearer: shopBody });",
-    "tests": [
-      "test/ui/shop_window.test.js"
     ]
   }
 ]

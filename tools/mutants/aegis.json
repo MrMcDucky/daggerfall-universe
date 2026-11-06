@@ -130,16 +130,6 @@
     "note": "The account card's answer never lists the ward."
   },
   {
-    "name": "AEGIS-not-sureme",
-    "file": "server-account/wrangler.toml",
-    "old": "AEGIS_HANDLES = \"Sureme\"",
-    "new": "AEGIS_HANDLES = \"Diggleborf\"",
-    "tests": [
-      "test/net/aegis.test.js"
-    ],
-    "note": "Granted to the wrong player."
-  },
-  {
     "name": "AEGIS-the-mint-without-the-config",
     "file": "server-account/src/index.js",
     "old": "          au: auraWorn(who.player, env),",

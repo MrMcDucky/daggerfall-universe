@@ -140,16 +140,6 @@
     "note": "The glyph unnamed on the account card."
   },
   {
-    "name": "PRIMARCH-the-handle",
-    "file": "server-account/wrangler.toml",
-    "old": "PRIMARCH_HANDLES = \"GA00250\"",
-    "new": "PRIMARCH_HANDLES = \"GA0025\"",
-    "tests": [
-      "test/net/primarch.test.js"
-    ],
-    "note": "Another handle: GA00250 holds nothing."
-  },
-  {
     "name": "PRIMARCH-the-lists-key",
     "file": "server-account/src/titles.js",
     "old": "  primarch: 'PRIMARCH_HANDLES',",

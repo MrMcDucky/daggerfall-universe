@@ -57,16 +57,6 @@
     "note": "AUDIT PERF-ON4 F4: it survived"
   },
   {
-    "name": "PERF-ON4-the-base-taking-another-host",
-    "file": "tools/onlineFrameProbe.mjs",
-    "old": "    edits: [['/^https:\\\\/\\\\/\\\\S+$/.test(v)', '/^(https:\\\\/\\\\/\\\\S+|http:\\\\/\\\\/127\\\\.0\\\\.0\\\\.1:\\\\d+)$/.test(v)']],",
-    "new": "    edits: [['/^https:\\\\/\\\\/\\\\S+$/.test(v)', '/^(https:\\\\/\\\\/\\\\S+|http:\\\\/\\\\/127\\\\.0\\\\.0\\\\.\\\\d:\\\\d+)$/.test(v)']],",
-    "tests": [
-      "test/tooling/perfon4_probes.test.js"
-    ],
-    "note": "AUDIT PERF-ON4 F4: it survived"
-  },
-  {
     "name": "PERF-ON4-the-frame-probe-skipping-its-own-edits",
     "file": "tools/frameProbe.mjs",
     "old": "    const edited = editsPlugin('probe-transforms', FRAME_PROBE_EDITS).transform(code, id);",

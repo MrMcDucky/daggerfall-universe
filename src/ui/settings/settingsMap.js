@@ -279,7 +279,6 @@ export const CATEGORIES = Object.freeze([
   tab('interface', 'Interface', [
     // L10N1b: the language the game's words are shown in, and under it a Daggerfall Unity translation pack (L10N3b)
     sec('language', 'Language', ['port:language']),
-    sec('shop', 'Shop', ['port:shopHidden']), // SHOP-HIDE
     sec('hud', 'HUD', [
       'port:hudScale',
       'port:hudLock',

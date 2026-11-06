@@ -234,15 +234,6 @@
     ]
   },
   {
-    "name": "DOACTIVE-wf-account",
-    "file": ".github/workflows/do-active.yml",
-    "old": "server/wrangler.toml)",
-    "new": "server/wrangler.toml | tr abc cba)",
-    "tests": [
-      "test/server/doactive.test.js"
-    ]
-  },
-  {
     "name": "DOACTIVE-wf-stop-green",
     "file": ".github/workflows/do-active.yml",
     "old": "--days \"$DAYS\" >> \"$GITHUB_STEP_SUMMARY\"",
