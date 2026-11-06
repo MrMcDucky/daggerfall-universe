@@ -324,9 +324,8 @@ test('AUDIT-STOREFRONT III D5 a yes that lands after the level is gone is kept: 
 
 test('AURUM-CACHES THE FOUR HOSTS: the dungeon context stands the coffer once its level and piles are, and its takeLoot presses it; the modal dungeon arm and the standalone dungeon carry `aurum:` there in their loot arms, as DELVE II\'s `delve:`; the world and the street stand none (mutants: the ladder\'s arm dropped, the bench\'s arm dropped, the context\'s arm dropped)', () => {
   const dc = read('src/scenes/dungeonContext.js'), wm = read('src/scenes/worldModes.js'), sd = read('src/scenes/dungeon.js');
-  assert.ok(dc.includes('  const _aurumCache = standAurumCache(api, dfLocation, lootPiles, { meshes: deps });'), 'stood at the build\'s end - PIN MOVED (CHEST3D): with the pipeline\'s mesh door');
-  assert.ok(dc.indexOf('const _aurumCache = standAurumCache(') > dc.indexOf('for (const pile of lootPiles) {'), 'after the piles stand on their floors');
-  assert.ok(dc.includes("      if (kind === 'aurum') return _aurumCache?.press(key) ? 1 : 0;"), 'takeLoot\'s arm');
+  // NO-AURUM-LOOT (2026-11-06, PIN MOVED): this fork stands no coffer - no stand, no import, no takeLoot arm
+  for (const s of ['standAurumCache', '_aurumCache', "kind === 'aurum'"]) assert.ok(!dc.includes(s), `the dungeon context has no ${s}`);
   // AUDIT-STOREFRONT III D1: each pile carries its size from the archive - never a texture mod's, which is one device's
   assert.ok(dc.includes('    const size = billboardSize(t, pile.record), law = classicBillboardSize(t, pile.record);'), 'the archive\'s size read');
   assert.ok(dc.includes('    [pile.half, pile.lawHalf] = [[size.w / 2, size.h / 2], [law.w / 2, law.h / 2]];'), 'and kept on the pile');

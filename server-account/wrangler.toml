@@ -374,6 +374,8 @@ PASS_OPEN = "on"
 # "on". Its packs are sold only "on" (and named in SHOP_ON_SALE). Shut, nothing is bought for Aurum or sold as Aurum;
 # what is struck and held is kept.
 AURUM_OPEN = "on"
+# NO-AURUM-LOOT: "off" - finds pay no Aurum (they still count toward the challenges) and no coffer pays out.
+AURUM_LOOT = "off"
 # CHAP4c (Chapters-Arc 6): THE CHAPTERS' TITLES - a seat's Master, officer and Former Master signed on the token - by
 # this switch, "on" or anything else for off. Shipped OFF: the relay must carry the five ids first (RELAY_VERSION
 # world183, which relay-deploy.yml deploys on the merge to main - AUDIT CHAP4 R2; CHAP6e's High Master and Season

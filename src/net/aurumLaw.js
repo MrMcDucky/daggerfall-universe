@@ -12,6 +12,8 @@ export const AURUM_MAX = 10_000_000;
 
 /** AURUM_OPEN: 'off', 'dev' (the developers alone) or 'on'; anything else is off. */
 export const aurumSwitchOf = (/** @type {unknown} */ v) => (v === 'on' || v === 'dev' ? v : 'off');
+/** NO-AURUM-LOOT (2026-11-06): AURUM_LOOT 'off' - finds pay no Aurum and no coffer pays out; unset or anything else is on. */
+export const aurumLootOn = (/** @type {unknown} */ v) => v !== 'off';
 
 // ═══ EARNED: THE WEEK'S DEEDS ═════════════════════════════════════════════════════════════════════════════════════════
 /** A WITNESSED DEED'S AURUM, the first of its kind an account does in a UTC week: a receipt the relay signed and the service

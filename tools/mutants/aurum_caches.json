@@ -120,8 +120,8 @@
   {
     "name": "AURUM-CACHES-the-switch-unread",
     "file": "server-account/src/aurumCache.js",
-    "old": "if (!aurumOpenFor(player, env)) return { error: 'cache-closed' };",
-    "new": "if (!env) return { error: 'cache-closed' };",
+    "old": "if (!aurumOpenFor(player, env) || !aurumLootOn(env?.AURUM_LOOT)) return { error: 'cache-closed' };",
+    "new": "if (!env || !aurumLootOn(env?.AURUM_LOOT)) return { error: 'cache-closed' };",
     "tests": [
       "test/server/aurum_cache_service.test.js"
     ]
@@ -386,15 +386,6 @@
     "new": "if (typeof addVendorTextures !== 'function') return 0;",
     "tests": [
       "test/world/aurum_coffer_art.test.js"
-    ]
-  },
-  {
-    "name": "AURUM-CACHES-the-contexts-arm-dropped",
-    "file": "src/scenes/dungeonContext.js",
-    "old": "      if (kind === 'aurum') return _aurumCache?.press(key) ? 1 : 0;",
-    "new": "",
-    "tests": [
-      "test/scenes/aurum_cache_world.test.js"
     ]
   },
   {

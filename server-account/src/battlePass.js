@@ -9,6 +9,7 @@ import { isDeveloper, holdsAll } from './titles.js';   // ADMIN-ALL: an admin ho
 import { mustChange } from './realm.js';
 import { aurumRow, balanceOfRow, aurumOpenFor, AURUM_BALANCE_SQL } from './aurum.js';
 import { utcDay } from '../../src/net/marksLaw.js';
+import { aurumLootOn } from '../../src/net/aurumLaw.js';   // NO-AURUM-LOOT
 import {
   PASS_SOURCES, PASS_DAY_ASKS, PASS_DAY_AURUM, PASS_CHALLENGES, PASS_FINDS_FROM_MS, PASS_PREMIUM_AURUM,
   passSeasonAt, passSeasonShown, passSeasonById, passStageAt, passTracksOpen, passItemOf, passItemsOf, passBuyBlock, isPassSource, PASS_ALL_GRANTS,
@@ -117,7 +118,7 @@ export async function findPass(ctx, player, body, env) {
     ON CONFLICT (account, day) DO UPDATE SET asks = asks + 1 WHERE asks < ?3 RETURNING asks`).bind(player.id, day, PASS_DAY_ASKS).first();
   if (!ask) return { error: 'capped' };
   const season = passSeasonAt(nowS * 1000), stage = season ? passStageAt(season, nowS * 1000) : -1;
-  const base = PASS_SOURCES[/** @type {keyof typeof PASS_SOURCES} */ (source)];
+  const base = aurumLootOn(env?.AURUM_LOOT) ? PASS_SOURCES[/** @type {keyof typeof PASS_SOURCES} */ (source)] : 0;   // NO-AURUM-LOOT: AURUM_LOOT off, a find pays none
   const mine = season ? PASS_CHALLENGES.filter((c) => c.stage === stage && c.sources.includes(source)) : [];
   const where = 'account = ?1 AND season = ?2';
   const asked = rid ? [db.prepare('INSERT INTO pass_asks (account, rid, day) VALUES (?1, ?2, ?3)').bind(player.id, rid, day)] : [];

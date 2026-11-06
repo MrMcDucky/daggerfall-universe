@@ -8,7 +8,7 @@
 // The balance needs nothing new - it sums the ledger (aurum.js balanceOfRow).
 import { aurumCacheAurumOf, aurumCacheIdOk } from '../../src/net/aurumCacheLaw.js';
 import { utcDay } from '../../src/net/marksLaw.js';
-import { aurumWeekOf, aurumWeekEndMs } from '../../src/net/aurumLaw.js';
+import { aurumWeekOf, aurumWeekEndMs, aurumLootOn } from '../../src/net/aurumLaw.js';
 import { aurumOpenFor } from './aurum.js';
 import { gatePublicKey } from './signing.js';
 import { verifyCacheProof, cacheProofPlace } from '../../src/net/cacheProof.js';
@@ -33,7 +33,7 @@ async function provedHere(/** @type {{ subtle?: any, nowS: number }} */ { subtle
 export async function claimCache(ctx, player, body, env) {
   const { db, nowS } = ctx;
   if (!player?.handle) return { error: 'cache-guest' };
-  if (!aurumOpenFor(player, env)) return { error: 'cache-closed' };
+  if (!aurumOpenFor(player, env) || !aurumLootOn(env?.AURUM_LOOT)) return { error: 'cache-closed' };   // NO-AURUM-LOOT: AURUM_LOOT off
   const id = body?.id;
   if (!aurumCacheIdOk(id)) return { error: 'cache-id' };
   const week = aurumWeekOf(nowS), ref = `${id}:${week}`, until = aurumWeekEndMs(week) / 1000;
