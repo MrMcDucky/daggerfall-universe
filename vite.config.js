@@ -24,7 +24,7 @@ function floraPlaygroundAlias() {
   };
 }
 
-// Dev-only: serve ARENA2 game data at /arena2/*. The data is freeware but
+// Dev and preview only: serve ARENA2 game data at /arena2/*. The data is freeware but
 // never committed or bundled (Port-Doctrine); builds contain no game files.
 function arena2DevServer() {
   const root = process.env.ARENA2_PATH || '/home/claude/dfdata/arena2';
@@ -59,46 +59,50 @@ function arena2DevServer() {
   // /play/arena2/*; the flora lab at /2d-playground/ asks /2d-playground/arena2/*;
   // the probes' direct imports still fetch /arena2/*.
   // Same handler, every door - a dev server that answered one and not
-  // the other is the mixed-case bug above in a new coat.
+  // the other is the mixed-case bug above in a new coat. `vite preview`
+  // gets it too: without it, preview answers a missing file with the
+  // page's HTML (status 200), and the game reads that as game data.
+  const mountAll = (middlewares) => {
+    for (const mount of ['/arena2', '/play/arena2', '/2d-playground/arena2']) middlewares.use(mount, (req, res, next) => {
+      const name = decodeURIComponent(req.url.slice(1).split('?')[0]);
+      // Flat directory only - no separators, no traversal.
+      if (!/^[A-Za-z0-9._-]+$/.test(name)) return next();
+      let path = join(root, onDisk(name));
+      // B1: books live in ARENA2/BOOKS/ - a flat BOK*.TXT name falls
+      // back to the subfolder (still no separators in the URL name),
+      // the folder and the file found whatever the disk calls them, as
+      // app/main.cjs finds them: DFU's own folder is "books"
+      // (BookFile.cs:27), and a literal 'BOOKS' 404'd every book on Linux.
+      if (!isFile(path) && /^BOK\d+\.TXT$/i.test(name)) {
+        const books = join(root, onDisk('BOOKS'));
+        let file = name;
+        try { file = readdirSync(books).find((f) => f.toUpperCase() === name.toUpperCase()) ?? name; } catch { /* no books folder */ }
+        path = join(books, file);
+      }
+      if (!isFile(path)) {
+        res.statusCode = 404;
+        return res.end('not found');
+      }
+      // configureServer middlewares run BEFORE vite's cors layer, so
+      // headless probe pages (null origin via setContent) need the
+      // header here or their fetch() dies while ESM imports work.
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Content-Type', 'application/octet-stream');
+      // AUDIT 68 X2: a read failure ends THIS response, not the server;
+      // a client gone mid-file closes the descriptor.
+      const file = createReadStream(path);
+      file.on('error', () => {
+        if (!res.headersSent) res.statusCode = 500;
+        res.end();
+      });
+      res.on('close', () => file.destroy());
+      file.pipe(res);
+    });
+  };
   return {
     name: 'arena2-dev-server',
-    configureServer(server) {
-      for (const mount of ['/arena2', '/play/arena2', '/2d-playground/arena2']) server.middlewares.use(mount, (req, res, next) => {
-        const name = decodeURIComponent(req.url.slice(1).split('?')[0]);
-        // Flat directory only - no separators, no traversal.
-        if (!/^[A-Za-z0-9._-]+$/.test(name)) return next();
-        let path = join(root, onDisk(name));
-        // B1: books live in ARENA2/BOOKS/ - a flat BOK*.TXT name falls
-        // back to the subfolder (still no separators in the URL name),
-        // the folder and the file found whatever the disk calls them, as
-        // app/main.cjs finds them: DFU's own folder is "books"
-        // (BookFile.cs:27), and a literal 'BOOKS' 404'd every book on Linux.
-        if (!isFile(path) && /^BOK\d+\.TXT$/i.test(name)) {
-          const books = join(root, onDisk('BOOKS'));
-          let file = name;
-          try { file = readdirSync(books).find((f) => f.toUpperCase() === name.toUpperCase()) ?? name; } catch { /* no books folder */ }
-          path = join(books, file);
-        }
-        if (!isFile(path)) {
-          res.statusCode = 404;
-          return res.end('not found');
-        }
-        // configureServer middlewares run BEFORE vite's cors layer, so
-        // headless probe pages (null origin via setContent) need the
-        // header here or their fetch() dies while ESM imports work.
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Content-Type', 'application/octet-stream');
-        // AUDIT 68 X2: a read failure ends THIS response, not the server;
-        // a client gone mid-file closes the descriptor.
-        const file = createReadStream(path);
-        file.on('error', () => {
-          if (!res.headersSent) res.statusCode = 500;
-          res.end();
-        });
-        res.on('close', () => file.destroy());
-        file.pipe(res);
-      });
-    },
+    configureServer(server) { mountAll(server.middlewares); },
+    configurePreviewServer(server) { mountAll(server.middlewares); },
   };
 }
 

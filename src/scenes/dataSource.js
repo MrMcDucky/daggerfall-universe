@@ -1386,6 +1386,10 @@ export const fetchArena2Bytes = (name) => getBytes(name);
 export function keepOnlyInMemory(name, u8) { mem.set(name, u8); readAgain.delete(name); }
 export function forgetBytes(name) { const key = normalizeName(name); if (readAgain.delete(key)) mem.delete(key); }
 
+/** A response that carries a file: not an error, and not a web page - a host with an SPA fallback (`vite preview`)
+ *  answers a missing file with its HTML and a 200. */
+const isFileResponse = (res) => res.ok && !/^text\/html\b/i.test(res.headers?.get?.('content-type') ?? '');
+
 /** The single data seam every reader goes through (via fetchBytes). */
 export async function getBytes(name) {
   const key = normalizeName(name);
@@ -1396,7 +1400,7 @@ export async function getBytes(name) {
     if (stored) { const u8 = new Uint8Array(stored); mem.set(key, u8); readAgain.add(key); return u8; }
   } catch { /* no IDB (private mode etc.) - fall through to network */ }
   const res = await fetch(`./arena2/${name}`);
-  if (!res.ok) throw new Error(`${name}: ${res.status} - not in the stored ARENA2 selection and no server copy; re-pick a complete ARENA2 folder`);
+  if (!isFileResponse(res)) throw new Error(`${name}: ${res.ok ? 'a web page, not the file' : res.status} - not in the stored ARENA2 selection and no server copy; re-pick a complete ARENA2 folder`);
   const u8 = new Uint8Array(await res.arrayBuffer());
   mem.set(key, u8);
   readAgain.add(key);
@@ -1623,7 +1627,7 @@ export async function ensureArena2() {
     }
     if (await idbCount(d) > 0) await clearStoredData();   // partial or stale-diet: poison, wipe to the picker
   } catch { /* no IDB */ }
-  try { const r = await fetch(`./arena2/${PROBE}`); if (r.ok) return; } catch { /* offline dev server */ }
+  try { const r = await fetch(`./arena2/${PROBE}`); if (isFileResponse(r)) return; } catch { /* offline dev server */ }
 
   await new Promise((resolve) => {
     const ui = document.createElement('div');
