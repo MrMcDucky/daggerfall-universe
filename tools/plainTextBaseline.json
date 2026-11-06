@@ -2813,8 +2813,5 @@
   "src/world/worldWide/worldPlaces.js": 24,
   "src/world/worldWide/worldPorts.js": 23
  },
- "bible": {
-  "bible/01-Overview/Code-Map.md": 83,
-  "bible/01-Overview/Port-Doctrine.md": 169
- }
+ "bible": {}
 }

@@ -111,15 +111,6 @@
     ]
   },
   {
-    "name": "AUDIT68-X5-an-empty-open-flags-list-is-unreadable",
-    "file": "tools/regenOpenFlags.mjs",
-    "old": "const cut = firstEntry < 0 ? bodyLines.length : firstEntry;",
-    "new": "const cut = firstEntry < 0 ? process.exit(2) : firstEntry;",
-    "tests": [
-      "test/tooling/audit68_tools.test.js"
-    ]
-  },
-  {
     "name": "AUDIT68-S06-the-drape-is-compressed-twice",
     "file": "tools/villagerRender.mjs",
     "old": "  return dr ? drapedPiece(dr.name, dr.ramp) : [];",

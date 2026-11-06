@@ -26,7 +26,7 @@
 // one, and this file pins that choice rather than hiding it.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { flagLines, blankQuoted } from '../../tools/flagSites.mjs';
@@ -88,19 +88,6 @@ test('IN1: the span is bounded at two newlines, and FAILS TOWARD KEEPING FLAGS V
   assert.equal(blankQuoted('"a\nb\nc\nd"'), '"a\nb\nc\nd"', 'three is too far, and is left alone');
 });
 
-test('IN1: the rule has ONE home, imported by the tool and by the AUDIT 18 guard', () => {
-  const tool = read('tools/regenOpenFlags.mjs');
-  const guard = read('test/bible/audit18_bible_docs.test.js');
-  for (const [name, src] of [['the tool', tool], ['the guard', guard]]) {
-    assert.match(src, /import \{ flagLines[^}]*\} from '\.[./]*\/?tools\/flagSites\.mjs'|from '\.\/flagSites\.mjs'/,
-      `${name} imports the rule`);
-    assert.equal(/\/FLAGGED\|INTERIM\/\.test\(/.test(src), false, `${name} carries no second copy of it`);
-  }
-  // the guard went red the moment the tool learned the rule - which is
-  // exactly what two copies buys you, and why there is now one.
-  assert.match(guard, /the rule for "is this line a flag\?" is imported, not copied/);
-});
-
 test('IN1: the workaround the tool forced is retired, verbatim', () => {
   // dungeonContext lower-cased a quoted flag ON PURPOSE and said so.
   // With quoting safe, the quote is the retired words again.
@@ -112,23 +99,4 @@ test('IN1: the workaround the tool forced is retired, verbatim', () => {
   assert.equal(/eleven retirement notes are already sitting there/.test(dc), false);
   // the line is not on the board any more
   assert.equal(flagLines(dc).includes(776), false, 'and the quoted line is no longer harvested');
-});
-
-test('IN1: the board lists exactly the sites the rule finds', () => {
-  // the AUDIT 18 guard checks the two sets line by line; this checks
-  // the COUNT, so a slice that regenerates half the board fails here.
-  const listed = read('bible/Home.md').split('\n').filter((l) => /^- `src\//.test(l)).length;
-  const files = [];
-  (function rec(d) {
-    for (const n of readdirSync(join(ROOT, d))) {
-      const rel = `${d}/${n}`;
-      if (statSync(join(ROOT, rel)).isDirectory()) rec(rel);
-      else if (n.endsWith('.js')) files.push(rel);
-    }
-  })('src');
-  const harvested = files.reduce((n, f) => n + flagLines(read(f)).length, 0);
-  assert.equal(listed, harvested, 'Home.md lists exactly the sites the rule finds');
-  // a floor, not a count: the closeout retired 96 flags (145 -> 53) and Wave D 36 more (-> 17),
-  // and a floor at the old population would have refused the retirement.
-  assert.ok(harvested > 5, 'and the rule is measuring a real population, not an empty one');
 });

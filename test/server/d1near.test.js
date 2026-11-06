@@ -3,11 +3,11 @@
 // NAME. SCALE1 left it to Smart Placement, which on 2026-10-12 ran it in Sydney while the primary stands in western
 // North America: every statement on the primary paid the Pacific, ~150-180 ms each, thirteen or fourteen of them for a
 // look at the Guild tab. And every deploy says where the Worker answers from, what a statement costs it there and where
-// D1 says its primary is, so the place is read, never taken on its word again. bible/11-Multiplayer/Scale-Arc.md
-// D1-NEAR; audited, bible/01-Overview/audits/Audit-D1-Near.md (its own pins: test/bible/audit_d1near.test.js).
+// D1 says its primary is, so the place is read, never taken on its word again. Audited; its own pins:
+// test/server/audit_d1near.test.js.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, STEP, workflow, stepRun, runStep, d1Answer, PLAN_UP, PLAN_DOWN } from '../d1nearStep.mjs';
 
@@ -30,15 +30,7 @@ function tomlTable(toml, name) {
   return out;
 }
 
-/** Every .md under a directory, by path. */
-const markdownUnder = (dir) => readdirSync(join(ROOT, dir), { recursive: true }).map(String).filter((f) => f.endsWith('.md')).map((f) => join(dir, f));
-
-/** The three sentences SCALE1, SCALE4d and SCALE4g wrote and nothing measured: Smart Placement running the Worker near,
- *  or beside, its database. A QUOTE of them stands as history (a double-quoted span is read as one, and dropped). */
-const SMART_NEAR = /Smart Placement runs the (?:account )?Worker (?:near|beside)|Under Smart Placement,? the (?:account )?Worker runs (?:near|beside)|runs under Smart Placement,? (?:near|beside)/i;
-const unquoted = (s) => s.replace(/"[^"\n]*"/g, '""');
-
-test('D1-NEAR the placement: the account Worker\'s one [placement] table names its region alone - the region the record names - never `mode = "smart"`; the comment above it is D1-NEAR\'s own; and none of the three sentences that took Smart Placement\'s word stands on any page of the bible outside a quote (mutants: SCALE1\'s smart placement back; the Worker placed in Sydney; the table dropped; SCALE1\'s comment back; SCALE1\'s sentence back on the record\'s page)', () => {
+test('D1-NEAR the placement: the account Worker\'s one [placement] table names its region alone - the region the record names - never `mode = "smart"`; the comment above it is D1-NEAR\'s own (mutants: SCALE1\'s smart placement back; the Worker placed in Sydney; the table dropped; SCALE1\'s comment back)', () => {
   const toml = src('server-account/wrangler.toml');
   assert.equal(toml.match(/^\[placement\]$/gm)?.length ?? 0, 1, 'one [placement] table');
   const placement = tomlTable(toml, 'placement');
@@ -46,11 +38,6 @@ test('D1-NEAR the placement: the account Worker\'s one [placement] table names i
   // Smart Placement is the one that ran the Worker in Sydney
   assert.deepEqual(placement, { region: 'aws:us-west-1' });
   for (const l of toml.split('\n')) if (!l.trim().startsWith('#')) assert.doesNotMatch(l, /^\s*mode\s*=\s*"smart"/, 'no live line asks for Smart Placement');
-  // NO PAGE SAYS IT ANY MORE - the claim three records leaned on, retired where it stood; a quote of it is history
-  const standing = markdownUnder('bible').filter((f) => SMART_NEAR.test(unquoted(src(f))));
-  assert.deepEqual(standing, [], 'a page of the bible still says Smart Placement runs the account Worker beside its database');
-  assert.ok(SMART_NEAR.test('Smart Placement runs the Worker near its database.'), 'the pin reads SCALE1\'s own sentence');
-  assert.ok(!SMART_NEAR.test(unquoted('SCALE1 wrote "Smart Placement runs the Worker near its database."')), 'and lets a quote of it stand');
 });
 
 test('D1-NEAR the deploy says where the Worker answers from, what a statement costs it there and where the primary is: after the health check, five answers\' `cf-placement` - an HTTP/2 header in lower case and an HTTP/1.1 one capitalised alike, an answer without it `none` - the median one-statement read on the primary less the median health, the deploy\'s own base asked, and D1\'s own word on the data centre its primary answered from; a REPORT, never a gate: nothing reached, it ends green, its cost unmeasured and D1 unsaid (mutants: the summary unwritten; the header read case-sensitively; an answer without the header unsaid; the cost not less the health; the slowest answer taken for the middle)', () => {

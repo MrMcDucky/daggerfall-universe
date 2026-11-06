@@ -140,7 +140,7 @@ test('BR1: no surface still says the old name', () => {
   // git grep exits 1 when it finds NOTHING, which is the passing case.
   let hits = '';
   try {
-    hits = execFileSync('git', ['grep', '-n', '-E', 'Daggerfall ?JavaScript|DaggerfallJS|Daggerfall JS\\b', '--', ':!bible', ':!test/ui/brand.test.js'],
+    hits = execFileSync('git', ['grep', '-n', '-E', 'Daggerfall ?JavaScript|DaggerfallJS|Daggerfall JS\\b', '--', ':!test/ui/brand.test.js'],
       { cwd: root, encoding: 'utf8' }).trim();
   } catch (e) {
     assert.equal(e.status, 1, `git grep failed: ${e.stderr || e.message}`);
@@ -256,7 +256,7 @@ test('BR4: no surface still says the old name - whole, or split across a wordmar
   try {
     // Nor are the mutant records: a record's `new` is the old name ON
     // PURPOSE - it is how tools/mutants/br4.json proves this sweep fails.
-    hits = execFileSync('git', ['grep', '-n', '-E', 'Daggerfall ?Enhanced|DaggerfallEnhanced', '--', ':!bible', ':!test/ui/brand.test.js', ':!tools/mutants'],
+    hits = execFileSync('git', ['grep', '-n', '-E', 'Daggerfall ?Enhanced|DaggerfallEnhanced', '--', ':!test/ui/brand.test.js', ':!tools/mutants'],
       { cwd: root, encoding: 'utf8' }).trim();
   } catch (e) {
     assert.equal(e.status, 1, `git grep failed: ${e.stderr || e.message}`);
@@ -279,7 +279,7 @@ test('BR4: no surface still says the old name - whole, or split across a wordmar
 
   let split = '';
   try {
-    split = execFileSync('git', ['grep', '-n', '-E', "<small>Enhanced</small>|el\\('small', null, 'Enhanced'\\)", '--', ':!bible', ':!test/ui/brand.test.js', ':!tools/mutants'],
+    split = execFileSync('git', ['grep', '-n', '-E', "<small>Enhanced</small>|el\\('small', null, 'Enhanced'\\)", '--', ':!test/ui/brand.test.js', ':!tools/mutants'],
       { cwd: root, encoding: 'utf8' }).trim();
   } catch (e) {
     assert.equal(e.status, 1, `git grep failed: ${e.stderr || e.message}`);
@@ -311,7 +311,7 @@ test('BR5: no surface still says Daggerfall Online - whole, split across a wordm
   // the Ko-fi page) are no hit: they are named in the next test, on purpose.
   let hits = '';
   try {
-    hits = execFileSync('git', ['grep', '-n', '-E', 'Daggerfall ?Online|DaggerfallOnline|DAGGERFALL ?ONLINE|Daggerfall-Online', '--', ':!bible', ':!test/ui/brand.test.js', ':!tools/mutants'],
+    hits = execFileSync('git', ['grep', '-n', '-E', 'Daggerfall ?Online|DaggerfallOnline|DAGGERFALL ?ONLINE|Daggerfall-Online', '--', ':!test/ui/brand.test.js', ':!tools/mutants'],
       { cwd: root, encoding: 'utf8' }).trim();
   } catch (e) {
     assert.equal(e.status, 1, `git grep failed: ${e.stderr || e.message}`);
@@ -325,7 +325,7 @@ test('BR5: no surface still says Daggerfall Online - whole, split across a wordm
   assert.equal(hits, '', `the old name survives:\n${hits}`);
   let split = '';
   try {
-    split = execFileSync('git', ['grep', '-n', '-E', "class=\"wordmark\">Daggerfall<small>|el\\('div', 'sub', 'Daggerfall'\\)", '--', ':!bible', ':!test/ui/brand.test.js', ':!tools/mutants'],
+    split = execFileSync('git', ['grep', '-n', '-E', "class=\"wordmark\">Daggerfall<small>|el\\('div', 'sub', 'Daggerfall'\\)", '--', ':!test/ui/brand.test.js', ':!tools/mutants'],
       { cwd: root, encoding: 'utf8' }).trim();
   } catch (e) {
     assert.equal(e.status, 1, `git grep failed: ${e.stderr || e.message}`);

@@ -74,11 +74,3 @@ test('TAMRIEL-WIDE the baseline lists only the idioms, each file with a count ab
   assert.deepEqual(Object.keys(base), ids);
   for (const id of ids) for (const [f, n] of Object.entries(base[id])) assert.ok(Number.isSafeInteger(n) && n > 0, `${id} ${f}`);
 });
-
-test('TAMRIEL-WIDE the law is written where a contributor reads it: Home.md, Port-Doctrine and CLAUDE.md name the rule and its gate', () => {
-  for (const f of ['bible/Home.md', 'bible/01-Overview/Port-Doctrine.md', 'CLAUDE.md']) {
-    const page = readFileSync(new URL(`../../${f}`, import.meta.url), 'utf8');
-    assert.match(page, /TAMRIEL-WIDE/, f);
-    assert.match(page, /tamrielwide\.test\.js/, f);
-  }
-});

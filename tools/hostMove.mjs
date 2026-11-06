@@ -612,16 +612,16 @@ function recordSpans(text) {
   return spans;
 }
 
-/** THE RECORDS MOVE WITH THE CODE: every mutant record (tools/mutants/*.json) and every doc anchor (bible/**, the
- *  CITE-ANCHOR form - a file's name, a colon, the quoted line) that named moved text in the host is pointed at the module - verbatim where the
- *  text moved verbatim, through the handle where a live name was rewritten. What it cannot place once, it reports. */
+/** THE RECORDS MOVE WITH THE CODE: every mutant record (tools/mutants/*.json) that named moved text in the host is
+ *  pointed at the module - verbatim where the text moved verbatim, through the handle where a live name was rewritten.
+ *  What it cannot place once, it reports. */
 export function retargetRecords({ hostFile, toFile, handle = 'host', write = false, root = '.' }) {
   const host = readFileSync(`${root}/${hostFile}`, 'utf8'),
     mod = readFileSync(`${root}/${toFile}`, 'utf8');
   const live = [
     ...new Set([...mod.matchAll(new RegExp(`(?<![\\w$.])${handle}\\.([A-Za-z_$][\\w$]*)`, 'g'))].map((m) => m[1])),
   ];
-  const report = { records: 0, anchors: 0, unplaced: [] };
+  const report = { records: 0, unplaced: [] };
   const mutDir = `${root}/tools/mutants`;
   for (const f of readdirSync(mutDir)
     .filter((n) => n.endsWith('.json'))
@@ -674,36 +674,6 @@ export function retargetRecords({ hostFile, toFile, handle = 'host', write = fal
       writeFileSync(path, out);
     }
   }
-  const hostBase = basename(hostFile),
-    toBase = basename(toFile);
-  const docs = [];
-  const walkDocs = (d) => {
-    for (const e of readdirSync(d, { withFileTypes: true })) {
-      if (e.isDirectory()) walkDocs(`${d}/${e.name}`);
-      else if (e.name.endsWith('.md')) docs.push(`${d}/${e.name}`);
-    }
-  };
-  walkDocs(`${root}/bible`);
-  const anchor = new RegExp(
-    `(?<![\\w.-])((?:[\\w./-]*/)?)${hostBase.replace('.', '\\.')}:"((?:[^"\\\\]|\\\\.)+)"`,
-    'g',
-  );
-  for (const path of docs) {
-    const text = readFileSync(path, 'utf8');
-    let changed = false;
-    const out = text.replace(anchor, (all, dir, quote) => {
-      if (host.includes(quote)) return all;
-      const q = count(mod, quote) === 1 ? quote : asMoved(quote, live, handle);
-      if (count(mod, q) !== 1) {
-        report.unplaced.push(`${path.slice(root.length + 1)}: ${all}`);
-        return all;
-      }
-      changed = true;
-      report.anchors++;
-      return `${dir}${toBase}:"${q}"`; // the module stands beside its host (main refuses otherwise), so the anchor's path keeps its folder
-    });
-    if (changed && write) writeFileSync(path, out);
-  }
   return report;
 }
 
@@ -753,7 +723,7 @@ function main(args) {
     // the records of a move already written: node tools/hostMove.mjs --records <host> <module> [--write]
     const r = retargetRecords({ hostFile: args[1], toFile: args[2], write: args.includes('--write') });
     console.log(
-      `records retargeted: ${r.records}; anchors retargeted: ${r.anchors}${r.unplaced.length ? `\nUNPLACED - by hand:\n  ${r.unplaced.join('\n  ')}` : ''}`,
+      `records retargeted: ${r.records}${r.unplaced.length ? `\nUNPLACED - by hand:\n  ${r.unplaced.join('\n  ')}` : ''}`,
     );
     return;
   }
@@ -814,7 +784,7 @@ function main(args) {
     const rec = retargetRecords({ hostFile, toFile, handle: opt('--handle') ?? 'host', write: true });
     carryShortNames(hostFile, toFile, opt('--handle') ?? 'host');
     console.log(
-      `  written. Records retargeted: ${rec.records}; anchors: ${rec.anchors}${rec.unplaced.length ? `\n  UNPLACED - by hand:\n    ${rec.unplaced.join('\n    ')}` : ''}`,
+      `  written. Records retargeted: ${rec.records}${rec.unplaced.length ? `\n  UNPLACED - by hand:\n    ${rec.unplaced.join('\n    ')}` : ''}`,
     );
   }
 }

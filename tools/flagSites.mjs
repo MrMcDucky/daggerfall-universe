@@ -1,12 +1,7 @@
 // IN1 - WHAT COUNTS AS AN OPEN FLAG, in ONE place.
 //
-// tools/regenOpenFlags.mjs writes bible/Home.md's list and
-// test/bible/audit18_bible_docs.test.js checks the list against the tree.
-// Both need the same answer to "is this line a flag?", and both used
-// to carry their own copy of it - a bare `/FLAGGED|INTERIM/` per
-// line. Two copies of a rule is two rules the day one of them moves,
-// and this one moved: the guard went red the moment the tool learned
-// what is NOT a flag. The rule lives here now and they import it.
+// The answer to "is this line a flag?", imported by
+// test/scenes/flagsweep.test.js and test/tooling/flagsites.test.js.
 //
 // Two things answer the token and are not open work:
 //

@@ -84,8 +84,8 @@ const lines = (rel) => read(rel).split('\n');
 // that cannot exist, and every pin in this file was green throughout,
 // because each one resolves a single number a human chose to list.
 //
-// This pin needs no list. It reads every tracked source, test, tool and
-// bible page and refuses any citation into a PORT file (`*.js`/`*.mjs`)
+// This pin needs no list. It reads every tracked source, test and tool
+// and refuses any citation into a PORT file (`*.js`/`*.mjs`)
 // whose second number is smaller than its first - the range form
 // `A-B`, the slash pair `A/:B` and the `A against :B` form alike. C#
 // reference cites are exempt: DFU's own members are legitimately cited
@@ -102,7 +102,7 @@ test('CD7: no citation into a port file names a range that runs backwards', () =
   const backwards = [];
   // this file alone is exempt: it QUOTES the corrupted forms above, as
   // the record of what the check is for.
-  for (const rel of ['src', 'test', 'tools', 'bible'].flatMap(walk).filter((r) => r !== 'test/scenes/citedrift.test.js')) {
+  for (const rel of ['src', 'test', 'tools'].flatMap(walk).filter((r) => r !== 'test/scenes/citedrift.test.js')) {
     lines(rel).forEach((l, i) => {
       for (const m of l.matchAll(CITE)) {
         if (Number(m[3]) < Number(m[2])) backwards.push(`${rel}:${i + 1}: ${m[0]}`);
@@ -131,7 +131,7 @@ test('CD7b: no citation names a range with a typographic dash - the tools that k
     return e.isDirectory() ? walk(rel) : (/\.(js|mjs|md)$/.test(e.name) ? [rel] : []);
   });
   const dashed = [];
-  for (const rel of ['src', 'test', 'tools', 'bible'].flatMap(walk)) {
+  for (const rel of ['src', 'test', 'tools'].flatMap(walk)) {
     lines(rel).forEach((l, i) => { for (const m of l.matchAll(DASHED)) dashed.push(`${rel}:${i + 1}: ${m[0]}`); });
   }
   assert.deepEqual(dashed, [], 'a range set with a typographic dash - write it A-B');

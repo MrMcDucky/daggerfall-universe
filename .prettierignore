@@ -3148,7 +3148,6 @@
 !/tools/realmRollback.mjs
 !/tools/realmSavesProbe.mjs
 !/tools/redMountainProbe.mjs
-!/tools/regenOpenFlags.mjs
 !/tools/reissueRecoveryCode.mjs
 !/tools/relayHubBench.mjs
 !/tools/relayLoad.mjs

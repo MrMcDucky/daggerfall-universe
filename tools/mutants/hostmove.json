@@ -63,15 +63,6 @@
     ]
   },
   {
-    "name": "HOSTMOVE-the-anchor-with-no-left-edge",
-    "file": "tools/hostMove.mjs",
-    "old": "  const anchor = new RegExp(\n    `(?<![\\\\w.-])((?:[\\\\w./-]*/)?)${hostBase.replace('.', '\\\\.')}:\"((?:[^\"\\\\\\\\]|\\\\\\\\.)+)\"`,\n    'g',\n  );",
-    "new": "  const anchor = new RegExp(`((?:[\\\\w./-]*/)?)${hostBase.replace('.', '\\\\.')}:\"((?:[^\"\\\\\\\\]|\\\\\\\\.)+)\"`, 'g');",
-    "tests": [
-      "test/tooling/hostmove.test.js"
-    ]
-  },
-  {
     "name": "HOSTMOVE-a-shorthand-default-loses-its-key",
     "file": "tools/hostMove.mjs",
     "old": "      const shorthand = (r.parent?.type === 'Property' && r.parent.shorthand && r.key === 'value') || r.keyed;",

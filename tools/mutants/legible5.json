@@ -2,8 +2,8 @@
   {
     "name": "LEGIBLE5-the-allowed-list-unread",
     "file": "tools/shortNames.mjs",
-    "old": "  return {\n    allowed: new Set(listedIn(text, 'Short names code may use')),\n    retired: new Set(listedIn(text, 'Abbreviations to retire')),\n  };",
-    "new": "  return { allowed: new Set(), retired: new Set(listedIn(text, 'Abbreviations to retire')) };",
+    "old": "  return { allowed: new Set(ALLOWED), retired: new Set(RETIRED) };",
+    "new": "  return { allowed: new Set(), retired: new Set(RETIRED) };",
     "tests": [
       "test/tooling/legible5_shortnames.test.js"
     ]
@@ -11,8 +11,8 @@
   {
     "name": "LEGIBLE5-the-retired-list-unread",
     "file": "tools/shortNames.mjs",
-    "old": "  return {\n    allowed: new Set(listedIn(text, 'Short names code may use')),\n    retired: new Set(listedIn(text, 'Abbreviations to retire')),\n  };",
-    "new": "  return { allowed: new Set(listedIn(text, 'Short names code may use')), retired: new Set() };",
+    "old": "  return { allowed: new Set(ALLOWED), retired: new Set(RETIRED) };",
+    "new": "  return { allowed: new Set(ALLOWED), retired: new Set() };",
     "tests": [
       "test/tooling/legible5_shortnames.test.js"
     ]

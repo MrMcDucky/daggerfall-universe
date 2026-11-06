@@ -1193,17 +1193,11 @@ test('doctrine EOTB0: the derivation is not vacuous - a stranger and a loss both
 // Every other row is a CLAIM that the art is the modder's own. Vanilla
 // Enhanced's rows say the opposite - it IS Daggerfall's art, repainted -
 // and stand on Mac's approval alone. An approval is bounded by what it
-// approved: the doctrine's exception paragraph names the directory, and a
-// derived row anywhere else, or a named directory with no row, reddens.
-const DOCTRINE = 'bible/01-Overview/Port-Doctrine.md';
-/** The directories Port-Doctrine's exception paragraphs name - every backticked `public/` or `vendor/` path on their lines. */
-function exceptionDirs() {
-  // ALIKR1/SNOWFALL1: every exception paragraph's line - THE ONE EXCEPTION (Vanilla Enhanced) and THE SECOND EXCEPTION;
-  // LAYERED-GEAR: and THE THIRD, whose art sits under vendor/ (the build reaches it through a glob, as Eye of the Beholder's)
-  // DEX0: and THE FOURTH, whose class skins live under vendor/ (the player body's sprite index reads them there)
-  const lines = readFileSync(join(root, DOCTRINE), 'utf8').split('\n').filter((l) => /^\s+\*\*THE (?:ONE|SECOND|THIRD|FOURTH) EXCEPTION\b/.test(l));
-  return lines.flatMap((line) => [...line.matchAll(/`((?:public|vendor)\/[^`]+\/)`/g)].map((m) => m[1]));
-}
+// approved: the exception names the directory, and a derived row
+// anywhere else, or a named directory with no row, reddens.
+/** The directories the four approved exceptions cover: Vanilla Enhanced (the first), the environment packs (the second),
+ *  Layered Gearing (the third), the enemy repaints and class skins (the fourth). Adding one needs the owner's approval. */
+const EXCEPTION_DIRS = Object.freeze(['public/art/vanilla-enhanced/', 'public/art/sands-of-the-alikr/', 'public/art/snowfall/', 'vendor/layered-armor/', 'public/art/daggerfall-enemy-expansion-repainted/', 'vendor/class-skins/Textures/']);
 /** The mark each directory's approval gave it: Vanilla Enhanced's rows the first exception's, the environment packs' the
  *  second's, Layered Gearing's the third's, the enemies' and the class skins' the fourth's - a row in one exception
  *  wearing another's mark is a row approved by the wrong approval. */
@@ -1213,9 +1207,8 @@ const markFor = (dir) => (dir.startsWith('public/art/vanilla-enhanced/') ? VE4_D
 /** The derived rows standing outside every directory the exception names. */
 const derivedOutside = (rows, dirs) => [...rows].filter(([dir, r]) => r.derived && !dirs.some((d) => dir.startsWith(d))).map(([dir]) => dir);
 
-test('doctrine VE4: a derived row stands inside the exception Port-Doctrine records, and every row inside it says it is derived', () => {
-  const dirs = exceptionDirs();
-  assert.deepEqual(dirs, ['public/art/vanilla-enhanced/', 'public/art/sands-of-the-alikr/', 'public/art/snowfall/', 'vendor/layered-armor/', 'public/art/daggerfall-enemy-expansion-repainted/', 'vendor/class-skins/Textures/'], 'the doctrine names six directories, under four approvals');
+test('doctrine VE4: a derived row stands inside an approved exception, and every row inside it says it is derived', () => {
+  const dirs = EXCEPTION_DIRS;
   assert.deepEqual(derivedOutside(BUNDLE_ART, dirs), [], 'repainted game data outside the approved directory');
   for (const d of dirs) assert.ok([...BUNDLE_ART].some(([dir, r]) => r.derived && dir.startsWith(d)), `${d} is approved and no row carries it`);
   // and inside it nothing passes as the port's own: every row there says what it is
@@ -1240,7 +1233,7 @@ test('doctrine STUDIO1: a picture is the studio\'s own by its roster and its lis
 
 test('doctrine VE4: the bound is not vacuous - a derived row outside the named directory reddens, and with no approval every one does', () => {
   const rogue = new Map([...BUNDLE_ART, ['public/art/someone-elses-repaint/', { manifest: 'x', derived: VE4_DERIVED, why: 'THIRD-PARTY - x' }]]);
-  assert.deepEqual(derivedOutside(rogue, exceptionDirs()), ['public/art/someone-elses-repaint/']);
+  assert.deepEqual(derivedOutside(rogue, EXCEPTION_DIRS), ['public/art/someone-elses-repaint/']);
   assert.deepEqual(derivedOutside(rogue, []), [...rogue].filter(([, r]) => r.derived).map(([d]) => d));
 });
 
@@ -1256,7 +1249,7 @@ test('doctrine: no DERIVED raster is tracked either, whatever it is wearing', ()
   // rule is on the SHAPE: a tracked file carrying a width/height and a flat
   // pixel array is a raster, and none may be committed.
   const suspects = [];
-  for (const f of tracked('src').concat(tracked('public'), tracked('bible'))) {
+  for (const f of tracked('src').concat(tracked('public'))) {
     if (!f.endsWith('.json')) continue;
     let j;
     try { j = JSON.parse(readFileSync(join(root, f), 'utf8')); } catch { continue; }
@@ -1399,9 +1392,4 @@ test('EE0: the world render gate boots the real exterior and judges real pixels'
   assert.match(g, /the lower half has detail/);
   assert.match(g, /the TERRAIN is lit \(street band median/);
   assert.match(g, /the sky is drawn/);
-  // the arc plan names it as every slice's gate
-  const plan = readFileSync('bible/07-Rendering/Enhanced-Environments-Arc.md', 'utf8');
-  assert.match(plan, /tools\/worldRenderGate\.mjs/);
-  assert.match(plan, /an upload may create, fill and\s+parameterise an object\. It may not draw/,
-    'the law the texture incident taught must be in the plan');
 });

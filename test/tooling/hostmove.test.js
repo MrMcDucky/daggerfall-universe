@@ -163,7 +163,7 @@ export function host() {
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('HOST-SPLIT 1 (AUDIT) THE TOOL TOUCHES ONLY WHAT MOVED: an import dropped from the host takes no sibling on its line; a mutant record is found by its own braces - its name last, a brace in a neighbour\'s quoted text - and retargeted alone; an anchor into overworld.js is not one into world.js (mutants: the whole line dropped; a quoted brace read as structure; the anchor with no left edge)', () => {
+test('HOST-SPLIT 1 (AUDIT) THE TOOL TOUCHES ONLY WHAT MOVED: an import dropped from the host takes no sibling on its line; a mutant record is found by its own braces - its name last, a brace in a neighbour\'s quoted text - and retargeted alone (mutants: the whole line dropped; a quoted brace read as structure)', () => {
   // two imports on one line, one of them now unread
   const twoOnALine = "import { a } from './a.js'; import { b } from './b.js';\nexport const x = b;\n";
   const kept = dropImports(twoOnALine, ['a']);
@@ -175,7 +175,6 @@ test('HOST-SPLIT 1 (AUDIT) THE TOOL TOUCHES ONLY WHAT MOVED: an import dropped f
   try {
     mkdirSync(join(root, 'src'), { recursive: true });
     mkdirSync(join(root, 'tools/mutants'), { recursive: true });
-    mkdirSync(join(root, 'bible'), { recursive: true });
     writeFileSync(join(root, 'src/world.js'), 'const stays = 1;\n');
     writeFileSync(join(root, 'src/marks.js'), 'if (on) { const moved = host.live + 1;\n');
     // the moved record writes its name LAST, and its own quoted text an unclosed brace; its neighbour's a stray one -
@@ -183,15 +182,11 @@ test('HOST-SPLIT 1 (AUDIT) THE TOOL TOUCHES ONLY WHAT MOVED: an import dropped f
     const moved = '{"file": "src/world.js", "old": "if (on) { const moved = live + 1;", "new": "if (on) { const moved = live;", "tests": [], "name": "name-last"}';
     const other = '{"name": "brace-quoted", "file": "src/other.js", "old": "x } y", "new": "y", "tests": []}';
     writeFileSync(join(root, 'tools/mutants/m.json'), `[\n  ${moved},\n  ${other}\n]\n`);
-    // (spelled in two pieces, so the line is not itself an anchor into overworld.js to the docs' own checks)
-    const doc = `An anchor into ${'overworld.js'}:"if (on) { const moved = live + 1;" names another file.\n`;
-    writeFileSync(join(root, 'bible/page.md'), doc);
     const r = retargetRecords({ hostFile: 'src/world.js', toFile: 'src/marks.js', write: true, root });
     assert.deepEqual([r.records, r.unplaced], [1, []]);
     const [a, b] = JSON.parse(readFileSync(join(root, 'tools/mutants/m.json'), 'utf8'));
     assert.deepEqual(a, { file: 'src/marks.js', old: 'if (on) { const moved = host.live + 1;', new: 'if (on) { const moved = host.live;', tests: [], name: 'name-last' }, 'the moved record, retargeted whole');
     assert.deepEqual(b, JSON.parse(other), 'its neighbour untouched');
-    assert.equal(readFileSync(join(root, 'bible/page.md'), 'utf8'), doc, 'overworld.js left as it is');
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 

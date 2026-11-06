@@ -1,6 +1,6 @@
-// LEGIBLE 5 (bible/01-Overview/Readability-Arc.md, bible/01-Overview/Glossary.md): a binding of one or two characters,
-// or an abbreviation the glossary retires, is counted a file at a time by tools/shortNames.mjs and held to
-// tools/shortNamesBaseline.json, which only goes down. A name the glossary allows is not counted.
+// LEGIBLE 5: a binding of one or two characters, or an abbreviation tools/shortNames.mjs retires, is counted a file at a
+// time by tools/shortNames.mjs and held to tools/shortNamesBaseline.json, which only goes down. A name it allows is not
+// counted.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

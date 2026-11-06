@@ -1,7 +1,6 @@
-// SHORT NAMES (LEGIBLE 5, bible/01-Overview/Readability-Arc.md): a binding of one or two characters says nothing of
-// what it holds - `p` for a pixel, `dw` for Deep Waters. Each file's count of them is held to tools/shortNamesBaseline.json,
-// which only goes down; bible/01-Overview/Glossary.md's first section lists the short names code may use, and its last
-// the abbreviations being retired, counted like the short ones.
+// SHORT NAMES (LEGIBLE 5): a binding of one or two characters says nothing of what it holds - `p` for a pixel, `dw` for
+// Deep Waters. Each file's count of them is held to tools/shortNamesBaseline.json, which only goes down. ALLOWED lists
+// the short names code may use, RETIRED the abbreviations being retired, counted like the short ones.
 //   node tools/shortNames.mjs               the files past their count, and the counts now lower
 //   node tools/shortNames.mjs --where FILE  each counted binding in FILE, by line
 //   node tools/shortNames.mjs --lower       the baseline written down to today (never raised)
@@ -15,30 +14,21 @@ import { isMain } from './lib/isMain.mjs';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const BASELINE = 'tools/shortNamesBaseline.json';
-export const GLOSSARY = 'bible/01-Overview/Glossary.md';
 export const SOURCE_DIRS = Object.freeze(['src', 'server/src', 'server-account/src']);
 
-/** The names a section of the glossary lists: every backticked word on its list lines, before the dash. */
-function listedIn(text, heading) {
-  const at = text.indexOf(`\n## ${heading}\n`);
-  if (at < 0) throw new Error(`${GLOSSARY} has no section "${heading}"`);
-  const end = text.indexOf('\n## ', at + 1);
-  const names = [];
-  for (const line of text.slice(at, end < 0 ? text.length : end).split('\n')) {
-    if (!line.startsWith('- ')) continue;
-    const head = line.split(' - ')[0];
-    for (const m of head.matchAll(/`([^`]+)`/g)) names.push(m[1]);
-  }
-  return names;
-}
+/** The short names code may use: loop indices, coordinates and their deltas, and a few plain words. */
+export const ALLOWED = Object.freeze(
+  '_ a at b by db dt dx dy dz e fn gl go hi i id it j k lo me n no of ok on px py to up us uv w ws x x0 x1 y y0 y1 z z0 z1'.split(
+    ' ',
+  ),
+);
+/** The abbreviations being retired (Deep Waters, Come Sail Away, World of Daggerfall, Low-Poly Trees, Horse Cart and
+ *  Cargo, the Morrowind viewer). */
+export const RETIRED = Object.freeze(['dw', 'csa', 'wod', 'lpt', 'hcc', 'mwv']);
 
 /** The glossary's two lists: the short names allowed, and the abbreviations being retired. */
-export function glossary(root = ROOT) {
-  const text = readFileSync(join(root, GLOSSARY), 'utf8');
-  return {
-    allowed: new Set(listedIn(text, 'Short names code may use')),
-    retired: new Set(listedIn(text, 'Abbreviations to retire')),
-  };
+export function glossary() {
+  return { allowed: new Set(ALLOWED), retired: new Set(RETIRED) };
 }
 
 /** The names a binding pattern declares. */
@@ -90,7 +80,7 @@ const sourceFiles = (root) =>
 
 /** Each source file's count, the files with none left out. */
 export function measure(root = ROOT, read = (f) => readFileSync(join(root, f), 'utf8'), files = sourceFiles(root)) {
-  const words = glossary(root);
+  const words = glossary();
   const out = {};
   for (const f of files) {
     let n = 0;
