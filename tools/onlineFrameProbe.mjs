@@ -121,11 +121,7 @@ const dropState = () => {
 /** The edits this probe makes beside the frame probe's (FRAME_PROBE_EDITS' shape: each needle asserted, and held to the
  *  tree by test/tooling/perfon4_probes.test.js). */
 export const ONLINE_PROBE_EDITS = Object.freeze([
-  // the account base may be the local service - serviceBase answers an https base alone
-  {
-    file: 'src/net/accountClient.js',
-    edits: [['/^https:\\/\\/\\S+$/.test(v)', '/^(https:\\/\\/\\S+|http:\\/\\/127\\.0\\.0\\.1:\\d+)$/.test(v)']],
-  },
+  // (the account base needs no edit: serviceBase takes a localhost http base itself)
   // REALM P0.1 drops `?shot` from an online boot - it installs the probe seams, `__addGold` among them, which no player's
   // world may carry. Here the world is this run's own, local, and the seams are the instrument
   {

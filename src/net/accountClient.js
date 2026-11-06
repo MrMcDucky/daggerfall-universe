@@ -2758,6 +2758,10 @@ export function accountWrits({ fetch, storage, waitMs = ACCOUNT_ACT_WAIT_MS }) {
   };
 }
 
+/** An account-service base the client may use: https anywhere, plain http on this machine only (as relayUrl takes
+ *  ws:// on localhost alone), so a local `wrangler dev` service can be pointed at. */
+const SERVICE_BASE_RE = /^https:\/\/\S+$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/\S*)?$/;
+
 /** The service this device talks to. Overridable the same way the
  *  relay is, so a test deployment can be pointed at without a build. */
 export function serviceBase(storage) {
@@ -2766,6 +2770,6 @@ export function serviceBase(storage) {
   if (privateRunOn()) return PRIVATE_NO_SERVICE;
   try {
     const v = storage?.getItem?.(SERVICE_KEY);
-    return (typeof v === 'string' && /^https:\/\/\S+$/.test(v)) ? v : DEFAULT_ACCOUNT_SERVICE;
+    return (typeof v === 'string' && SERVICE_BASE_RE.test(v)) ? v : DEFAULT_ACCOUNT_SERVICE;
   } catch { return DEFAULT_ACCOUNT_SERVICE; }
 }

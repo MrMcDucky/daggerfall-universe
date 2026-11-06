@@ -15,9 +15,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { FRAME_PROBE_EDITS, editsPlugin, probeTransforms } from '../../tools/frameProbe.mjs';
 import { ONLINE_PROBE_EDITS, probePlugins, crowdsOf } from '../../tools/onlineFrameProbe.mjs';
+import { serviceBase, SERVICE_KEY } from '../../src/net/accountClient.js';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
-const NEEDLE_FILES = ['src/systems/buildBreather.js', 'src/render/labGrass.js', 'src/net/accountClient.js', 'src/systems/online/onlineLane.js', 'src/scenes/world.js'];
+const NEEDLE_FILES = ['src/systems/buildBreather.js', 'src/render/labGrass.js', 'src/systems/online/onlineLane.js', 'src/scenes/world.js'];
 /** A file as the online probe's page server serves it: every transform its server is built with, in order. */
 const served = (file) => probePlugins().reduce((code, pl) => pl.transform(code, `/repo/${file}?v=1`) ?? code, src(file));
 
@@ -39,7 +40,7 @@ test('PERF-ON4: every probe edit\'s needle stands in its file, once - the frame 
     assert.throws(() => plugin.transform(`${code}\n// ${row.edits[0][0]}`, `/x/${row.file}`), /needle found 2 times/, `${row.file}: a doubled needle is refused (AUDIT PERF-ON4 F7)`);
     assert.equal(plugin.transform(code, `/x/other${row.file}`), null, `${row.file}: a path that only contains it is another file`);
   }
-  assert.equal(n, 6, 'six edits in all');
+  assert.equal(n, 5, 'five edits in all');
   assert.equal(editsPlugin('t', FRAME_PROBE_EDITS).transform('x', '/x/src/main.js'), null, 'a file no row names is left alone');
 });
 
@@ -54,13 +55,10 @@ test('PERF-ON4 (AUDIT PERF-ON4 F4): EACH EDIT DOES WHAT IT IS FOR, as the probes
   const was = flags(src('src/systems/online/onlineLane.js')), now = flags(served('src/systems/online/onlineLane.js'));
   assert.ok(was.includes('shot'), 'the tree refuses `?shot` online');
   assert.deepEqual(now, was.filter((f) => f !== 'shot'), 'the probe\'s page refuses all else, and not `?shot`');
-  // the account base
-  const base = (code) => new RegExp(/\(typeof v === 'string' && \/(.+)\/\.test\(v\)\)/.exec(code)[1]);
-  const tree = base(src('src/net/accountClient.js')), probe = base(served('src/net/accountClient.js'));
-  for (const v of ['https://account.example', 'http://127.0.0.1:8870', 'http://example.com', 'http://127.0.0.2:8870', 'http://127.0.0.1', 'http://localhost:8870', 'https://a b']) {
-    const want = tree.test(v) || /^http:\/\/127\.0\.0\.1:\d+$/.test(v);
-    assert.equal(probe.test(v), want, `the probe's page takes ${v} as an account base: ${want}`);
-  }
+  // the account base: the probe's local service is one the tree takes unedited (test/net/local_account_service.test.js)
+  assert.equal(served('src/net/accountClient.js'), src('src/net/accountClient.js'), 'the account client is served as it stands');
+  const storage = { getItem: (k) => (k === SERVICE_KEY ? 'http://127.0.0.1:8870' : null) };
+  assert.equal(serviceBase(storage), 'http://127.0.0.1:8870', 'the probe\'s local base is taken');
   // the hook: the session's peers and status, the way book's size - each name the world host declares before it
   const world = served('src/scenes/world.js');
   const hook = world.indexOf('window.__probeOnline = () => ({ peers: online ? online.drawable().length : null, status: online ? online.status : null, ways: livingWays.size');
