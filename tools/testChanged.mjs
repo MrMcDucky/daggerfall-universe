@@ -20,6 +20,7 @@ import { join, dirname, relative, normalize, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { isMain } from './lib/isMain.mjs';
+import { lfReads } from './lib/lfReads.mjs';
 import { testFiles, runTests, runnerFlags } from './testShards.mjs'; // FAST-SUITE: run as every list of tests is run - longest first, every core
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -146,6 +147,7 @@ function main(argv) {
   console.log(
     `${changed.length} changed files -> ${chosen === 'all' ? 'the whole suite (a file every test leans on changed)' : `${files.length} of ${tests.length} test files`}`,
   );
+  lfReads(ROOT);
   return runTests(files, { extra: runnerFlags(argv) });
 }
 

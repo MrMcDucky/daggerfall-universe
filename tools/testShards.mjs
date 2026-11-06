@@ -18,6 +18,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { availableParallelism } from 'node:os';
 import { isMain } from './lib/isMain.mjs';
+import { lfReads } from './lib/lfReads.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const TIMES_FILE = 'tools/testTimes.json';
@@ -198,6 +199,7 @@ function main(argv) {
   console.log(
     `shard ${shard.index}/${shard.total}: ${files.length} files (split by ${Object.keys(times).length} recorded times)`,
   );
+  lfReads(ROOT);
   return runTests(files, { times, extra: runnerFlags(argv.slice(1)), record });
 }
 
