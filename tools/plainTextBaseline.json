@@ -2406,7 +2406,7 @@
   "src/ui/superDungeon/sdMapMark.js": 3,
   "src/ui/superDungeon/sdMarksView.js": 1,
   "src/ui/superDungeon/sdRemnantBar.js": 4,
-  "src/ui/supportAsks.js": 19,
+  "src/ui/supportAsks.js": 16,
   "src/ui/talkDoor.js": 27,
   "src/ui/talkWindow.js": 11,
   "src/ui/tamrielInk.js": 40,

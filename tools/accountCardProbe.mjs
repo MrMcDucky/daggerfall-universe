@@ -331,7 +331,9 @@ check(
   'TERMS1: each document opens outside the game, at the site',
   reg?.agree.every(
     (a) =>
-      a.target === '_blank' && a.rel === 'noopener' && /^https:\/\/mrmcducky\.github\.io\/daggerfall-universe\/(terms|privacy)\/$/.test(a.href),
+      a.target === '_blank' &&
+      a.rel === 'noopener' &&
+      /^https:\/\/mrmcducky\.github\.io\/daggerfall-universe\/(terms|privacy)\/$/.test(a.href),
   ),
   reg?.agree.map((a) => a.href).join(' '),
 );
