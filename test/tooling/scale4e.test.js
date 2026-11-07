@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, mkdtempSync, chmodSync, rmSync, existsSync
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const WF = readFileSync(new URL('../../.github/workflows/account-deploy.yml', import.meta.url), 'utf8');
 
@@ -63,7 +63,7 @@ esac
   } finally { rmSync(dir, { recursive: true, force: true }); }
 }
 
-test('SCALE4e an overloaded database is asked again after 20, 40, 60, 90 and 120 s, and the deploy goes on once it answers (mutants: no retry; the waits dropped)', () => {
+test('SCALE4e an overloaded database is asked again after 20, 40, 60, 90 and 120 s, and the deploy goes on once it answers (mutants: no retry; the waits dropped)', { skip: BASH_SKIP }, () => {
   const r = migrate(['overloaded', 'overloaded', 'ok']);
   assert.equal(r.status, 0, r.out);
   assert.deepEqual(r.calls, ['d1 migrations apply daggerfall-accounts --remote', 'd1 migrations apply daggerfall-accounts --remote', 'd1 migrations apply daggerfall-accounts --remote'], 'the same migrations, asked three times');
@@ -75,7 +75,7 @@ test('SCALE4e an overloaded database is asked again after 20, 40, 60, 90 and 120
   assert.deepEqual(first.slept, [], 'and nothing is waited for');
 });
 
-test('SCALE4e a migration that fails for any other reason stops the deploy at once - never retried, never waited on (mutants: every failure retried; the overload test always true)', () => {
+test('SCALE4e a migration that fails for any other reason stops the deploy at once - never retried, never waited on (mutants: every failure retried; the overload test always true)', { skip: BASH_SKIP }, () => {
   const r = migrate(['broken']);
   assert.equal(r.status, 1, r.out);
   assert.equal(r.calls.length, 1, 'asked once');
@@ -87,7 +87,7 @@ test('SCALE4e a migration that fails for any other reason stops the deploy at on
   assert.deepEqual(later.slept, [20]);
 });
 
-test('SCALE4e AUDIT LEAN-READS D3: a migration that ran past D1\'s CPU limit - code 7429, as an overload\'s is - is never asked again: asked again it resets the live database again (mutants: the reset retried as an overload, the overload known by its code)', () => {
+test('SCALE4e AUDIT LEAN-READS D3: a migration that ran past D1\'s CPU limit - code 7429, as an overload\'s is - is never asked again: asked again it resets the live database again (mutants: the reset retried as an overload, the overload known by its code)', { skip: BASH_SKIP }, () => {
   const r = migrate(['reset', 'ok']);
   assert.equal(r.status, 1, r.out);
   assert.equal(r.calls.length, 1, 'asked once');
@@ -98,7 +98,7 @@ test('SCALE4e AUDIT LEAN-READS D3: a migration that ran past D1\'s CPU limit - c
   assert.equal(after.calls.length, 2, 'an overload asked again; the reset it met then, not');
 });
 
-test('SCALE4e a database overloaded past five and a half minutes stops the deploy, saying to re-run it (mutants: the last answer taken as success; a wait after the last ask)', () => {
+test('SCALE4e a database overloaded past five and a half minutes stops the deploy, saying to re-run it (mutants: the last answer taken as success; a wait after the last ask)', { skip: BASH_SKIP }, () => {
   const r = migrate(['overloaded']);
   assert.equal(r.status, 1, r.out);
   assert.equal(r.calls.length, 6, 'six asks');

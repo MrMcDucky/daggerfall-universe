@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const YML = readFileSync(new URL('.github/workflows/account-deploy.yml', ROOT), 'utf8');
@@ -82,7 +82,7 @@ echo ${REACHED}`;
 
 const REPEAT = (xp) => `200 {"character":"r0d21b5963","xp":${xp},"level":1,"credited":0,"rose":false,"repeat":true,"order":null}`;
 
-test('SMOKE-LOST the smoke, run: a service that answers every call passes it, each call asked once; and its refusals still fail it - a first report not credited, a repeat not answered as one (mutants: none - the harness itself, against the step as it stands)', () => {
+test('SMOKE-LOST the smoke, run: a service that answers every call passes it, each call asked once; and its refusals still fail it - a first report not credited, a repeat not answered as one (mutants: none - the harness itself, against the step as it stands)', { skip: BASH_SKIP }, () => {
   const clean = smoke();
   assert.ok(clean.ok, clean.out);
   assert.deepEqual(clean.asked.filter((p) => p === '/v1/renown/xp').length, 2, 'the report, and the same report again');
@@ -92,7 +92,7 @@ test('SMOKE-LOST the smoke, run: a service that answers every call passes it, ea
   assert.equal(smoke({ '/v1/account/played': ['200 {"playedS":7}'] }).ok, false, 'a fresh guest\'s first beat that found time already played');
 });
 
-test('SMOKE-LOST #1004\'s run: a first report whose answer was lost and landed is its retry\'s repeat, the track holding its 1 XP - the deploy passes; the same answer with no lost try before it, a track holding more than the report, or a retry credited nothing and no repeat, fail it (mutants: the loss never kept; a repeat taken without one; the track unread)', () => {
+test('SMOKE-LOST #1004\'s run: a first report whose answer was lost and landed is its retry\'s repeat, the track holding its 1 XP - the deploy passes; the same answer with no lost try before it, a track holding more than the report, or a retry credited nothing and no repeat, fail it (mutants: the loss never kept; a repeat taken without one; the track unread)', { skip: BASH_SKIP }, () => {
   const run1004 = smoke({ '/v1/renown/xp': ['000', '503 {"error":"server"}', REPEAT(1)] });
   assert.ok(run1004.ok, `#1004's answers - 000, 503, then the repeat - pass:\n${run1004.out}`);
   assert.equal(run1004.asked.filter((p) => p === '/v1/renown/xp').length, 4, 'three asks for the report, then the same report again');
@@ -104,7 +104,7 @@ test('SMOKE-LOST #1004\'s run: a first report whose answer was lost and landed i
   assert.equal(smoke({ '/v1/renown/xp': ['000', ANSWERS['/v1/renown/xp'][0], REPEAT(1)] }).ok, true, 'a lost try that never landed: the retry is credited, as any first report');
 });
 
-test('SMOKE-LOST the first beat: one whose answer was lost and landed makes its retry the second, credited the seconds between them - no more than seven asks\' 140; past that, or with no lost try before it, the deploy fails (mutants: the beat\'s loss unread; its bound unread)', () => {
+test('SMOKE-LOST the first beat: one whose answer was lost and landed makes its retry the second, credited the seconds between them - no more than seven asks\' 140; past that, or with no lost try before it, the deploy fails (mutants: the beat\'s loss unread; its bound unread)', { skip: BASH_SKIP }, () => {
   assert.ok(smoke({ '/v1/account/played': ['000', '200 {"playedS":20}'] }).ok, 'lost, landed, credited the twenty seconds since');
   assert.ok(smoke({ '/v1/account/played': ['000', '000', '000', '000', '000', '000', '200 {"playedS":140}'] }).ok, 'six lost asks: up to seven asks\' 140 seconds');
   assert.equal(smoke({ '/v1/account/played': ['000', '200 {"playedS":141}'] }).ok, false, 'more than the asks could have taken');
@@ -112,7 +112,7 @@ test('SMOKE-LOST the first beat: one whose answer was lost and landed makes its 
   assert.equal(smoke({ '/v1/account/played': ['000', '200 {}'] }).ok, false, 'an answer with no playedS');
 });
 
-test('SMOKE-LOST the loss is the call\'s own and this run\'s: a lost beat lends nothing to the report, and a marker left from a run before is cleared before the first ask (mutants: the marker never cleared)', () => {
+test('SMOKE-LOST the loss is the call\'s own and this run\'s: a lost beat lends nothing to the report, and a marker left from a run before is cleared before the first ask (mutants: the marker never cleared)', { skip: BASH_SKIP }, () => {
   assert.equal(smoke({ '/v1/account/played': ['000', '200 {"playedS":5}'], '/v1/renown/xp': [REPEAT(1)] }).ok, false, 'the beat\'s lost try is not the report\'s');
   const stale = smoke({ '/v1/renown/xp': [REPEAT(1)] }, { stale: ['renown.json.lost'] });
   assert.equal(stale.ok, false, 'a marker from before this ask is not a try this ask lost');

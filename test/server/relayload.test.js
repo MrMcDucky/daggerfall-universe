@@ -12,7 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { DATASET, QUESTIONS, WINDOW_KINDS, WINDOW_HOURS_MAX, loadSql, loadTable } from '../../tools/relayLoad.mjs';
 import { HOURS_MAX } from '../../tools/d1Load.mjs';
 import { RoomMetrics } from '../../server/src/relayScale.js';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -111,7 +111,7 @@ function stepRun(yml, stepName) {
 /** A step's own block, from its name to the next step. */
 const stepOf = (yml, stepName) => { const at = yml.indexOf(`- name: ${stepName}\n`); const end = yml.indexOf('\n      - ', at + 1); return yml.slice(at, end < 0 ? undefined : end); };
 
-test('RELAY-LOAD the workflow: run by hand only, its one input read once as environment, its own queue, writing nothing, the token the two steps\' that use it and never the job\'s; the token step refuses to start without one and asks the tool before any question; its metrics step, run here as the runner runs it over an SQL API that holds it to its URL and method, draws every question into the summary under the window the SQL asks (an empty input the tool\'s own hour), and warns on a refusal - the token named only where the API refused it (AUDIT PLAN-1000 H3) - a refusal never drawn even when its body carries rows; a run that read nothing fails, its partial summary kept (H3); the step runs as written, strict, each call bounded and the job too (H10) (mutants: the input spliced into a run line; a refusal drawn; the token the job\'s; the token step\'s guard; the URL; the method; the window said; the token blamed for any answer; nothing read and green; the step not strict; the call unbounded; the job unbounded; the last warning gone)', () => {
+test('RELAY-LOAD the workflow: run by hand only, its one input read once as environment, its own queue, writing nothing, the token the two steps\' that use it and never the job\'s; the token step refuses to start without one and asks the tool before any question; its metrics step, run here as the runner runs it over an SQL API that holds it to its URL and method, draws every question into the summary under the window the SQL asks (an empty input the tool\'s own hour), and warns on a refusal - the token named only where the API refused it (AUDIT PLAN-1000 H3) - a refusal never drawn even when its body carries rows; a run that read nothing fails, its partial summary kept (H3); the step runs as written, strict, each call bounded and the job too (H10) (mutants: the input spliced into a run line; a refusal drawn; the token the job\'s; the token step\'s guard; the URL; the method; the window said; the token blamed for any answer; nothing read and green; the step not strict; the call unbounded; the job unbounded; the last warning gone)', { skip: BASH_SKIP }, () => {
   const wf = src('.github/workflows/relay-load.yml');
   const on = /\non:\n([\s\S]*?)\n\S/.exec(wf)?.[1] ?? '';
   assert.match(on, /^ {2}workflow_dispatch:/);

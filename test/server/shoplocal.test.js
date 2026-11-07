@@ -16,7 +16,7 @@ import { checkoutFields, stripeCheckout, shopConfirmPage, STRIPE_API, STRIPE_PMC
 import { stripeMethods, accountDefault, methodState, PAY_METHOD_NAME } from '../../tools/stripeMethods.mjs';
 import { shopWareById } from '../../src/net/shopLaw.js';
 import { graph } from '../importGraph.mjs';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 // AURUM-ONLY (PIN MOVED): money buys the Aurum packs alone, so the checkout is a pack's - the 2,400, $19.99
 const ON = { STRIPE_SECRET_KEY: 'sk_test_shop', STRIPE_WEBHOOK_SECRET: 'whsec_shop', SHOP_ON_SALE: 'title:genesis,glyph:origin,aura:eternal,aurum:2400', AURUM_OPEN: 'on' };
@@ -149,7 +149,7 @@ test('SHOP-LOCAL THE WAYS TO PAY (tools/stripeMethods.mjs): iDEAL, Wero, Bancont
   assert.equal(bad.asked.length, 1);
 });
 
-test('SHOP-LOCAL the deploy runs it on every account deploy, after the Stripe secrets and before Discord\'s last step: the key an env var from the repository\'s secrets, never an argument; never red (cards are taken either way) - a failure a warning and the summary\'s line; skipped, said, with no key; and the deploy\'s path filter holds the tool\'s own import graph (mutants: the step red - as it first shipped; the tool unlisted)', () => {
+test('SHOP-LOCAL the deploy runs it on every account deploy, after the Stripe secrets and before Discord\'s last step: the key an env var from the repository\'s secrets, never an argument; never red (cards are taken either way) - a failure a warning and the summary\'s line; skipped, said, with no key; and the deploy\'s path filter holds the tool\'s own import graph (mutants: the step red - as it first shipped; the tool unlisted)', { skip: BASH_SKIP }, () => {
   const wf = rd('.github/workflows/account-deploy.yml');
   const steps = wf.split(/\n      - name: /).slice(1);
   const at = steps.findIndex((s) => s.startsWith('Turn on the shop\'s ways to pay, where the repository has the Stripe key\n'));

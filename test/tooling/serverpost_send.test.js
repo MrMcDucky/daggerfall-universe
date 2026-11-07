@@ -20,7 +20,7 @@ import { postBoxOf } from '../../server-account/src/post.js';
 import { POST_SENDER, POST_BODY_MAX, POST_SUBJECT_MAX } from '../../src/net/postLaw.js';
 import { mintHourlock, mintGilded, HOURLOCK_GUN_ERA, validGildedMarks } from '../../src/systems/gilded.js';
 import { UPSTREAM_LISTS } from '../fixtures/upstreamLists.mjs';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -164,7 +164,7 @@ function runBlock(yml, stepName) {
   return lines.join('\n');
 }
 
-test('SERVER-POST the workflow: run by hand only, a dry run unless asked, its inputs read once each as environment, the item a choice of the tool\'s names, the deploy\'s queue, nothing created or deployed; its steps, run here over D1\'s own answer, write the tool\'s statements, refuse a bad input before the database is asked, fail a name that finds nobody, summarise who holds it, and send only with apply (mutants: an input spliced into a run line; a missing name passing; the send on a dry run)', () => {
+test('SERVER-POST the workflow: run by hand only, a dry run unless asked, its inputs read once each as environment, the item a choice of the tool\'s names, the deploy\'s queue, nothing created or deployed; its steps, run here over D1\'s own answer, write the tool\'s statements, refuse a bad input before the database is asked, fail a name that finds nobody, summarise who holds it, and send only with apply (mutants: an input spliced into a run line; a missing name passing; the send on a dry run)', { skip: BASH_SKIP }, () => {
   const wf = src('.github/workflows/server-post.yml');
   const on = /\non:\n([\s\S]*?)\n\S/.exec(wf)?.[1] ?? '';
   assert.match(on, /^ {2}workflow_dispatch:/);

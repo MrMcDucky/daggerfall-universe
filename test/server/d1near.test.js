@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, STEP, workflow, stepRun, runStep, d1Answer, PLAN_UP, PLAN_DOWN } from '../d1nearStep.mjs';
+import { BASH_SKIP } from '../bashTimeout.mjs';
 
 const src = (p) => readFileSync(join(ROOT, p), 'utf8');
 
@@ -40,7 +41,7 @@ test('D1-NEAR the placement: the account Worker\'s one [placement] table names i
   for (const l of toml.split('\n')) if (!l.trim().startsWith('#')) assert.doesNotMatch(l, /^\s*mode\s*=\s*"smart"/, 'no live line asks for Smart Placement');
 });
 
-test('D1-NEAR the deploy says where the Worker answers from, what a statement costs it there and where the primary is: after the health check, five answers\' `cf-placement` - an HTTP/2 header in lower case and an HTTP/1.1 one capitalised alike, an answer without it `none` - the median one-statement read on the primary less the median health, the deploy\'s own base asked, and D1\'s own word on the data centre its primary answered from; a REPORT, never a gate: nothing reached, it ends green, its cost unmeasured and D1 unsaid (mutants: the summary unwritten; the header read case-sensitively; an answer without the header unsaid; the cost not less the health; the slowest answer taken for the middle)', () => {
+test('D1-NEAR the deploy says where the Worker answers from, what a statement costs it there and where the primary is: after the health check, five answers\' `cf-placement` - an HTTP/2 header in lower case and an HTTP/1.1 one capitalised alike, an answer without it `none` - the median one-statement read on the primary less the median health, the deploy\'s own base asked, and D1\'s own word on the data centre its primary answered from; a REPORT, never a gate: nothing reached, it ends green, its cost unmeasured and D1 unsaid (mutants: the summary unwritten; the header read case-sensitively; an answer without the header unsaid; the cost not less the health; the slowest answer taken for the middle)', { skip: BASH_SKIP }, () => {
   const wf = workflow();
   assert.ok(stepRun(wf, STEP).includes('worker="${{ steps.deploy.outputs.base }}"'), 'the host the deploy step said, never typed');
   // the job's own shell (`defaults: run: shell: bash`) - GitHub runs it `bash --noprofile --norc -eo pipefail`

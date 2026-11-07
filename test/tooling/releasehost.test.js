@@ -7,7 +7,7 @@ import { readFileSync, mkdtempSync, writeFileSync, rmSync, chmodSync, existsSync
 import { spawnSync, execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const rd = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const RELEASE = rd('.github/workflows/release-desktop.yml');
@@ -103,7 +103,7 @@ test('release host: every release call names the host and carries its token; the
   assert.ok(host > 0 && host < first, 'the host is settled before anything is read from it');
 });
 
-test('release host: here, the tag is cut at the built commit; elsewhere, at its default branch, and never without a token', () => {
+test('release host: here, the tag is cut at the built commit; elsewhere, at its default branch, and never without a token', { skip: BASH_SKIP }, () => {
   const script = runBlock(RELEASE, 'The release host');
   const sha = 'a'.repeat(40);
   const { bin, log } = stubGh();
@@ -127,7 +127,7 @@ test('release host: here, the tag is cut at the built commit; elsewhere, at its 
   } finally { rmSync(bin, { recursive: true, force: true }); }
 });
 
-test('release host: a release published elsewhere leaves its tag here, at the built commit, once', () => {
+test('release host: a release published elsewhere leaves its tag here, at the built commit, once', { skip: BASH_SKIP }, () => {
   const step = stepText(RELEASE, 'The tag here too, when the release went elsewhere');
   assert.match(step, /\n {8}if: steps\.host\.outputs\.elsewhere == 'true'\n/, 'only when the release went elsewhere');
   assert.match(step, /\n {10}GH_TOKEN: \$\{\{ github\.token \}\}\n/, 'this repository\'s own token');
@@ -154,7 +154,7 @@ test('release host: a release published elsewhere leaves its tag here, at the bu
   } finally { rmSync(bin, { recursive: true, force: true }); }
 });
 
-test('public copy: by hand only, its inputs read as data, and nothing is written to a private repository or one whose Actions run', () => {
+test('public copy: by hand only, its inputs read as data, and nothing is written to a private repository or one whose Actions run', { skip: BASH_SKIP }, () => {
   assert.match(COPY, /\non:\n {2}workflow_dispatch:\n/);
   assert.doesNotMatch(COPY, /\n {2}(push|pull_request|pull_request_target|schedule):/, 'by hand only');
   assert.match(COPY, /^permissions:\n {2}contents: read$/m);
@@ -182,7 +182,7 @@ test('public copy: by hand only, its inputs read as data, and nothing is written
   } finally { rmSync(bin, { recursive: true, force: true }); }
 });
 
-test('public copy: each release goes over whole as a draft, published in one step, and only the newest takes latest', () => {
+test('public copy: each release goes over whole as a draft, published in one step, and only the newest takes latest', { skip: BASH_SKIP }, () => {
   const step = stepText(COPY, 'Copy the releases');
   assert.match(step, /\n {10}GH_TOKEN: \$\{\{ secrets\.RELEASE_TOKEN \}\}\n {10}HERE_TOKEN: \$\{\{ github\.token \}\}\n/);
   const script = runBlock(COPY, 'Copy the releases');
@@ -211,7 +211,7 @@ test('public copy: each release goes over whole as a draft, published in one ste
   } finally { rmSync(bin, { recursive: true, force: true }); }
 });
 
-test('public copy: the seed is main\'s tree as one commit with no history, the internal docs left out and the credits kept', () => {
+test('public copy: the seed is main\'s tree as one commit with no history, the internal docs left out and the credits kept', { skip: BASH_SKIP }, () => {
   const step = stepText(COPY, 'Seed it with main as one commit, the internal docs left out');
   assert.match(step, /\n {8}if: inputs\.seed\n/);
   assert.match(COPY, /- uses: actions\/checkout@v4\n {8}if: inputs\.seed\n {8}with:\n {10}persist-credentials: false/, 'no token of this repository left in .git/config');

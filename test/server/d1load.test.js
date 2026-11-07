@@ -16,7 +16,7 @@ import { HOT_TABLES, tablesBlob } from '../../server-account/src/metrics.js';
 import { titheAt } from '../../server-account/src/seatHolding.js';
 import { settleWeek, settleDueOnce } from '../../server-account/src/seatTurning.js';
 import { seatReportText, seatWeekOf, seatWeekStartMs } from '../../src/net/townSeatLaw.js';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -69,7 +69,7 @@ function stepRun(yml, stepName) {
   return lines.join('\n');
 }
 
-test('D1-LOAD the workflow: run by hand only, its two inputs each read once as environment, its own queue, writing nothing; its insights step ranks the statements as the choice input asks (COST-0: time, reads or writes) and hands wrangler no other; its metrics step, run here as the runner runs it over the SQL API\'s answers, draws every question into the summary and warns - never fails - on a refusal (mutants: the input spliced into a run line; a refusal drawn as a table; the ranking fixed; the ranking unguarded)', () => {
+test('D1-LOAD the workflow: run by hand only, its two inputs each read once as environment, its own queue, writing nothing; its insights step ranks the statements as the choice input asks (COST-0: time, reads or writes) and hands wrangler no other; its metrics step, run here as the runner runs it over the SQL API\'s answers, draws every question into the summary and warns - never fails - on a refusal (mutants: the input spliced into a run line; a refusal drawn as a table; the ranking fixed; the ranking unguarded)', { skip: BASH_SKIP }, () => {
   const wf = src('.github/workflows/d1-load.yml');
   const on = /\non:\n([\s\S]*?)\n\S/.exec(wf)?.[1] ?? '';
   assert.match(on, /^ {2}workflow_dispatch:/);

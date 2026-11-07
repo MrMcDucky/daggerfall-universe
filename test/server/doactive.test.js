@@ -15,7 +15,7 @@ import {
   schemaTable, readingPlan, dayFilters, objectsQuery, totalQuery, unitOf, bucketOf, reading, graphqlAsk, namespacesOf,
 } from '../../tools/doActive.mjs';
 import { fakeCloudflare, NS_ROOM, NS_GATE } from '../fixtures/doActiveGraphql.mjs';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const src = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -133,7 +133,7 @@ function stepRun(yml, stepName) {
 }
 const stepOf = (yml, stepName) => { const at = yml.indexOf(`- name: ${stepName}\n`); const end = yml.indexOf('\n      - ', at + 1); return yml.slice(at, end < 0 ? undefined : end); };
 
-test('COST-0 the workflow: run by hand only, its one input read once as environment, its own queue, writing nothing, bounded, the token the two steps\' that use it and never the job\'s; the token step refuses to start without one and asks the tool\'s window first; its reading step, run here as the runner runs it over the fake endpoint, says the window and draws the reading into the summary - and a run the schema stops keeps the schema and fails (mutants: the input spliced into a run line; the token the job\'s; the token step\'s guard; the account; the run green on a stop)', () => {
+test('COST-0 the workflow: run by hand only, its one input read once as environment, its own queue, writing nothing, bounded, the token the two steps\' that use it and never the job\'s; the token step refuses to start without one and asks the tool\'s window first; its reading step, run here as the runner runs it over the fake endpoint, says the window and draws the reading into the summary - and a run the schema stops keeps the schema and fails (mutants: the input spliced into a run line; the token the job\'s; the token step\'s guard; the account; the run green on a stop)', { skip: BASH_SKIP }, () => {
   const wf = src('.github/workflows/do-active.yml');
   const on = /\non:\n([\s\S]*?)\n\S/.exec(wf)?.[1] ?? '';
   assert.match(on, /^ {2}workflow_dispatch:/);

@@ -16,7 +16,7 @@ import { mintSdReceipt } from '../../../src/net/superDungeon/sdReceipt.js';
 import { importReceiptKey } from '../../../src/net/gate/gateReceipt.js';
 import { importPublicKeyB64 } from '../../../src/net/identityToken.js';
 import { listSql, namesSql, sdSlot } from '../../../tools/sdClears.mjs';
-import { BASH_TIMEOUT } from '../../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../../bashTimeout.mjs';
 
 const ROOT = new URL('../../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -119,7 +119,7 @@ function runBlock(yml, stepName) {
   return lines.join('\n');
 }
 
-test('SD-CLEARS the workflow: run by hand only, its one input read once as environment, the tool\'s statements in the deploy\'s queue, writing nothing; its steps, run here as the runner runs them over D1\'s own answer, list the Hollows broken and name the one asked, and fail when nothing is found (mutants: the input spliced into a run line; an empty answer passing)', () => {
+test('SD-CLEARS the workflow: run by hand only, its one input read once as environment, the tool\'s statements in the deploy\'s queue, writing nothing; its steps, run here as the runner runs them over D1\'s own answer, list the Hollows broken and name the one asked, and fail when nothing is found (mutants: the input spliced into a run line; an empty answer passing)', { skip: BASH_SKIP }, () => {
   const wf = src('.github/workflows/sd-clears.yml');
   const on = /\non:\n([\s\S]*?)\n\S/.exec(wf)?.[1] ?? '';
   assert.match(on, /^ {2}workflow_dispatch:/);

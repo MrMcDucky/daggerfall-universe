@@ -19,7 +19,7 @@ import { accountCard } from '../../src/ui/enhanced/enhancedAccount.js';
 import { DEFAULT_ACCOUNT_SERVICE, REFUSALS, accountRefusalText } from '../../src/net/accountClient.js';
 import { ACCOUNT_VERSION } from '../../server-account/src/service.js';
 import worker from '../../server-account/src/index.js';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -41,7 +41,7 @@ function runBlock(yml, stepName) {
 /** bash, from the repository's root, with the environment given - how the runner runs a step. */
 const bash = (script, env = {}) => spawnSync('bash', ['-c', script], { timeout: BASH_TIMEOUT, cwd: ROOT.pathname, env: { PATH: process.env.PATH, ...env }, encoding: 'utf8' });
 
-test('AUDIT PRE-MERGE 0929 T-CI: every request a workflow makes that opens or names an account carries the versions both ends read - the deploy smoke opened its guest with a label alone, 400 under curl -f, and every check after the Worker went live never ran (mutants: a body without the versions; the versions typed in the workflow)', () => {
+test('AUDIT PRE-MERGE 0929 T-CI: every request a workflow makes that opens or names an account carries the versions both ends read - the deploy smoke opened its guest with a label alone, 400 under curl -f, and every check after the Worker went live never ran (mutants: a body without the versions; the versions typed in the workflow)', { skip: BASH_SKIP }, () => {
   let asked = 0;
   for (const f of WORKFLOWS) {
     const yml = read(`.github/workflows/${f}`);
@@ -73,7 +73,7 @@ test('AUDIT PRE-MERGE 0929 T-CI: every request a workflow makes that opens or na
   assert.equal(asked, 3, 'the account deploy asks the two routes three times: the gate\'s half, the password route\'s guest and its name');
 });
 
-test('AUDIT PRE-MERGE 0929 T2: the site is published only once the account service serves the version its forms need - a site ahead of its service named accounts whose rows say "never asked" for players who ticked both boxes (mutants: no wait; the wait after the publish; an older service taken; the loop that never fails)', () => {
+test('AUDIT PRE-MERGE 0929 T2: the site is published only once the account service serves the version its forms need - a site ahead of its service named accounts whose rows say "never asked" for players who ticked both boxes (mutants: no wait; the wait after the publish; an older service taken; the loop that never fails)', { skip: BASH_SKIP }, () => {
   const yml = read('.github/workflows/deploy.yml');
   // what the tree needs, read by the site job's own step - run here as the runner runs it (from the checkout)
   const outFile = join(mkdtempSync(join(tmpdir(), 'a0929-')), 'out');

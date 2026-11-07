@@ -14,7 +14,7 @@ import { standService, d1 } from '../accountDb.mjs';
 import { grantSql, lookSql, grantGold, GRANT_BY } from '../../tools/grantGuildGold.mjs';
 import { GUILD_LEDGER_WORDS } from '../../src/ui/socialPanel.js';
 import { GUILD_TREASURY_MAX, GUILD_RANK_NAMES } from '../../src/net/guild/guildLaw.js';
-import { BASH_TIMEOUT } from '../bashTimeout.mjs';
+import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -112,7 +112,7 @@ function runBlock(yml, stepName) {
   return lines.join('\n');
 }
 
-test('GUILD-GRANT the workflow: run by hand only, its inputs read once each as environment, the tool\'s statements in the deploy\'s queue, the award behind apply alone, and a run that finds no guild or changes none fails - its steps run here as the runner runs them, over D1\'s own answer (mutants: an input spliced into a run line; a missing guild passing; an award that changed none passing; the award run on a dry run)', () => {
+test('GUILD-GRANT the workflow: run by hand only, its inputs read once each as environment, the tool\'s statements in the deploy\'s queue, the award behind apply alone, and a run that finds no guild or changes none fails - its steps run here as the runner runs them, over D1\'s own answer (mutants: an input spliced into a run line; a missing guild passing; an award that changed none passing; the award run on a dry run)', { skip: BASH_SKIP }, () => {
   const wf = src('.github/workflows/guild-grant.yml');
   const on = /\non:\n([\s\S]*?)\n\S/.exec(wf)?.[1] ?? '';
   assert.match(on, /^ {2}workflow_dispatch:/);
