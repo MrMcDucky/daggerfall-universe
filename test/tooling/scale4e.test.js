@@ -12,6 +12,7 @@ import { readFileSync, writeFileSync, mkdtempSync, chmodSync, rmSync, existsSync
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const WF = readFileSync(new URL('../../.github/workflows/account-deploy.yml', import.meta.url), 'utf8');
 
@@ -53,7 +54,7 @@ esac
     writeFileSync(join(dir, 'sleep'), `#!/usr/bin/env bash\necho "$1" >> "${dir}/slept"\n`);
     chmodSync(join(dir, 'sleep'), 0o755);
     const r = spawnSync('bash', ['-c', runBlock(WF, 'Apply migrations')], {
-      cwd: dir,
+      timeout: BASH_TIMEOUT, cwd: dir,
       env: { PATH: `${dir}:${process.env.PATH}`, WRANGLER: fake, DB_NAME: 'daggerfall-accounts', RUNNER_TEMP: dir },
       encoding: 'utf8',
     });

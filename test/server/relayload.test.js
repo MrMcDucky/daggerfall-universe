@@ -12,6 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { DATASET, QUESTIONS, WINDOW_KINDS, WINDOW_HOURS_MAX, loadSql, loadTable } from '../../tools/relayLoad.mjs';
 import { HOURS_MAX } from '../../tools/d1Load.mjs';
 import { RoomMetrics } from '../../server/src/relayScale.js';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -133,7 +134,7 @@ test('RELAY-LOAD the workflow: run by hand only, its one input read once as envi
   const dir = mkdtempSync(join(tmpdir(), 'relayload-'));
   // THE TOKEN STEP: no token, a refusal; a token, the tool asked (its window's guard) before any question
   const guard = (token, hours) => {
-    try { return { code: 0, out: execFileSync('bash', ['-c', stepRun(wf, 'Refuse to start without a token')], { cwd: root, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_API_TOKEN: token, HOURS: hours } }) }; } catch (e) { return { code: e.status, out: `${e.stdout}` }; }
+    try { return { code: 0, out: execFileSync('bash', ['-c', stepRun(wf, 'Refuse to start without a token')], { timeout: BASH_TIMEOUT, cwd: root, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_API_TOKEN: token, HOURS: hours } }) }; } catch (e) { return { code: e.status, out: `${e.stdout}` }; }
   };
   const none = guard('', '2');
   assert.equal(none.code, 1);
@@ -161,7 +162,7 @@ case "$sql" in *"ORDER BY peak DESC"*) cp "$FAKE_DIR/crowds.json" "$out"; echo -
     let out, status = 0;
     try {
       out = execFileSync('bash', ['-c', stepRun(wf, 'Read the relay\'s metrics')], {   // H10: as written - its own `set -euo pipefail`
-        cwd: root, encoding: 'utf8', stdio: 'pipe',
+        timeout: BASH_TIMEOUT, cwd: root, encoding: 'utf8', stdio: 'pipe',
         env: { ...process.env, PATH: `${dir}:${process.env.PATH}`, FAKE_DIR: dir, FAKE_CODE: code, FAKE_ALL: all, FAKE_ACCT: acct, CLOUDFLARE_ACCOUNT_ID: acct, HOURS: hours, RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' },
       });
     } catch (e) { out = `${e.stdout}`; status = e.status; }

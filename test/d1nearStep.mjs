@@ -14,6 +14,7 @@ import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, chmodSync, existsS
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { BASH_TIMEOUT } from './bashTimeout.mjs';
 
 export const ROOT = new URL('..', import.meta.url).pathname;
 export const WF = '.github/workflows/account-deploy.yml';
@@ -117,7 +118,7 @@ export function runStep({ plan, d1 = null, script = stepRun(workflow(), STEP) })
     const summary = join(dir, 'summary.md');
     writeFileSync(summary, '');
     const r = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', script.replaceAll('${{ steps.deploy.outputs.base }}', 'https://accounts.example')], {
-      cwd: join(ROOT, 'server-account'), encoding: 'utf8',
+      timeout: BASH_TIMEOUT, cwd: join(ROOT, 'server-account'), encoding: 'utf8',
       env: { PATH: `${bin}:${process.env.PATH}`, FAKE_DIR: dir, GITHUB_STEP_SUMMARY: summary, WRANGLER: join(bin, 'wrangler'), DB_NAME: 'daggerfall-accounts' },
     });
     const lines = (f) => (existsSync(join(dir, f)) ? readFileSync(join(dir, f), 'utf8').trim().split('\n').filter(Boolean) : []);

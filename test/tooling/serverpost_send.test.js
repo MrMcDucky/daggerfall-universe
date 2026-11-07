@@ -20,6 +20,7 @@ import { postBoxOf } from '../../server-account/src/post.js';
 import { POST_SENDER, POST_BODY_MAX, POST_SUBJECT_MAX } from '../../src/net/postLaw.js';
 import { mintHourlock, mintGilded, HOURLOCK_GUN_ERA, validGildedMarks } from '../../src/systems/gilded.js';
 import { UPSTREAM_LISTS } from '../fixtures/upstreamLists.mjs';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -191,7 +192,7 @@ test('SERVER-POST the workflow: run by hand only, a dry run unless asked, its in
     const summary = join(dir, `summary-${Math.random()}`);
     writeFileSync(summary, '');
     const r = spawnSync('bash', ['-c', runBlock(wf, step)], {
-      cwd: fileURLToPath(ROOT),
+      timeout: BASH_TIMEOUT, cwd: fileURLToPath(ROOT),
       env: { PATH: process.env.PATH, WRANGLER: fake, FAKE_DIR: dir, DB_NAME: 'daggerfall-accounts', RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary,
         HANDLES: handles, BATCH: batch, ITEM: item, SUBJECT: subject, MESSAGE: message, APPLY: apply },
       encoding: 'utf8',

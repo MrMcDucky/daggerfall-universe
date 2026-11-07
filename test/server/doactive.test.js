@@ -15,6 +15,7 @@ import {
   schemaTable, readingPlan, dayFilters, objectsQuery, totalQuery, unitOf, bucketOf, reading, graphqlAsk, namespacesOf,
 } from '../../tools/doActive.mjs';
 import { fakeCloudflare, NS_ROOM, NS_GATE } from '../fixtures/doActiveGraphql.mjs';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const src = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -151,7 +152,7 @@ test('COST-0 the workflow: run by hand only, its one input read once as environm
 
   const dir = mkdtempSync(join(tmpdir(), 'doactive-'));
   const guard = (token, days) => {
-    try { return { code: 0, out: execFileSync('bash', ['-c', stepRun(wf, 'Refuse to start without a token')], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_API_TOKEN: token, DAYS: days } }) }; } catch (e) { return { code: e.status, out: `${e.stdout}` }; }
+    try { return { code: 0, out: execFileSync('bash', ['-c', stepRun(wf, 'Refuse to start without a token')], { timeout: BASH_TIMEOUT, cwd: ROOT, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_API_TOKEN: token, DAYS: days } }) }; } catch (e) { return { code: e.status, out: `${e.stdout}` }; }
   };
   assert.equal(guard('', '2').code, 1);
   assert.match(guard('', '2').out, /::error::secrets\.CLOUDFLARE_API_TOKEN is not set/);
@@ -171,7 +172,7 @@ test('COST-0 the workflow: run by hand only, its one input read once as environm
     writeFileSync(summary, '');
     let out, status = 0;
     try {
-      out = execFileSync('bash', ['-c', stepRun(wf, 'Read the objects\' active time')], { cwd: ROOT, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_ACCOUNT_ID: ACCT, PATH: `${bin}:${process.env.PATH}`, DAYS: '2', GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' } });
+      out = execFileSync('bash', ['-c', stepRun(wf, 'Read the objects\' active time')], { timeout: BASH_TIMEOUT, cwd: ROOT, encoding: 'utf8', stdio: 'pipe', env: { ...process.env, CLOUDFLARE_ACCOUNT_ID: ACCT, PATH: `${bin}:${process.env.PATH}`, DAYS: '2', GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x' } });
     } catch (e) { out = `${e.stdout}${e.stderr}`; status = e.status; }
     return { out, status, summary: readFileSync(summary, 'utf8') };
   };

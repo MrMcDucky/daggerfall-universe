@@ -18,6 +18,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { renotedBody, composeReleaseNotes, GENERATED_LIST_RE, NO_NOTES_TEXT } from '../../scripts/desktopRelease.mjs';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const require = createRequire(import.meta.url);
 const { playerNotes } = require('../../app/lib/launcherState.cjs');
@@ -146,7 +147,7 @@ test('REL7: the workflow - by hand with a tag, or ON ITS OWN when a merged pull 
     const run = (env) => {
       const out = join(repo, `out-${Math.random()}`);
       writeFileSync(out, '');
-      const r = spawnSync('bash', ['-eo', 'pipefail', '-c', pick], { cwd: repo, env: { PATH: process.env.PATH, GITHUB_OUTPUT: out, INPUT_TAG: '', MERGE_SHA: '', PR: '', ...env }, encoding: 'utf8' });
+      const r = spawnSync('bash', ['-eo', 'pipefail', '-c', pick], { timeout: BASH_TIMEOUT, cwd: repo, env: { PATH: process.env.PATH, GITHUB_OUTPUT: out, INPUT_TAG: '', MERGE_SHA: '', PR: '', ...env }, encoding: 'utf8' });
       return { status: r.status, stdout: r.stdout, out: readFileSync(out, 'utf8') };
     };
     assert.deepEqual(run({ MERGE_SHA: merged, PR: '547' }), { status: 0, stdout: '', out: 'tag=app-v0.1.9\n' }, 'the FIRST release its merge is in');

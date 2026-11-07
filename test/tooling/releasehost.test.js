@@ -7,6 +7,7 @@ import { readFileSync, mkdtempSync, writeFileSync, rmSync, chmodSync, existsSync
 import { spawnSync, execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const rd = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const RELEASE = rd('.github/workflows/release-desktop.yml');
@@ -65,7 +66,7 @@ function runStep(script, bin, env) {
   const cwd = mkdtempSync(join(tmpdir(), 'relhost-run-'));
   const out = join(cwd, 'out');
   writeFileSync(out, '');
-  const r = spawnSync('bash', ['-e', '-c', script], { cwd, env: { PATH: `${bin}:${process.env.PATH}`, GITHUB_OUTPUT: out, ...env }, encoding: 'utf8' });
+  const r = spawnSync('bash', ['-e', '-c', script], { timeout: BASH_TIMEOUT, cwd, env: { PATH: `${bin}:${process.env.PATH}`, GITHUB_OUTPUT: out, ...env }, encoding: 'utf8' });
   const outputs = Object.fromEntries(readFileSync(out, 'utf8').trim().split('\n').filter(Boolean).map((l) => l.split('=')));
   rmSync(cwd, { recursive: true, force: true });
   return { status: r.status, stdout: r.stdout, stderr: r.stderr, outputs };
@@ -256,7 +257,7 @@ test('public copy: the seed is main\'s tree as one commit with no history, the i
       return dir;
     };
     const seed = (into) => spawnSync('bash', ['-e', '-c', script], {
-      cwd: src, encoding: 'utf8',
+      timeout: BASH_TIMEOUT, cwd: src, encoding: 'utf8',
       env: {
         PATH: process.env.PATH, HOME: runnerTemp, RUNNER_TEMP: runnerTemp, TO: 'o/pub', GH_TOKEN: 'pat', OWNER: 'Lattymoy', OWNER_ID: '98724681',
         GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: `url.file://${into}.insteadOf`, GIT_CONFIG_VALUE_0: 'https://github.com/o/pub.git',

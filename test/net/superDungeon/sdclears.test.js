@@ -16,6 +16,7 @@ import { mintSdReceipt } from '../../../src/net/superDungeon/sdReceipt.js';
 import { importReceiptKey } from '../../../src/net/gate/gateReceipt.js';
 import { importPublicKeyB64 } from '../../../src/net/identityToken.js';
 import { listSql, namesSql, sdSlot } from '../../../tools/sdClears.mjs';
+import { BASH_TIMEOUT } from '../../bashTimeout.mjs';
 
 const ROOT = new URL('../../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -142,7 +143,7 @@ test('SD-CLEARS the workflow: run by hand only, its one input read once as envir
     const summary = join(dir, `summary-${Math.random()}`);
     writeFileSync(summary, '');
     const r = spawnSync('bash', ['-c', runBlock(wf, step)], {
-      cwd: fileURLToPath(ROOT),
+      timeout: BASH_TIMEOUT, cwd: fileURLToPath(ROOT),
       env: { PATH: process.env.PATH, WRANGLER: fake, FAKE_DIR: dir, DB_NAME: 'daggerfall-accounts', RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, SLOT: slot },
       encoding: 'utf8',
     });

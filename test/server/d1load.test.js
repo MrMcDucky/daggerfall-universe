@@ -16,6 +16,7 @@ import { HOT_TABLES, tablesBlob } from '../../server-account/src/metrics.js';
 import { titheAt } from '../../server-account/src/seatHolding.js';
 import { settleWeek, settleDueOnce } from '../../server-account/src/seatTurning.js';
 import { seatReportText, seatWeekOf, seatWeekStartMs } from '../../src/net/townSeatLaw.js';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -93,7 +94,7 @@ test('D1-LOAD the workflow: run by hand only, its two inputs each read once as e
     const args = join(wdir, `args-${++asked}.txt`);
     writeFileSync(args, '');
     const out = execFileSync('bash', ['-c', stepRun(wf, 'Read D1\'s query insights')], {
-      cwd: wdir, encoding: 'utf8',
+      timeout: BASH_TIMEOUT, cwd: wdir, encoding: 'utf8',
       env: { ...process.env, WRANGLER: fakeWrangler, DB_NAME: 'db', HOURS: '2', SORT_BY: sortBy, FAKE_ARGS: args, GITHUB_STEP_SUMMARY: join(wdir, 'summary.md') },
     });
     return { out, args: readFileSync(args, 'utf8') };
@@ -122,7 +123,7 @@ case "$sql" in *"blob2 = 'CRON'"*) cp "$FAKE_DIR/cron.json" "$out"; echo -n "$FA
     const summary = join(dir, `summary-${code}.md`);
     writeFileSync(summary, '');
     const out = execFileSync('bash', ['-c', `set -euo pipefail\n${stepRun(wf, 'Read the service\'s metrics')}`], {
-      cwd: root, encoding: 'utf8',
+      timeout: BASH_TIMEOUT, cwd: root, encoding: 'utf8',
       env: { ...process.env, PATH: `${dir}:${process.env.PATH}`, FAKE_DIR: dir, FAKE_CODE: code, HOURS: '2', RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, CLOUDFLARE_API_TOKEN: 'x', CLOUDFLARE_ACCOUNT_ID: '0123456789abcdef0123456789abcdef' },
     });
     return { out, summary: readFileSync(summary, 'utf8') };

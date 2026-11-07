@@ -19,6 +19,7 @@ import { accountCard } from '../../src/ui/enhanced/enhancedAccount.js';
 import { DEFAULT_ACCOUNT_SERVICE, REFUSALS, accountRefusalText } from '../../src/net/accountClient.js';
 import { ACCOUNT_VERSION } from '../../server-account/src/service.js';
 import worker from '../../server-account/src/index.js';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -38,7 +39,7 @@ function runBlock(yml, stepName) {
 }
 
 /** bash, from the repository's root, with the environment given - how the runner runs a step. */
-const bash = (script, env = {}) => spawnSync('bash', ['-c', script], { cwd: ROOT.pathname, env: { PATH: process.env.PATH, ...env }, encoding: 'utf8' });
+const bash = (script, env = {}) => spawnSync('bash', ['-c', script], { timeout: BASH_TIMEOUT, cwd: ROOT.pathname, env: { PATH: process.env.PATH, ...env }, encoding: 'utf8' });
 
 test('AUDIT PRE-MERGE 0929 T-CI: every request a workflow makes that opens or names an account carries the versions both ends read - the deploy smoke opened its guest with a label alone, 400 under curl -f, and every check after the Worker went live never ran (mutants: a body without the versions; the versions typed in the workflow)', () => {
   let asked = 0;

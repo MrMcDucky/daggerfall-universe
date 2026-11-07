@@ -14,6 +14,7 @@ import { standService, d1 } from '../accountDb.mjs';
 import { grantSql, lookSql, grantGold, GRANT_BY } from '../../tools/grantGuildGold.mjs';
 import { GUILD_LEDGER_WORDS } from '../../src/ui/socialPanel.js';
 import { GUILD_TREASURY_MAX, GUILD_RANK_NAMES } from '../../src/net/guild/guildLaw.js';
+import { BASH_TIMEOUT } from '../bashTimeout.mjs';
 
 const ROOT = new URL('../../', import.meta.url);
 const src = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -137,7 +138,7 @@ test('GUILD-GRANT the workflow: run by hand only, its inputs read once each as e
     const summary = join(dir, `summary-${Math.random()}`);
     writeFileSync(summary, '');
     const r = spawnSync('bash', ['-c', runBlock(wf, step)], {
-      cwd: fileURLToPath(ROOT),
+      timeout: BASH_TIMEOUT, cwd: fileURLToPath(ROOT),
       env: { PATH: process.env.PATH, WRANGLER: fake, FAKE_DIR: dir, DB_NAME: 'daggerfall-accounts', RUNNER_TEMP: dir, GITHUB_STEP_SUMMARY: summary, GUILD: guild, GOLD: gold, APPLY: apply },
       encoding: 'utf8',
     });
