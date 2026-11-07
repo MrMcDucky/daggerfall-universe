@@ -95,6 +95,8 @@ jobs:
   # app-v1.2.3";touch${IFS}x;"), and the number is written into scripts
   # below - read from the environment there, and never anything but digits.
   version:
+    # Manual-only until launch: a push runs nothing unless the repository variable DEPLOY_ON_PUSH is 'true'.
+    if: github.event_name != 'push' || vars.DEPLOY_ON_PUSH == 'true'
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.reltag.outputs.tag }}
@@ -150,6 +152,8 @@ jobs:
     uses: ./.github/workflows/verify.yml
     with:
       ref: ${{ github.sha }}
+    # Manual-only until launch: a push runs nothing unless the repository variable DEPLOY_ON_PUSH is 'true'.
+    if: github.event_name != 'push' || vars.DEPLOY_ON_PUSH == 'true'
 
   build:
     needs: [version, gate]

@@ -38,6 +38,8 @@ jobs:
   # the one commit every job below verifies, builds and publishes: main's
   # head as this run began
   main:
+    # Manual-only until launch: a push runs nothing unless the repository variable DEPLOY_ON_PUSH is 'true'.
+    if: github.event_name != 'push' || vars.DEPLOY_ON_PUSH == 'true'
     runs-on: ubuntu-latest
     outputs:
       sha: ${{ steps.sha.outputs.sha }}

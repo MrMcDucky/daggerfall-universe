@@ -505,6 +505,8 @@ jobs:
     uses: ./.github/workflows/verify.yml
     with:
       build: false
+    # Manual-only until launch: a push runs nothing unless the repository variable DEPLOY_ON_PUSH is 'true'.
+    if: github.event_name != 'push' || vars.DEPLOY_ON_PUSH == 'true'
 
   deploy:
     needs: verify
