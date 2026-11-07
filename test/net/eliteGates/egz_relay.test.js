@@ -22,6 +22,7 @@ import { egLookOf } from '../../../src/scenes/eliteGates/egFight.js';
 import { EG_LORD_PRESENCE } from '../../../src/world/eliteGates/egKit.js';   // EG-LOOK (section 9): the sprite at the lord's presence
 import { dpsRef } from '../../../src/net/gate/gateBrain.js';
 import { egGive8Hall } from '../../egGive8.mjs';
+import { toPosix } from '../../posixPath.mjs';
 
 // PIN MOVED (THE ASCENT - THE ROOMS, LAW 9 - 2026-10-16): these pins were written on spec law 8's ground (its courts and its
 // lords, its courses along +z from the plate, where law 8 lays them) and stand on it still - a finder scans law 8's halls by
@@ -105,7 +106,7 @@ test('EG-ZQ THE LEGION\'S WAY ON IS KEPT ONLY WHILE IT IS WALKED (section 11.7; 
   assert.deepEqual([w.wn, w.fr, w.y], [-1, Gb.nodes[up].rg, q.y1], 'set down at it: reached - its region and its floor');
   // ONE RULE, ONE HOME: the walk-to test lives in the graph alone, and both walkers ask it
   const net = (f) => readFileSync(new URL(`../../../src/net/${f}`, import.meta.url), 'utf8');
-  const homes = readdirSync(new URL('../../../src/net/', import.meta.url), { recursive: true }).filter((f) => f.endsWith('.js') && /mv\.tx - wn\.x/.test(net(f)));   // the whole layer, its feature folders' among it
+  const homes = readdirSync(new URL('../../../src/net/', import.meta.url), { recursive: true }).map(toPosix).filter((f) => f.endsWith('.js') && /mv\.tx - wn\.x/.test(net(f)));   // the whole layer, its feature folders' among it
   assert.deepEqual(homes, ['eliteGates/egWalkGraph.js'], 'the rule written once');
   assert.match(net('eliteGates/egLegion.js'), /egWayOn\(view, a\);[^\n]*\n {2}const fr = a\.fr, \[x, z, last\] = egWalkNext/, 'the legion asks it before its next step');
   assert.match(net('eliteGates/egLords.js'), /egWayOn\(view, L, G\);\n {2}const from = regionOf/, 'the lords ask it before they choose their way');

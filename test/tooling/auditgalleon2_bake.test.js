@@ -17,7 +17,7 @@ import { readFileSync, mkdtempSync, copyFileSync, rmSync, existsSync } from 'nod
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import { join, relative, sep } from 'node:path';
+import { join, relative, sep, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as BAKE from '../../tools/bakeGalleon.mjs';   // its AUDIT GN2 names, read where the tree may not have them yet
@@ -171,7 +171,7 @@ test('AUDIT GALLEON-2 BK4: --fbx BAKES THE FILE GIVEN AND RECORDS IT, --out WRIT
     copyFileSync(join(ROOT, BAKE.SOURCE_FBX), copy);
     bake(`--fbx=${copy}`, '--out=a.json');
     const a = JSON.parse(readFileSync(join(tmp, 'a.json'), 'utf8'));   // relative to where it ran
-    const inRepo = !relative(ROOT, copy).startsWith('..');   // a mutation workspace keeps its TMPDIR inside it
+    const inRepo = !relative(ROOT, copy).startsWith('..') && !isAbsolute(relative(ROOT, copy));   // a mutation workspace keeps its TMPDIR inside it
     assert.equal(a.source, inRepo ? relative(ROOT, copy).split(sep).join('/') : copy, 'another file: recorded by its own path (in the repo, its path there)');
     assert.deepEqual({ ...a, source: SHIPPED.source }, SHIPPED, 'the same bytes bake the same parts');
     bake('--out=c.json');

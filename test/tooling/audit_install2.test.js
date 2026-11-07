@@ -15,6 +15,7 @@ import fsModule, { readFileSync, readdirSync, mkdtempSync, writeFileSync, rmSync
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { toPosix } from '../posixPath.mjs';
 
 const rd = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -219,10 +220,10 @@ test('R2-D4: the search goes on past its deadline, and a later find is added - n
 
 test('R2-D5: on a Mac the privacy-guarded folders are read LAST - after ~/Games, as "only when nothing else was found" says', () => {
   const roots = looseRoots({ platform: 'darwin', home: '/Users/p', env: {} }, ['/Users/p/Downloads']);
-  assert.deepEqual(roots.map((r) => [r.dir, r.guarded]), [
+  assert.deepEqual(roots.map((r) => [toPosix(r.dir), r.guarded]), [
     ['/Users/p/Games', false], ['/Users/p/Downloads', true], ['/Users/p/Desktop', true], ['/Users/p/Documents', true],
   ]);
-  assert.deepEqual(looseRoots({ platform: 'linux', home: '/h', env: {} }, []).map((r) => r.dir), ['/h/Downloads', '/h/Desktop', '/h/Documents', '/h/Games'], 'elsewhere the order stands');
+  assert.deepEqual(looseRoots({ platform: 'linux', home: '/h', env: {} }, []).map((r) => toPosix(r.dir)), ['/h/Downloads', '/h/Desktop', '/h/Documents', '/h/Games'], 'elsewhere the order stands');
   // run: the files in ~/Games, and not one guarded folder read on the way (each read would be a system prompt)
   const home = mkdtempSync(join(tmpdir(), 'r2-mac-'));
   try {

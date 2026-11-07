@@ -14,6 +14,7 @@ import { InputMessageBoxWindow, DEFAULT_INPUT_MAX } from '../../src/ui/inputMess
 import { noteInputBoxClosed, cursorToggleRefused } from '../../src/player/pointerLock.js';
 import { ActionInputBox, MAX_INPUT } from '../../src/ui/actionText.js';
 import { ItemMakerWindow, MAX_ITEM_NAME, ENTER_NEW_NAME } from '../../src/ui/item/itemMakerWindow.js';
+import { toPosix } from '../posixPath.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -157,7 +158,7 @@ test('CM3-CM11: THE ROSTER - every DaggerfallInputMessageBox in src/ui is a push
     'src/ui/spellbookWindow.js': 'SpellNameLabel_OnMouseClick (DaggerfallSpellBookWindow.cs:927-938)',
     'src/ui/travel/travelMapWindow.js': 'FindlocationButtonClickHandler (DaggerfallTravelMapWindow.cs:959-975)',
   };
-  const files = readdirSync(join(ROOT, 'src/ui'), { recursive: true }).filter((f) => f.endsWith('.js')).map((f) => `src/ui/${f}`);
+  const files = readdirSync(join(ROOT, 'src/ui'), { recursive: true }).filter((f) => f.endsWith('.js')).map((f) => `src/ui/${toPosix(f)}`);
   const raising = files.filter((f) => /new InputMessageBoxWindow\(|extends InputMessageBoxWindow/.test(rd(f)) && f !== 'src/ui/inputMessageBox.js');
   assert.deepEqual(raising.sort(), Object.keys(raisers).sort(), 'the raisers, no more and no fewer');
   // The field's law has ONE reader of typed characters in the classic

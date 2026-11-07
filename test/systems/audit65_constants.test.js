@@ -46,6 +46,7 @@ import {
   missileHitsCapsule, sphereOverlapsCapsule,
 } from '../../src/systems/spellcast.js';
 import { CAPSULE_RADIUS, CAPSULE_HEIGHT } from '../../src/player/motor.js';
+import { toPosix } from '../posixPath.mjs';
 
 const src = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
 
@@ -268,7 +269,7 @@ test('AUDIT 65 CV-2: EVERY player-side capsule call carries the player body, at 
     for (const line of readFileSync(f, 'utf8').split('\n')) {
       if (!/(missileHitsCapsule|sphereOverlapsCapsule)\(/.test(line)) continue;
       if (!/playerFeet/.test(line)) continue;
-      sites.push([f.slice(root.length), line.trim()]);
+      sites.push([toPosix(f.slice(root.length)), line.trim()]);
     }
   }
   // SPELLFX1 added three DRAWN arms (a peer's shaft in ArrowFlight and in

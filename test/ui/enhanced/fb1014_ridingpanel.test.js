@@ -20,6 +20,7 @@ import {
 import { drawEnhancedSaddle, hideEnhancedSaddle, buildSaddlePreview, ENHANCED_SADDLE_ID } from '../../../src/ui/enhanced/enhancedSaddle.js';
 import { getPref, setPref } from '../../../src/systems/uiPrefs.js';
 import { fakePage, withHudPage } from '../../hudPage.mjs';
+import { toPosix } from '../../posixPath.mjs';
 
 const SRC = fileURLToPath(new URL('../../../src/', import.meta.url));
 const rd = (p) => readFileSync(new URL(`../../../${p}`, import.meta.url), 'utf8');
@@ -133,7 +134,7 @@ test('HUD-SADDLE THE FOUR HOSTS: the panel has one builder, and it places itself
   const files = [];
   const walk = (dir) => { for (const f of readdirSync(dir)) { const p = join(dir, f); if (statSync(p).isDirectory()) walk(p); else if (f.endsWith('.js')) files.push(p); } };
   walk(SRC);
-  const rel = (p) => p.slice(SRC.length);
+  const rel = (p) => toPosix(p.slice(SRC.length));
   assert.deepEqual(files.filter((p) => /className = 'saddlepanel(-bar)?'/.test(readFileSync(p, 'utf8'))).map(rel), ['ui/enhanced/enhancedSaddle.js'], 'one builder');
   assert.deepEqual(files.filter((p) => readFileSync(p, 'utf8').includes('drawEnhancedSaddle(')).map(rel).sort(), ['scenes/saddleHost.js', 'ui/enhanced/enhancedSaddle.js'], 'one glue draws it');
   for (const host of ['world.js', 'exterior.js']) assert.match(rd(`src/scenes/${host}`), /import \{ createSaddleHost \} from '\.\/saddleHost\.js';/, `${host}: rides, through the glue`);

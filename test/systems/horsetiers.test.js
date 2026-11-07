@@ -25,6 +25,7 @@ import { TRANSPORT_MODES, setRideWalk, setGallopGate, setCanRunOverride, canRunU
 import { saddleMeters } from '../../src/ui/enhanced/enhancedSaddle.js';
 import { hungerLine, hungerTone } from '../../src/ui/holdingsPages.js';
 import { itemUseHandler } from '../../src/systems/item/itemTemplates.js';
+import { toPosix } from '../posixPath.mjs';
 
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 const rd = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
@@ -272,7 +273,7 @@ test('HORSE-TIERS THE ONE ACCESSOR AND THE FOUR HOSTS: no module but the switch 
   const files = [];
   const walk = (dir) => { for (const f of readdirSync(dir)) { const p = join(dir, f); if (statSync(p).isDirectory()) walk(p); else if (f.endsWith('.js')) files.push(p); } };
   walk(SRC);
-  const rel = (p) => p.slice(SRC.length);
+  const rel = (p) => toPosix(p.slice(SRC.length));
   assert.deepEqual(files.filter((p) => /getPref\((HORSE_CARE_PREF|'horseCare')\)/.test(readFileSync(p, 'utf8'))).map(rel), ['systems/upkeep/upkeepSwitch.js'], 'one reader of the key');
   assert.deepEqual(files.filter((p) => /\bhorseCareOn\b/.test(readFileSync(p, 'utf8'))).map(rel), [], 'the boolean switch is gone');
   for (const host of ['world.js', 'exterior.js']) {

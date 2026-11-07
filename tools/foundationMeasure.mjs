@@ -6,7 +6,7 @@
 //   node tools/foundationMeasure.mjs          the table
 //   node tools/foundationMeasure.mjs --json   the figures as JSON
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join, dirname, relative } from 'node:path';
+import { join, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isMain } from './lib/isMain.mjs';
 import { parseModule, findHostFunction, lines, logicalLines } from './hostScope.mjs';
@@ -108,7 +108,7 @@ export function measureBible(root = ROOT) {
 export function measureTextRings(root = ROOT) {
   return walk('src', (p) => p.endsWith('.js'), root)
     .filter((f) => /\bnew HudText\s*\(/.test(readFileSync(join(root, f), 'utf8')))
-    .map((f) => relative(root, join(root, f)));
+    .map((f) => relative(root, join(root, f)).split(sep).join('/'));
 }
 
 /** Which of the four hosts files the HUD's lines in the message ring (the notebook's addMessage): its file names the

@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { Writable } from 'node:stream';
 import { execFileSync } from 'node:child_process';
 import { testFiles } from '../../tools/testShards.mjs';   // FAST-SUITE: npm test's own list
+import { toPosix } from '../posixPath.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (p) => readFileSync(join(root, p), 'utf8');
@@ -163,7 +164,7 @@ test('AUDIT 68 X2-npm-test-glob: npm test runs the test files, not the helpers b
   assert.equal(JSON.parse(read('package.json')).scripts.test, 'node tools/testShards.mjs 1/1');
   const listed = testFiles(root);
   assert.ok(listed.length > 0 && listed.every((f) => /^test\/(?:[\w-]+\/)*[^/]+\.test\.js$/.test(f)), 'testFiles lists test/**/*.test.js and nothing else');
-  assert.deepEqual(listed, readdirSync(join(root, 'test'), { recursive: true }).filter((f) => f.endsWith('.test.js')).sort().map((f) => `test/${f}`), 'and every one of them, in every folder');
+  assert.deepEqual(listed, readdirSync(join(root, 'test'), { recursive: true }).map(toPosix).filter((f) => f.endsWith('.test.js')).sort().map((f) => `test/${f}`), 'and every one of them, in every folder');
   const stray = tracked('*.js').concat(tracked('*.mjs'), tracked('*.cjs'))
     .filter((f) => /\.test\.[cm]?js$/.test(f) && !/^test\/(?:[\w-]+\/)*[^/]+\.test\.js$/.test(f));
   assert.deepEqual(stray, [], 'every test file sits where the glob looks');

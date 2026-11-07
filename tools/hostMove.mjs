@@ -27,7 +27,7 @@
 //
 // What it cannot see, it refuses; what it moved it prints. Read the diff.
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
-import { dirname, relative, basename, join, resolve } from 'node:path';
+import { dirname, relative, basename, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'acorn';
 import { isMain } from './lib/isMain.mjs';
@@ -433,8 +433,10 @@ export function renderMove(p) {
 
   const rel = (spec) => {
     if (!spec.startsWith('.')) return spec;
-    const abs = new URL(spec, `file://${process.cwd()}/${hostFile}`).pathname;
-    let r = relative(dirname(`${process.cwd()}/${toFile}`), abs);
+    const abs = resolve(dirname(resolve(hostFile)), spec);
+    let r = relative(dirname(resolve(toFile)), abs)
+      .split(sep)
+      .join('/');
     if (!r.startsWith('.')) r = `./${r}`;
     return r;
   };

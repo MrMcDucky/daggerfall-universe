@@ -44,6 +44,7 @@ import { setEnemyAlert, decayEnemyAlert } from '../../../src/systems/encounters.
 import { isPlayerInTown } from '../../../src/systems/nearbyObjects.js';
 import { LOCATION_TYPES } from '../../../src/formats/mapsFile.js';
 import { LIVE } from '../../../src/systems/settings/settings.js';
+import { toPosix } from '../../posixPath.mjs';
 
 const SRC = fileURLToPath(new URL('../../../src/', import.meta.url));
 const src = (rel) => readFileSync(join(SRC, rel), 'utf8');
@@ -51,7 +52,7 @@ const src = (rel) => readFileSync(join(SRC, rel), 'utf8');
  *  is the stale-second-copy shape, and these are ONE HOME sweeps. */
 const srcFiles = (dir = SRC) => readdirSync(dir, { withFileTypes: true }).flatMap((d) => (
   d.isDirectory() ? srcFiles(join(dir, d.name))
-    : (d.name.endsWith('.js') ? [join(dir, d.name).slice(SRC.length)] : []))).sort();
+    : (d.name.endsWith('.js') ? [toPosix(join(dir, d.name).slice(SRC.length))] : []))).sort();
 
 /** The four hosts that can open a rest window. */
 const REST_HOSTS = ['scenes/dungeonContext.js', 'scenes/world.js',

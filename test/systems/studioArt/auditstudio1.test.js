@@ -60,6 +60,7 @@ import { HULL } from '../../../src/systems/naval/navalShips.js';
 import { paintCaravanRoom, caravanRoomPictures } from '../../../src/scenes/caravanRoom.js';
 import { WAGON_ARCHIVE, TEX as WAGON_TEX, lookRecord } from '../../../src/world/wagonArt.js';
 import { toColor32 } from '../../../src/formats/color32Order.js';
+import { toPosix } from '../../posixPath.mjs';
 
 const decode = async (bytes) => readPng(bytes);
 /** A picture of the test's own, `w` x `h`, every texel `rgb` (alpha `a`). */
@@ -583,7 +584,7 @@ test('AUDIT STUDIO1 S14 (lane E K14, K15, E13): the tool - the check carries the
     assert.equal(await studioCli(['templates', out], { log: () => {} }), 0);
     const names = readdirSync(out, { recursive: true }).filter((f) => String(f).endsWith('.png'));
     assert.equal(names.length, 248);
-    for (const f of names) assert.ok(studioFile(`a/${String(f).split('/').pop()}`), f);
+    for (const f of names) assert.ok(studioFile(`a/${toPosix(String(f)).split('/').pop()}`), f);
     assert.ok(pngSize(readFileSync(join(out, String(names[0])))));
   } finally { rmSync(out, { recursive: true, force: true }); }
 });

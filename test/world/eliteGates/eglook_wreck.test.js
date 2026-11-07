@@ -29,6 +29,7 @@ import { EG_SKY_MOON } from '../../../src/render/eliteGates/egSkyMap.js';   // t
 import { egCircleSpecs, egBandOfCircle, EG_HALL_PITCH } from '../../../src/net/eliteGates/egLaw.js';
 import { realmToDungeon } from '../../../src/net/superDungeon/sdBrain.js';
 import { egLawSeam } from '../../../src/net/eliteGates/egLaw.js';
+import { toPosix } from '../../posixPath.mjs';
 
 // PIN MOVED (THE ASCENT - THE ROOMS, LAW 9 - 2026-10-16): these pins measure spec law 8's halls - drawn where no law is named
 // (net/eliteGates/egLaw.js egLawSeam - a test's seam, never a breach's: a breach draws its own law), the dress, the camera and the client
@@ -240,7 +241,7 @@ test('EG-LOOK THE WRECK\'S COST AND ITS PURITY (Elite-Gates-Look.md sections 4 a
   assert.equal(fromWorker.dom, 'undefinedundefined', 'no DOM where it is built');
   assert.deepEqual([fromWorker.at, [...fromWorker.p], [...fromWorker.u]], [here.wings.map((x) => x.at), [...here.wings[5].model.positions], [...here.under.model.positions]], 'byte for byte the page\'s');
   // its graph: the band dress's, the mesh kit and the underside's model - never the stair's clock nor a screen's module
-  const graph = (f, seen = new Set()) => { if (seen.has(f)) return seen; seen.add(f); for (const m of rd(f).matchAll(/^\s*(?:import|export)\s[^;]*?from\s+['"](\.[^'"]+)['"]/gm)) graph(resolve(dirname(resolve(ROOT, f)), m[1]).slice(ROOT.length + 1), seen); return seen; };
+  const graph = (f, seen = new Set()) => { if (seen.has(f)) return seen; seen.add(f); for (const m of rd(f).matchAll(/^\s*(?:import|export)\s[^;]*?from\s+['"](\.[^'"]+)['"]/gm)) graph(toPosix(resolve(dirname(resolve(ROOT, f)), m[1]).slice(ROOT.length + 1)), seen); return seen; };
   const vista = graph('src/world/eliteGates/egVista.js'), dress = graph('src/world/eliteGates/egBandArt.js');
   assert.deepEqual([...vista].filter((f) => !dress.has(f)).sort(), ['src/world/eliteGates/egUndersideModel.js', 'src/world/eliteGates/egVista.js', 'src/world/eliteGates/meshKit.js']);
   assert.ok(![...graph('src/world/eliteGates/egCircleParts.js')].some((f) => /world\/eliteGates\/egLights\.js|world\/eliteGates\/egUnderside\.js|^src\/scenes\//.test(f)), 'the swap\'s worker loads no stair clock and no screen');

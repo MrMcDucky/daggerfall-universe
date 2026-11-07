@@ -40,6 +40,7 @@ import { publishBootParams, BOOT_DOOR_KEYS, isOnlinePage } from '../../src/syste
 import { uiSkin } from '../../src/systems/uiSkin.js';
 import { setPref, _resetForTests } from '../../src/systems/uiPrefs.js';
 import { FNT_ASCII_START } from '../../src/formats/fntFile.js';
+import { toPosix } from '../posixPath.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const rd = (p) => readFileSync(join(root, p), 'utf8');
@@ -51,7 +52,7 @@ const walk = (dir, out = []) => {
   }
   return out;
 };
-const SRC = walk(join(root, 'src')).map((p) => [p.slice(root.length + 1), readFileSync(p, 'utf8')]);
+const SRC = walk(join(root, 'src')).map((p) => [toPosix(p.slice(root.length + 1)), readFileSync(p, 'utf8')]);
 const seq = (...vals) => { let i = 0; return () => vals[i++ % vals.length]; };
 const ICONS = { getTexture: async () => ({ recordCount: 0 }), uploadRecord: () => {}, textures: new Map() };
 const spyAudio = (fn) => {

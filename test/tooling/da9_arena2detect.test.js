@@ -26,6 +26,18 @@ const {
 const L = require('../../app/lib/launcherState.cjs');
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'da9-'));
+// a path as Steam writes it into a .vdf: its backslashes escaped
+const vdfPath = (p) => p.replaceAll('\\', '\\\\');
+// whether this disk tells ARENA2 from arena2 (Windows' and macOS's default disks do not)
+const caseSensitive = (() => {
+  const d = tmp();
+  try {
+    fs.writeFileSync(path.join(d, 'a'), '');
+    return !fs.existsSync(path.join(d, 'A'));
+  } finally {
+    fs.rmSync(d, { recursive: true, force: true });
+  }
+})();
 /** A folder holding `names` (default: a whole ARENA2), in the case given. */
 const arena2At = (dir, names = REQUIRED_ARENA2) => {
   fs.mkdirSync(dir, { recursive: true });
@@ -88,7 +100,7 @@ test('DA9: Steam - every library in libraryfolders.vdf, at the installdir app 18
     const root = path.join(home, '.local', 'share', 'Steam');
     const lib2 = path.join(home, 'drive2', 'SteamLibrary');
     write(path.join(root, 'steamapps', 'libraryfolders.vdf'),
-      `"libraryfolders"\n{\n\t"0"\n\t{\n\t\t"path"\t\t"${root}"\n\t}\n\t"1"\n\t{\n\t\t"path"\t\t"${lib2}"\n\t}\n}\n`);
+      `"libraryfolders"\n{\n\t"0"\n\t{\n\t\t"path"\t\t"${vdfPath(root)}"\n\t}\n\t"1"\n\t{\n\t\t"path"\t\t"${vdfPath(lib2)}"\n\t}\n}\n`);
     const manifest = '"AppState"\n{\n\t"appid"\t\t"1812390"\n\t"installdir"\t\t"The Elder Scrolls Daggerfall"\n}\n';
     // the main library holds one copy - and ~/.steam/steam is a LINK to it, so it is reachable twice
     write(path.join(root, 'steamapps', `appmanifest_${STEAM_APP_ID}.acf`), manifest);
@@ -295,7 +307,7 @@ test('L4-7/L4-8: GOG by Daggerfall\'s own product key, whatever the folder is ca
   assert.doesNotMatch(src, /execFileSync\('reg'/);
 });
 
-test('L4-9: ARENA2 and arena2 side by side (Linux): whichever is whole is the one', () => {
+test('L4-9: ARENA2 and arena2 side by side (Linux): whichever is whole is the one', { skip: !caseSensitive && 'needs a case-sensitive disk to hold ARENA2 and arena2 side by side' }, () => {
   const root = tmp();
   try {
     arena2At(path.join(root, 'install', 'arena2'), ['ART_PAL.COL']);

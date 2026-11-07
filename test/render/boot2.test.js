@@ -21,6 +21,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { toPosix } from '../posixPath.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const rd = (p) => readFileSync(join(root, p), 'utf8');
@@ -34,7 +35,7 @@ function staticReach(entry) {
 }
 
 test('BOOT2: bitmapToColor32 has ONE home, the formats leaf - nobody takes it from the HUD and the HUD hands it to nobody', () => {
-  const defs = walk(join(root, 'src')).filter((f) => /^export (?:function|const) bitmapToColor32\b/m.test(readFileSync(f, 'utf8'))).map((f) => relative(root, f));
+  const defs = walk(join(root, 'src')).filter((f) => /^export (?:function|const) bitmapToColor32\b/m.test(readFileSync(f, 'utf8'))).map((f) => toPosix(relative(root, f)));
   assert.deepEqual(defs, ['src/formats/color32Order.js'], 'the definition is in exactly one place, and it is the leaf');
   const hud = rd('src/ui/hud/hud.js');
   assert.doesNotMatch(hud, /export\s*\{[^}]*\bbitmapToColor32\b/, 'hud.js re-exports it - the hub edge is back for whoever takes the shortcut');
@@ -42,7 +43,7 @@ test('BOOT2: bitmapToColor32 has ONE home, the formats leaf - nobody takes it fr
   const fromHud = [];
   for (const f of [...walk(join(root, 'src')), ...walk(join(root, 'test'))]) {
     const s = readFileSync(f, 'utf8');
-    if (/import\s*\{[^}]*\bbitmapToColor32\b[^}]*\}\s*from\s*'[^']*\/hud\.js'/.test(s)) fromHud.push(relative(root, f));
+    if (/import\s*\{[^}]*\bbitmapToColor32\b[^}]*\}\s*from\s*'[^']*\/hud\.js'/.test(s)) fromHud.push(toPosix(relative(root, f)));
   }
   assert.deepEqual(fromHud, [], 'these still import bitmapToColor32 from hud.js');
 });
@@ -56,7 +57,7 @@ test('BOOT2: the cursor is a leaf - formats in, nothing from ui/', () => {
 });
 
 test('BOOT2: the entry\'s static reach touches neither hub and stays under the ceiling the cut measured', () => {
-  const reach = new Set([...staticReach('src/main.js')].map((f) => relative(root, f)));
+  const reach = new Set([...staticReach('src/main.js')].map((f) => toPosix(relative(root, f))));
   for (const hub of ['src/ui/hud/hud.js', 'src/systems/worldTick.js', 'src/ui/enhanced/enhancedHud.js']) {
     assert.ok(!reach.has(hub), `${hub} is on the entry's static graph again (${reach.size} files reached)`);
   }

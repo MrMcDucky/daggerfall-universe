@@ -7,7 +7,7 @@
 //   node tools/plainText.mjs --seed REF   at a merge from a base without the law: admit REF's own excess, no more
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { join, dirname } from 'node:path';
+import { join, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseStringTableCsv } from '../src/systems/textManager.js';
 import { isMain } from './lib/isMain.mjs';
@@ -159,7 +159,7 @@ export function paragraphExcess(text) {
 const walk = (root, dir, ext, out = []) => {
   if (!existsSync(join(root, dir))) return out;
   for (const e of readdirSync(join(root, dir), { withFileTypes: true })) {
-    const p = join(dir, e.name);
+    const p = join(dir, e.name).split(sep).join('/');
     if (e.isDirectory()) walk(root, p, ext, out);
     else if (ext.test(e.name)) out.push(p);
   }
