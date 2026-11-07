@@ -35,8 +35,9 @@ import { rectOf } from '../../src/systems/travel/travelAutopilot.js';
 import { TravelControlUI } from '../../src/ui/travel/travelControlUI.js';
 import { modSetting } from '../../src/systems/modSettings.js';
 import { hostText } from '../hostText.mjs';   // HOST-SPLIT 2 (AUDIT, the second read): its negatives read the host whole
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('../..', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../..', import.meta.url));
 const src = (p) => readFileSync(join(root, p), 'utf8');
 
 /** A host's slot, faked: it records what it was offered and answers

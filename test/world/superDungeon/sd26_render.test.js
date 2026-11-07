@@ -209,7 +209,7 @@ test('AUDIT SD IV (R5): THE ARM\'S HOUR FOG AND TRILIGHT MAKE NOTHING, on both l
   const lighting = line('if (isSdRealm(dungeonLoc)) { const _rl = realmLighting();'), fog = line('if (isSdRealm(dungeonLoc)) { applyFog(renderer, dungeonFog(');
   const kept = [line('const _hourFog = {'), line('const _hourTri = {'), line('const _courtEquator = '), line('const courtEquatorOf = ')].join('\n');
   // the light handed is the light it always was: dungeonFog / dungeonTrilight with nothing kept
-  const url = (p) => pathToFileURL(new URL(`../../../${p}`, import.meta.url).pathname).href;
+  const url = (p) => new URL(`../../../${p}`, import.meta.url).href;
   const run = (lane) => {
     const got = {}, renderer = { lightingLane: lane ? {} : null, setLighting: (a, s, c, tri) => { got.equator = [...a]; got.tri = JSON.parse(JSON.stringify(tri)); }, setMoonlight() {}, setFog: (...a) => { got.fog = [...a.slice(0, 4), [...a[4]]]; }, setSceneGrade() {} };
     return { renderer, got };

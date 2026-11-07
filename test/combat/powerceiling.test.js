@@ -43,6 +43,7 @@ import {
   measureBlowTops, measureGuardKeeps, setsBlowTop, setsGuardKeep, lootBlowTop, lootGuardKeep, productOf, keepOf, setKits,
   SET_TIER_BLOW, SET_TIER_GUARD, SET_TIER_OTHER, POWER_BLOW, POWER_GUARD, POWER_OTHER,
 } from '../../tools/powerCeiling.mjs';
+import { fileURLToPath } from 'node:url';
 
 const RULE = 'THE CEILING HOLDS (bible/05-Combat/Power-Ceiling.md): a stronger kit needs the owner\'s word, quoted there';
 const close = (a, b, what) => assert.ok(Math.abs(a - b) < 1e-9, `${what}: ${a} is not ${b}`);
@@ -253,7 +254,7 @@ test('POWER-CEILING THE SETS\' OTHER GUARDS: Hold the Line and Gearward take the
 });
 
 test('POWER-CEILING THE SOURCE: every blow modifier the tree registers asks blowRoom, and every damage modifier but the three that land no blow at all asks guardRoom - a new power cannot step round the product, inline or named (mutants: a power that never asks; AUDIT HORIZONTAL D2: an inline blow power, a share added to a veto)', () => {
-  const root = new URL('../../', import.meta.url).pathname;
+  const root = fileURLToPath(new URL('../../', import.meta.url));
   const files = readdirSync(join(root, 'src'), { recursive: true }).filter((f) => f.endsWith('.js')).map((f) => join('src', f));
   const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
   // AUDIT HORIZONTAL D2: every call by its name, its arguments read to the closing paren - a pattern on the arguments' shape

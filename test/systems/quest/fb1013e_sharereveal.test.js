@@ -22,8 +22,9 @@ import { join } from 'node:path';
 import { QuestMachine } from '../../../src/systems/quest/machine.js';
 import { loadQuestTables } from '../../../src/systems/quest/tables.js';
 import { receiveSharedQuest, prepareQuestShare } from '../../../src/systems/quest/questShare.js';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../../..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../../..', import.meta.url));
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8').replace(/^﻿/, '');
 loadQuestTables(Object.fromEntries(readdirSync(join(ROOT, 'vendor/dfu-quests/Tables')).filter((f) => f.endsWith('.txt'))
   .map((f) => [f.replace('.txt', ''), rd(join('vendor/dfu-quests/Tables', f))])));

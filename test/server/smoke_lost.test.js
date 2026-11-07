@@ -15,6 +15,7 @@ import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
+import { fileURLToPath } from 'node:url';
 
 const ROOT = new URL('../../', import.meta.url);
 const YML = readFileSync(new URL('.github/workflows/account-deploy.yml', ROOT), 'utf8');
@@ -75,7 +76,7 @@ curl() {
 sleep() { :; }
 ${smokeToRenown().replace(/^base=.*$/m, `base=${SERVICE}`).replaceAll('/tmp/', `${dir}/`)}
 echo ${REACHED}`;
-  const r = spawnSync('bash', ['-c', script], { timeout: BASH_TIMEOUT, cwd: ROOT.pathname, env: { PATH: process.env.PATH, CALLS: calls, LEGAL_TERMS: 't', LEGAL_PRIVACY: 'p' }, encoding: 'utf8' });
+  const r = spawnSync('bash', ['-c', script], { timeout: BASH_TIMEOUT, cwd: fileURLToPath(ROOT), env: { PATH: process.env.PATH, CALLS: calls, LEGAL_TERMS: 't', LEGAL_PRIVACY: 'p' }, encoding: 'utf8' });
   const asked = readFileSync(calls, 'utf8').trim().split('\n').filter(Boolean);
   return { ok: r.status === 0 && r.stdout.includes(REACHED), out: r.stdout + r.stderr, asked };
 }

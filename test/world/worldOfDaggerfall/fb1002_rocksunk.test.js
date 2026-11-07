@@ -17,8 +17,9 @@ import { decodeRegionPack } from '../../../src/world/worldOfDaggerfall/wodLocati
 import { LocationSession } from '../../../src/world/worldOfDaggerfall/wodLocationLoader.js';
 import { transformedAabb } from '../../../src/render/frustum.js';
 import { hostText } from '../../hostText.mjs';   // HOST-SPLIT 2: the world host whole
+import { fileURLToPath } from 'node:url';
 
-const V = new URL('../../../vendor/world-of-daggerfall/', import.meta.url).pathname;
+const V = fileURLToPath(new URL('../../../vendor/world-of-daggerfall/', import.meta.url));
 const src = (p) => readFileSync(new URL(`../../../${p}`, import.meta.url), 'utf8');
 const packOf = (r) => { try { return new Uint8Array(readFileSync(join(V, 'Locations', `${r}.bin`))); } catch { return null; } };
 const prefabTexts = () => new Map(readdirSync(join(V, 'LocationPrefab')).map((f) => [f.replace('.txt', ''), readFileSync(join(V, 'LocationPrefab', f), 'utf8')]));

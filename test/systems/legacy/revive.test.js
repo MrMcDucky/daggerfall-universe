@@ -23,6 +23,7 @@ import { readFamily } from '../../../src/systems/legacy/family.js';
 import { mergeFamily } from '../../../src/scenes/legacyHost.js';
 import { query, playerQuery, findFallen, planRevive, summaryOf, recordEdit, REV_MARGIN, BEFORE_DEATH_S, STATEMENT_MAX_BYTES } from '../../../tools/reviveRealmCharacter.mjs';
 import { GUILD_RANK_MASTER } from '../../../src/net/guild/guildLaw.js';
+import { fileURLToPath } from 'node:url';
 
 const src = (p) => readFileSync(new URL(`../../../${p}`, import.meta.url), 'utf8');
 const P = 'p0123456789abcdef0123456789abcde', Q = 'q0123456789abcdef0123456789abcde';
@@ -181,7 +182,7 @@ function runAsTheWorkflow(mode, vars, cwd) {
   assert.ok(line, `the workflow no longer runs the tool's ${mode}`);
   const words = line.slice('node $tool '.length).split(' > ')[0].trim().split(/\s+/)
     .flatMap((w) => (w === '$flags' ? (vars.flags ? vars.flags.trim().split(/\s+/) : []) : [w.replace(/^"|"$/g, '').replace(/\$(HANDLE|CHARACTER|RUNNER_TEMP)/g, (_, k) => vars[k])]));
-  const out = spawnSync(process.execPath, [new URL('../../../tools/reviveRealmCharacter.mjs', import.meta.url).pathname, ...words], { cwd, encoding: 'utf8' });
+  const out = spawnSync(process.execPath, [fileURLToPath(new URL('../../../tools/reviveRealmCharacter.mjs', import.meta.url)), ...words], { cwd, encoding: 'utf8' });
   assert.equal(out.status, 0, `the workflow's ${mode} line fails the tool: ${out.stderr}`);
   return out.stdout;
 }

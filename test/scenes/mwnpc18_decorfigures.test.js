@@ -14,8 +14,9 @@ import { offerDecorFigures } from '../../src/scenes/decor/decorRoom.js';
 import { wornByRole, WARDROBE_ROLES } from '../../src/characters/wardrobe.js';
 import { decorIsFigure } from '../../src/net/decorLaw.js';
 import { hostText, hostOf } from '../hostText.mjs';   // HOST-SPLIT 2: the world host whole
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../../', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
 const walk = (dir) => readdirSync(join(ROOT, dir)).flatMap((n) => {
   const p = `${dir}/${n}`;

@@ -31,8 +31,9 @@ import { mintCondition, setItemFields, templateByIndex } from '../../../src/syst
 import { addItem } from '../../../src/systems/inventory.js';
 import { restorePlayer, snapshotPlayer } from '../../../src/systems/save/save.js';
 import { cardOf } from '../../heraldCards.mjs';   // HERALD-CARDS: a post read as its card
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../../../', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
 const OLD = /Oblivion Gate|Sigil Stone/i;
 

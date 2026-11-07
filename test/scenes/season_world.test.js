@@ -38,6 +38,7 @@ import { passChallengeText } from '../../src/ui/passText.js';
 import { gateScanner } from '../../src/systems/gate/gateSite.js';
 import { HAS_ARENA2, ARENA2, loadMaps } from '../arena1Data.mjs';
 import { WoodsFile } from '../../src/formats/woodsFile.js';
+import { fileURLToPath } from 'node:url';
 
 const S1 = passSeasonById('s1');
 const HEART_T = S1.stages[2].fromMs + 30 * 60_000;   // mid-hour in the third stage: no tremor
@@ -122,7 +123,7 @@ test('STOREFRONT the Resonant Maul: a Dwarven warhammer of the Legendary rung, l
   assert.deepEqual([m.templateIndex, m.material, m.rarity, m.legendary, m.name, m.isIdentified], [126, 4, 'legendary', 'resonant-maul', 'The Resonant Maul', true]);
   assert.deepEqual(itemFindings(m), [], 'lawful');
   // the account service's judge loads the item law alone (server-account/src/judge.js): the record must come with it
-  const alone = execFileSync(process.execPath, ['--input-type=module', '-e', "await import('./src/systems/item/itemLaw.js'); const { legendaryById } = await import('./src/systems/loot/lootRarity.js'); process.stdout.write(String(!!legendaryById('resonant-maul')));"], { cwd: new URL('../..', import.meta.url).pathname }).toString();
+  const alone = execFileSync(process.execPath, ['--input-type=module', '-e', "await import('./src/systems/item/itemLaw.js'); const { legendaryById } = await import('./src/systems/loot/lootRarity.js'); process.stdout.write(String(!!legendaryById('resonant-maul')));"], { cwd: fileURLToPath(new URL('../..', import.meta.url)) }).toString();
   assert.equal(alone, 'true', 'the item law brings the record');
   assert.ok(legendariesFor(m).some((l) => l.id === RESONANT_MAUL.id), 'the law knows it');
   const rolls = seeded(11);

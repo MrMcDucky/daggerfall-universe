@@ -25,6 +25,7 @@ import { createRequire } from 'node:module';
 import {
   EXPECTED_RELEASE_FILES, packGame, gameSeed, gameFilesOf, shellInputs, shellId, judgeDelta, MAX_UPDATE_SHARE,
 } from '../../scripts/desktopRelease.mjs';
+import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const G = require('../../app/lib/gameChannel.cjs');
@@ -549,7 +550,7 @@ test('DA13: the release pipeline - one shell id, the bundled game indexed in eve
 });
 
 test('DA13: the release script\'s own commands, run - seed and pack from the environment\'s numbers, and delta exits 1 on a regressed update', () => {
-  const script = new URL('../../scripts/desktopRelease.mjs', import.meta.url).pathname;
+  const script = fileURLToPath(new URL('../../scripts/desktopRelease.mjs', import.meta.url));
   const node = (args, env = {}) => spawnSync(process.execPath, [script, ...args], { encoding: 'utf8', env: { ...process.env, ...env } });
   const root = tmp();
   try {

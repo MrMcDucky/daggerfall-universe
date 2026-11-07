@@ -29,6 +29,7 @@ import { REST_TEXT } from '../../src/systems/rest/restSession.js';
 import { EXHAUSTED_SAFE_TEXT_ID } from '../../src/systems/rest/rest.js';
 import { NOT_SATED_TEXT_ID } from '../../src/systems/vampirism.js';
 import { dfuFile, missingDfu } from '../dfuRoot.mjs';
+import { fileURLToPath } from 'node:url';
 
 const ROOT = new URL('../../', import.meta.url);
 const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
@@ -44,7 +45,7 @@ function census() {
     return statSync(p).isDirectory() ? walk(p) : p.endsWith('.js') ? [p] : [];
   });
   const out = [];
-  for (const f of walk(new URL('src', ROOT).pathname)) {
+  for (const f of walk(fileURLToPath(new URL('src', ROOT)))) {
     const rel = f.slice(f.indexOf('/src/') + 1);
     if (rel === 'src/formats/textRsc.js') continue;   // the parser itself
     const lines = readFileSync(f, 'utf8').split('\n');

@@ -11,8 +11,9 @@ import { join } from 'node:path';
 import { naturePicture, seasonPictureKey } from '../../src/world/naturePicture.js';
 import { billboardSize } from '../../src/world/rmbFlats.js';
 import { hostText } from '../hostText.mjs';   // HOST-SPLIT 2: the world host whole
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('../..', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../..', import.meta.url));
 const T = { recordCount: 32, getSize: () => ({ width: 40, height: 120 }), getScale: () => ({ width: 0, height: 0 }) };
 const PLAIN = billboardSize(T, 12);
 /** A host's deps: Low Poly Trees' door with a tree for `protos` (its data loading as `loads` says), Seasons of the Iliac

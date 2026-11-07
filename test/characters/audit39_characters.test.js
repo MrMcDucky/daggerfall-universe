@@ -18,8 +18,9 @@ import {
 import { EnemyAttack, ATTACK_SPEED_FLOOR } from '../../src/characters/enemy/enemyAttack.js';
 import { collectDungeonEnemies } from '../../src/characters/dungeonEnemies.js';
 import { liveStat } from '../../src/systems/statMods.js';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
 const clearCollider = () => ({
   raycast: () => Infinity,

@@ -17,8 +17,9 @@ import { createRequire } from 'node:module';
 import { updateNumber, UPDATE_LINE_FILE, UPDATE_LINE_RE, UPDATE_RE, UPDATE_ENV } from '../../scripts/updateNumber.mjs';
 import { UPDATE_LINE } from '../../scripts/updateLine.mjs';
 import { tagSource } from '../../scripts/buildTag.mjs';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
 const require = createRequire(import.meta.url);
 const L = require('../../app/lib/launcherState.cjs');

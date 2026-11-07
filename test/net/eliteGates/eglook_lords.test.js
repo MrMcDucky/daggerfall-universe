@@ -24,6 +24,7 @@ import { egScreenAt } from '../../../src/world/eliteGates/egTelegraph.js';
 import { lookAt, perspective, multiply, UP_Y } from '../../../src/world/mat4.js';
 import { GLOBAL_SCALE } from '../../../src/world/meshReader.js';
 import { ENEMY_BASICS } from '../../../src/characters/enemy/enemyBasics.js';
+import { fileURLToPath } from 'node:url';
 
 const T0 = 1_800_000_000_000;
 const SEED = 12345;
@@ -175,7 +176,7 @@ test('EG-LOOK THE BODY STANDS THE RELAY\'S (section 9, "the relay\'s bodyR and t
     assert.ok(q.size.h >= tg.height - 1e-9, 'his capsule inside his sprite');
   }
   // the presence is this screen's alone: nothing under src/net/ names it (the relay's bundle - test/net/relayversion.test.js - unmoved)
-  const net = new URL('../../../src/net/', import.meta.url).pathname, files = [];
+  const net = fileURLToPath(new URL('../../../src/net/', import.meta.url)), files = [];
   const walk = (dir) => { for (const f of readdirSync(dir)) { const p = join(dir, f); if (statSync(p).isDirectory()) walk(p); else if (f.endsWith('.js')) files.push(p); } };
   walk(net);
   for (const p of files) assert.doesNotMatch(readFileSync(p, 'utf8'), /EG_LORD_PRESENCE|egPresenceOf|egKit\.js/, `${p} reads no presence`);

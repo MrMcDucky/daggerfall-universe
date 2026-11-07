@@ -15,8 +15,9 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { splitCamel } from '../../src/systems/controlsConfig.js';
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('../../src/', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../../src/', import.meta.url));
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);

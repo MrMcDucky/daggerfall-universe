@@ -10,9 +10,10 @@ import { decodeArenaModel } from '../../../src/world/arena/arenaModel.js';
 import { arenaBlockJson, ARENA_GATE_PEOPLE, ARENA_BLOCK, UNDERCROFT_LOCATION_ID } from '../../../src/world/arena/arenaCity.js';
 import { NPC_FLAT_ARCHIVES } from '../../../src/world/rdbLayout.js';
 import { lenientJson, jsonRows } from '../../../tools/daggerfallArenaExtract.mjs';
+import { fileURLToPath } from 'node:url';
 
 const PIECE_SET = [62209, 63000, 63004, 63007, 63024, 63028, 63035, 72006];
-const DIR = new URL('../../../vendor/daggerfall-arena/', import.meta.url).pathname;
+const DIR = fileURLToPath(new URL('../../../vendor/daggerfall-arena/', import.meta.url));
 const read = (rel) => readFileSync(join(DIR, rel), 'utf8');
 const json = (rel) => JSON.parse(read(rel));
 const walk = (d, pre = '') => readdirSync(d).flatMap((n) => (statSync(join(d, n)).isDirectory() ? walk(join(d, n), `${pre}${n}/`) : [`${pre}${n}`]));

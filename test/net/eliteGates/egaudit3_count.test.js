@@ -31,6 +31,7 @@ import { EG_VESTIGES, EG_MASTERIES, EG_DR_MAX, EG_FAR_M } from '../../../src/net
 import { EG_ASK_MS } from '../../../src/net/eliteGates/egRun.js';
 import { EG_CLOSING_RING } from '../../../src/world/eliteGates/egLights.js';
 import { egGive8 } from '../../egGive8.mjs';
+import { fileURLToPath } from 'node:url';
 
 // PIN MOVED (THE ASCENT - THE ROOMS, LAW 9 - 2026-10-16): these pins were written on spec law 8's ground (its courses along +z
 // from the plate, its courts and its lords where law 8 lays them) and stand on it still - the halls they read are law 8's,
@@ -442,7 +443,7 @@ test('AUDIT EG III #11 THE DOOR\'S REACH, ONE NUMBER (section 7: `down` "accepte
   assert.equal(egDown(S.B, 'acct-0', S.B.h, at(2.95), S.now()), true, 'inside the ring');
   const calls = [];
   const walk = (dir) => { for (const n of readdirSync(dir)) { const p = join(dir, n); if (statSync(p).isDirectory()) walk(p); else if (/\.m?js$/.test(n)) for (const m of readFileSync(p, 'utf8').matchAll(/egAtDoor\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g)) calls.push([p, m[1]]); } };
-  walk(new URL('../../../src', import.meta.url).pathname);
+  walk(fileURLToPath(new URL('../../../src', import.meta.url)));
   // PIN MOVED (THE ASCENT - HEIGHT, LAW 9; Elite-Gates-Ascent.md section 2): the door's law takes the body's FEET after its
   // plan (`egAtDoor(spec, x, z, y)` - a hall that judges by height asks the door's own floor; the laws before ignore it, so
   // their every answer is the same), its pad after them, and still no caller passes a pad: three arguments, or a fourth that

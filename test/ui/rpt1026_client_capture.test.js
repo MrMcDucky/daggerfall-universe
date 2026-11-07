@@ -12,6 +12,7 @@ import { HeldMapWindow } from '../../src/ui/heldMap.js';
 import { CLIMATES } from '../../src/formats/mapsFile.js';
 import { domPointer } from '../../src/ui/plus/plusPad.js';
 import { capturePointer, releasePointer } from '../../src/ui/pointerCapture.js';
+import { fileURLToPath } from 'node:url';
 
 /** Firefox's refusal for a pointer it does not hold. */
 const refuse = () => { const e = new Error('setPointerCapture: no pointer of that id'); e.name = 'NotFoundError'; throw e; };
@@ -69,7 +70,7 @@ test('RPT1026-CLIENT: the one door answers the refusal, and lets a held pointer 
 });
 
 test('RPT1026-CLIENT: no capture or release in the game\'s own code stands outside the door or a try (the labs under src/tools are pages of their own, mouse alone)', () => {
-  const root = new URL('../../', import.meta.url).pathname;
+  const root = fileURLToPath(new URL('../../', import.meta.url));
   const walk = (d, out = []) => { for (const n of readdirSync(d)) { const p = join(d, n); if (statSync(p).isDirectory()) walk(p, out); else if (n.endsWith('.js')) out.push(p); } return out; };
   const bare = [];
   for (const p of walk(join(root, 'src'))) {

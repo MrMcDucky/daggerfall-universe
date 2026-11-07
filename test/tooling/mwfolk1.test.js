@@ -41,6 +41,7 @@ import { SOURCE, PAINTINGS, OBJECTS, OUTFITS, RECOLOURS, CUT, PACK_ARM_FALL, HAN
   packBind, hangOf, islandsOf, islandClass, liftHoods, materialMesh, checkObject, bakeTownsfolk, meshFile, textureFile, textureName } from '../../tools/bakeTownsfolk.mjs';
 import { segmentDistance } from '../../tools/skinWeights.mjs';
 import { retailSkeleton } from '../fixtures/mw/retailRig.mjs';
+import { fileURLToPath } from 'node:url';
 
 const raw = (p) => readFileSync(new URL(`../../${p}`, import.meta.url));
 const onDisk = (p) => new Uint8Array(raw(p));
@@ -291,11 +292,11 @@ test('MW-FOLK1 (AUDIT): a cut on a file written here - its loose vertex kept, it
   const dir = mkdtempSync(join(tmpdir(), 'mwfolk1-cut-'));
   try {
     const out = join(dir, 'cut.fbx');
-    const run = spawnSync(process.execPath, [new URL('../../tools/fbxStrip.mjs', import.meta.url).pathname, new URL(`../../${SOURCE}`, import.meta.url).pathname, out, '--cut=Breton_Male.018:7,Breton_Male.018:2'], { encoding: 'utf8' });
+    const run = spawnSync(process.execPath, [fileURLToPath(new URL('../../tools/fbxStrip.mjs', import.meta.url)), fileURLToPath(new URL(`../../${SOURCE}`, import.meta.url)), out, '--cut=Breton_Male.018:7,Breton_Male.018:2'], { encoding: 'utf8' });
     assert.equal(run.status, 0, run.stderr);
     assert.match(run.stdout, /cut "Breton_Male\.018" material 7: 92 polygons, material 2: 510 polygons; 379 vertices/);
     assert.equal(Buffer.compare(readFileSync(out), stripFbx(raw(SOURCE), { cut: [{ object: 'Breton_Male.018', material: 7 }, { object: 'Breton_Male.018', material: 2 }] }).bytes), 0);
-    assert.equal(spawnSync(process.execPath, [new URL('../../tools/fbxStrip.mjs', import.meta.url).pathname, 'a.fbx', 'b.fbx'], { encoding: 'utf8' }).status, 2, 'neither a drop nor a cut: the usage');
+    assert.equal(spawnSync(process.execPath, [fileURLToPath(new URL('../../tools/fbxStrip.mjs', import.meta.url)), 'a.fbx', 'b.fbx'], { encoding: 'utf8' }).status, 2, 'neither a drop nor a cut: the usage');
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 

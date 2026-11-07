@@ -28,8 +28,9 @@ import { openPauseFlow, pauseDoorReady, pauseArtLoaded } from '../../../src/ui/p
 import { _resetForTests } from '../../../src/systems/uiPrefs.js';
 import { hostText } from '../../hostText.mjs';   // HOST-SPLIT 2 (AUDIT, the second read): its negatives read the host whole
 import { remainWords } from '../../../src/ui/quest/questRail.js';   // PX22: the words, pinned by what they say (AUDIT OW-REVISITED L5-6)
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('../../../', import.meta.url).pathname.replace(/\/$/, '');
+const root = fileURLToPath(new URL('../../../', import.meta.url)).replace(/[\\/]$/, '');
 const read = (p) => hostText(p);
 
 // uiSkin reads globalThis.location.search when it is given no string,

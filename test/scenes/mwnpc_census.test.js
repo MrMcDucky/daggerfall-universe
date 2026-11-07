@@ -8,8 +8,9 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { hostText, hostOf } from '../hostText.mjs';   // HOST-SPLIT 2: a moved module's host whole
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../../', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const walk = (dir) => readdirSync(join(ROOT, dir)).flatMap((n) => {
   const p = `${dir}/${n}`;
   return statSync(join(ROOT, p)).isDirectory() ? walk(p) : p.endsWith('.js') ? [p] : [];

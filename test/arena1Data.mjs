@@ -13,10 +13,11 @@ import { registerWorldDataPack, installWorldDataReplacement, bindWorldDataBlocks
 import { setValue } from '../src/systems/settings/settings.js';
 import { installArena, _resetArena } from '../src/world/arena/arenaCity.js';
 import { _resetLayoutPins } from '../src/systems/layoutPins.js';
+import { fileURLToPath } from 'node:url';
 
 export const ARENA2 = process.env.ARENA2_PATH ?? '';
 export const HAS_ARENA2 = !!ARENA2 && existsSync(join(ARENA2, 'MAPS.BSA'));
-export const ROOT = new URL('..', import.meta.url).pathname;
+export const ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const vendorBytes = (rel) => new Uint8Array(readFileSync(join(ROOT, 'vendor/daggerfall-arena', rel)));
 const bytes = (f) => new Uint8Array(readFileSync(join(ARENA2, f)));
 

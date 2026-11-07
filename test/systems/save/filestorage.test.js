@@ -26,6 +26,7 @@ import {
 } from '../../../src/systems/save/saveSlots.js';
 import { QUICKSAVE_KEY } from '../../../src/systems/save/save.js';
 import { appStorage } from '../../../src/systems/appStorage.js';
+import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const fileStorage = require('../../../app/lib/fileStorage.cjs');
@@ -330,7 +331,7 @@ test('the legacy quicksave migration holds over files: write, VERIFY, then remov
 // ---- AUDIT DA: the two drift pins -----------------------------------
 
 test('PIN: no storage consumer bypasses the seam - globalThis.localStorage lives in appStorage.js alone', () => {
-  const root = path.join(path.dirname(new URL(import.meta.url).pathname), '..', '..', '..');
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
   const offenders = [];
   const walk = (dir) => {
     for (const e of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
@@ -348,7 +349,7 @@ test('PIN: no storage consumer bypasses the seam - globalThis.localStorage lives
 });
 
 test('PIN: the shell serves arena2 by the dev middleware\'s own rules - the literals may not drift apart', () => {
-  const root = path.join(path.dirname(new URL(import.meta.url).pathname), '..', '..', '..');
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
   const vite = fs.readFileSync(path.join(root, 'vite.config.js'), 'utf8');
   const shell = fs.readFileSync(path.join(root, 'app', 'main.cjs'), 'utf8');
   // The three serving laws, as literals both sides must carry: the

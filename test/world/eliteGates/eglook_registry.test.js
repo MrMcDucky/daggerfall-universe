@@ -19,8 +19,9 @@ import { DUNGEON_TIERS } from '../../../src/systems/dungeon/dungeonTier.js';
 import { dungeonSightLine } from '../../../src/world/spawnedDungeons.js';
 import { EG_TEXT, egRoomKey } from '../../../src/net/eliteGates/egLaw.js';
 import { LAST_CLASSIC_TEXTURE_ARCHIVE } from '../../../src/scenes/dataPipeline.js';
+import { fileURLToPath } from 'node:url';
 
-const SRC = new URL('../../../src/', import.meta.url).pathname;
+const SRC = fileURLToPath(new URL('../../../src/', import.meta.url));
 function walk(dir, out = []) {
   for (const f of readdirSync(dir)) { const p = join(dir, f); if (statSync(p).isDirectory()) walk(p, out); else if (f.endsWith('.js')) out.push(p); }
   return out;

@@ -17,6 +17,7 @@ import { titheAt } from '../../server-account/src/seatHolding.js';
 import { settleWeek, settleDueOnce } from '../../server-account/src/seatTurning.js';
 import { seatReportText, seatWeekOf, seatWeekStartMs } from '../../src/net/townSeatLaw.js';
 import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
+import { fileURLToPath } from 'node:url';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -117,7 +118,7 @@ sql=$(cat "\${data#@}")
 case "$sql" in *"blob2 = 'CRON'"*) cp "$FAKE_DIR/cron.json" "$out"; echo -n "$FAKE_CODE";; *) echo '{"data":[]}' > "$out"; echo -n 200;; esac
 `);
   chmodSync(fake, 0o755);
-  const root = new URL('../..', import.meta.url).pathname;
+  const root = fileURLToPath(new URL('../..', import.meta.url));
   const run = (cronAnswer, code) => {
     writeFileSync(join(dir, 'cron.json'), JSON.stringify(cronAnswer));
     const summary = join(dir, `summary-${code}.md`);

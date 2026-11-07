@@ -13,6 +13,7 @@ import { DATASET, QUESTIONS, WINDOW_KINDS, WINDOW_HOURS_MAX, loadSql, loadTable 
 import { HOURS_MAX } from '../../tools/d1Load.mjs';
 import { RoomMetrics } from '../../server/src/relayScale.js';
 import { BASH_TIMEOUT, BASH_SKIP } from '../bashTimeout.mjs';
+import { fileURLToPath } from 'node:url';
 
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 
@@ -130,7 +131,7 @@ test('RELAY-LOAD the workflow: run by hand only, its one input read once as envi
   assert.equal(wf.match(/CLOUDFLARE_API_TOKEN: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}/g)?.length, 2);
   for (const name of ['Refuse to start without a token', 'Read the relay\'s metrics']) assert.match(stepOf(wf, name), /\n {8}env:\n {10}CLOUDFLARE_API_TOKEN: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}\n/, name);
 
-  const root = new URL('../..', import.meta.url).pathname;
+  const root = fileURLToPath(new URL('../..', import.meta.url));
   const dir = mkdtempSync(join(tmpdir(), 'relayload-'));
   // THE TOKEN STEP: no token, a refusal; a token, the tool asked (its window's guard) before any question
   const guard = (token, hours) => {

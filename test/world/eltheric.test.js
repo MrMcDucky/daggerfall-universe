@@ -15,8 +15,9 @@ import { crossingRows, crossingWords } from '../../src/systems/naval/etherCrossi
 import { logLines, newLog, TRADE_WORD, TRADE_WORDS } from '../../src/systems/naval/captainLedger.js';
 import { etherOfficeText } from '../../src/ui/naval/navalYardWindow.js';
 import { ETHER_CHART_CSS } from '../../src/ui/etherChartWindow.js';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const walk = (dir) => readdirSync(dir).flatMap((f) => { const p = join(dir, f); return statSync(p).isDirectory() ? walk(p) : p.endsWith('.js') ? [p] : []; });
 
 test('ELTHERIC: the word, the name at a sentence\'s middle and head, the isles\' region - and the intro map\'s ocean west of the Bay the same (mutant: the word another)', () => {

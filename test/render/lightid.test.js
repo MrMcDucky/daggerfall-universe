@@ -25,8 +25,9 @@ import { realmLightsWith, realmLightsNear } from '../../src/world/superDungeon/s
 import { bossGlow } from '../../src/world/gate/gateBoss.js';
 import { GATE_STATE_EMPTY } from '../../src/net/gate/gateLink.js';
 import { courtShadowCounts, meanOf, worstOf, CASE_FRAMES } from '../../tools/courtShadowProbe.mjs';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../..', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
 const walk = (d) => readdirSync(d).flatMap((f) => { const p = join(d, f); return statSync(p).isDirectory() ? walk(p) : p.endsWith('.js') ? [p] : []; });
 const I = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);

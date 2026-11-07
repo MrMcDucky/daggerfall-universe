@@ -5,8 +5,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ESLint } from 'eslint';
 import config, { SEQUENCES_HELD } from '../../eslint.config.js';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = new URL('../../', import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const STRICT = ['error', { allowInParentheses: false }];
 
 test('LEGIBLE 4 strict: a parenthesized comma sequence is refused in shipped code but in the held files (mutants: the strict block lenient; a held file read strictly)', async () => {
