@@ -176,7 +176,7 @@ test('DF-LOOK L8: EVERY DOOR LAYS IT ON - the galleon\'s stand-ins build her pic
   // the doors that upload as their hosts run: each upload line goes through dfLook
   const read = (f) => readFileSync(new URL(`../../src/${f}`, import.meta.url), 'utf8');
   const doors = [
-    // STUDIO1: each door paints through wearPainted (systems/studioArt/studioArt.js) - the look laid on the painted picture
+    // STUDIO1: each door paints through wearPainted (systems/paintedReplacement.js) - the look laid on the painted picture
     ['scenes/horseCartPool.js', /wearPainted\(WAGON_ARCHIVE, rec, \(\) => toColor32\(dfLook\(pic, lookSeed\(WAGON_ARCHIVE, rec % LOOK_RECORD_STRIDE\)\)\), \(c32, \{ late \}\) => \{\n[^\n]*\n\s+renderer\.uploadTexture\(WAGON_ARCHIVE, rec, c32, opts\);/],
     ['world/wagonModels.js', /toColor32\(dfLook\(pic, lookSeed\(WAGON_ARCHIVE, rec\)\)\)/],
     ['scenes/merchantYardsHost.js', /wearPainted\(YARD_ARCHIVE, rec, \(\) => dfLook\(art, lookSeed\(YARD_ARCHIVE, rec\)\), \(pic, \{ late \}\) => \{ if \(late\) renderer\.releaseTexture\?\.\(YARD_ARCHIVE, rec\); renderer\.uploadTexture\?\.\(YARD_ARCHIVE, rec, pic\); \}/],

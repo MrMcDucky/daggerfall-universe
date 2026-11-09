@@ -16,7 +16,9 @@
 //       (studioArt.js) and each `vendor` one stands on the texture door
 //
 // The trees and pictures are the test's own: no game data (Port-Doctrine).
-import { test } from 'node:test';
+import { test as nodeTest } from 'node:test';
+// Every test here is skipped while the studio is switched off.
+const test = (name, body) => nodeTest(name, { skip: 'the studio is switched off' }, body);
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';

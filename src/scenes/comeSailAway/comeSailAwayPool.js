@@ -679,8 +679,7 @@ export function createComeSailAwayPool({ renderer = null, pipeline = null, fetch
     if (night == null) return;
     pipeline.uploadRecord(archive, night, { opaque: true });
     const glow = artOf(archive).glow(night);
-    // STUDIO1: a night picture's own light - an emission picture of the twin (`38131_106-0_Emission.png`, the studio's
-    // or a pack's) - lights it where its artist put the glass; without one, the painted glass's glow does
+    // a night picture's own light - an emission picture of the twin (`38131_106-0_Emission.png`, a pack's) - lights it where its artist put the glass; without one, the painted glass's glow does
     const lit = decodedTexture(archive, night, 0, 'Emission');
     if (lit || glow) renderer?.uploadEmissionTexture?.(archive, night, lit ?? toColor32(glow), { replacement: !pipeline.isClassicArt?.(archive) });
   }

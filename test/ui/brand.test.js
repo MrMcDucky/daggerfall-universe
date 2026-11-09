@@ -50,8 +50,8 @@
 // hold keep their spelling, as BR1 ruled - each is listed with what moving it
 // would break.
 //
-// DF WORLD (2026-11-09, the owner: "rename all DFO / DFO Online or similar, and "Daggerfall Universe" to "DF World""):
-// NAME below. The keys stay, but for the Workers' names and the appId, which nothing outside the tree held yet.
+// The product is now DF World (NAME below). The keys stay, but for the Workers' names and the appId, which nothing
+// outside the tree held yet.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
@@ -482,7 +482,7 @@ test('LOGO-CENTRE: the mark stands on its letters\' centre, not its box\'s - mea
   // (its red) to the O's outline (the last paint); their centre, against the file's, is the shift.
   const { readPng } = await import('../../tools/pngIO.mjs');
   const { BRAND_LOGO_OPTICAL_SHIFT } = await import('../../src/ui/brandMark.js');
-  // DF WORLD (2026-11-09): the mark is type, so its letters are its paint, measured whole.
+  // The mark is type, so its letters are its paint, measured whole.
   const { width, height, data } = readPng(readFileSync(join(root, 'src/assets/branding/df-world.png')));
   let left = width, right = 0;
   for (let y = 0; y < height; y++) {

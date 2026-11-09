@@ -15,7 +15,7 @@ import { wagonArt, wagonLookArt, isGlassRecord, lookRecord, LOOK_RECORDS, LOOK_R
 import { readWagonLook, CARAVAN_INSIDE_LOOKS, CARAVAN_INSIDE_PARTS } from '../systems/wagon/wagonLooks.js';
 import { toColor32 } from '../formats/color32Order.js';
 import { dfLook, lookSeed } from '../world/dfLook.js';   // DF-LOOK: the room's pictures in Daggerfall's colours
-import { wearPainted } from '../systems/studioArt/studioArt.js';   // STUDIO1: the studio's pictures over the painted ones
+import { wearPainted } from '../systems/paintedReplacement.js';   // a player's texture pack over the painted pictures
 import { quatRotate } from '../world/quat.js';
 import { WAGON_MODE } from '../systems/horse/horseCartLaw.js';
 
@@ -64,7 +64,7 @@ export function caravanRoomRecords() {
 }
 
 /** The pictures an inside paint (`look` - systems/wagon/wagonLooks.js) puts on the room's live records: `[record, picture,
- *  from]`, each part's built picture or its paint's - `from` the record it is (STUDIO1: whose replacement it wears). */
+ *  from]`, each part's built picture or its paint's - `from` the record it is (whose replacement it wears). */
 export function caravanRoomPictures(look) {
   const l = readWagonLook(look);
   const built = new Map(wagonArt());
@@ -79,8 +79,8 @@ export function caravanRoomPictures(look) {
 
 /** THE ROOM PAINTED: the live records given `look`'s pictures on the renderer - each let go first (the renderer keeps
  *  the first picture asked under a key) and uploaded again, opaque, a cut-out where the glass is. DF-LOOK: grained and
- *  snapped to Daggerfall's palette, by its built record's seed (scenes/horseCartPool.js uploadWagonPicture's). STUDIO1:
- *  the studio's picture of the record it is, where an artist drew one, as drawn. */
+ *  snapped to Daggerfall's palette, by its built record's seed (scenes/horseCartPool.js uploadWagonPicture's). A
+ *  texture pack's picture of the record it is, where one replaces it. */
 export function paintCaravanRoom(renderer, look) {
   if (!renderer?.uploadTexture) return;
   for (const [rec, pic, from] of caravanRoomPictures(look)) {

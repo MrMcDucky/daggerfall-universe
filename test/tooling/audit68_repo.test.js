@@ -118,7 +118,8 @@ test('AUDIT 68 X2-archive-sheet-orphan: every tracked root page is a build input
   const input = Object.values((await import('../../vite.config.js')).default.build.rollupOptions.input);
   const pages = tracked('*.html').filter((p) => !p.includes('/'));
   assert.ok(pages.includes('index.html'));
-  for (const page of pages) assert.ok(input.includes(page), `${page} works under npm run dev and never ships`);
+  const off = ['studio.html'];   // the studio is switched off: its page is kept and not built
+  for (const page of pages) assert.ok(input.includes(page) || off.includes(page), `${page} works under npm run dev and never ships`);
 });
 
 test('AUDIT 68 X2-cdn-three-no-sri: every script a tracked page loads from another origin carries Subresource Integrity', () => {

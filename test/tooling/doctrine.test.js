@@ -37,9 +37,7 @@ const tracked = (dir) => execFileSync('git', ['ls-files', '-z', dir], { cwd: roo
  *  that keeps the original silhouette answers yes. */
 const PUBLIC_ALLOWLIST = new Map([
   ['public/README.md', 'documentation'],
-  // STUDIO1 (2026-10-17): the studio's guide and its roster - text, the port's own. Its pictures answer to the roster
-  // (studioArt below), not to rows here.
-  ['public/art/studio/README.md', "STUDIO1: the studio's guide for the game's artists - documentation"],
+  // STUDIO1 (2026-10-17): the studio's roster - text, the port's own. The studio is switched off, its files kept.
   ['public/art/studio/artists.json', "STUDIO1: the studio's roster - each artist's folder, name and the word that approved them"],
   // TI2 (2026-09-11): THE HOME-SCREEN APP. The manifest is text; the
   // three icons are drawn by scripts/makeIcons.mjs from the enhanced
@@ -897,7 +895,7 @@ test('doctrine: nothing ships out of public/ or src/assets/ that is not provably
   // so bundled art has the same ownership check as public/". The
   // reverse read did; this one did not, so a NEW file bundled out of
   // src/assets needed no row at all and nobody would have noticed.
-  const unexplained = [...tracked('public'), ...tracked('src/assets')].filter((f) => !PUBLIC_ALLOWLIST.has(f) && !bundleArt(f) && !studioArt(f));   // DW2: a vendored bundle's art under public/ answers to its manifest (BUNDLE_ART below); STUDIO1: an artist's to the roster (studioArt)
+  const unexplained = [...tracked('public'), ...tracked('src/assets')].filter((f) => !PUBLIC_ALLOWLIST.has(f) && !bundleArt(f));   // DW2: a vendored bundle's art under public/ answers to its manifest (BUNDLE_ART below); STUDIO1: an artist's to the roster (studioArt)
   assert.deepEqual(unexplained, [],
     'these files are tracked under public/ or src/assets/, which Vite copies into dist/ and\n'
     + 'deploy.yml uploads to GitHub Pages. Every one of them is PUBLISHED. If the pixels\n'
@@ -928,7 +926,7 @@ test('doctrine: no raster of game data is tracked anywhere in the repo', () => {
   const RASTER = /\.(png|jpg|jpeg|gif|bmp|webp|tga|ico)$/i;
   const rasters = tracked('.').filter((f) => RASTER.test(f));
   const allowed = new Set([...PUBLIC_ALLOWLIST.keys()]);
-  const unexplained = rasters.filter((f) => !allowed.has(f) && !bundleArt(f) && !studioArt(f));
+  const unexplained = rasters.filter((f) => !allowed.has(f) && !bundleArt(f));
   assert.deepEqual(unexplained, [],
     `tracked raster images outside the doctrine allow-list:\n${unexplained.join('\n')}`);
 });
@@ -1131,14 +1129,15 @@ const bundleNames = (dir) => {
 // this rule and stays unexplained.
 /** The studio's members under a tree: the pictures its listing serves, by their paths in the repository. */
 const studioMembers = (at) => new Set(studioListing(at).files.map((f) => `${STUDIO_TREE}/${f}`));
-const STUDIO_WORN = studioMembers(root);
 /** Is this tracked file a picture the studio wears? */
-const studioArt = (f) => STUDIO_WORN.has(f);
+const studioArt = (f) => studioMembers(root).has(f);
+// The studio is switched off, its files kept: its pictures are admitted by no sweep, and its tests are skipped.
+const STUDIO_OFF = { skip: 'the studio is switched off' };
 /** AUDIT STUDIO1 E5: the arm admits only what the studio wears - never a stranger's picture, the guide, a working file,
  *  a picture named for nothing, one outside an artist's folder, or art outside the studio (whatever the folder holds). */
-test('doctrine STUDIO1: the studio arm admits only what the studio wears (AUDIT STUDIO1 E5)', () => {
+test('doctrine STUDIO1: the studio arm admits only what the studio wears (AUDIT STUDIO1 E5)', STUDIO_OFF, () => {
   for (const f of ['public/art/studio/stranger/38181_2-0.png', 'public/art/studio/README.md', 'public/art/studio/trashBattery/wip.psd', 'public/art/studio/trashBattery/notes.png', 'public/art/studio/38181_1-0.png', 'public/art/held-map.png']) assert.equal(studioArt(f), false, f);
-  for (const f of STUDIO_WORN) assert.match(f, /^public\/art\/studio\/[^/]+\/.+\.png$/i);
+  for (const f of studioMembers(root)) assert.match(f, /^public\/art\/studio\/[^/]+\/.+\.png$/i);
 });
 
 /** Is this tracked raster a vendored bundle's own art? */
@@ -1216,7 +1215,7 @@ test('doctrine VE4: a derived row stands inside an approved exception, and every
   for (const f of PUBLIC_ALLOWLIST.keys()) assert.ok(!dirs.some((d) => f.startsWith(d)), `${f}: an allow-list row inside the exception`);
 });
 
-test('doctrine STUDIO1: a picture is the studio\'s own by its roster and its listing alone - a stranger\'s, a file that is no picture and a link are not (AUDIT STUDIO1 C12: the arm is not vacuous)', () => {
+test('doctrine STUDIO1: a picture is the studio\'s own by its roster and its listing alone - a stranger\'s, a file that is no picture and a link are not (AUDIT STUDIO1 C12: the arm is not vacuous)', STUDIO_OFF, () => {
   const at = mkdtempSync(join(tmpdir(), 'doctrine-studio-'));
   try {
     const dir = join(at, STUDIO_TREE);

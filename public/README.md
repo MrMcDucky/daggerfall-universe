@@ -16,6 +16,6 @@ Only files that are ours to publish:
 `test/tooling/doctrine.test.js` fails on any tracked file under `public/` or `src/assets/` that is not one of:
 
 - a row in `PUBLIC_ALLOWLIST`, which states why the file is ours;
-- a vendored bundle's own art, named by its manifest (`BUNDLE_ART`);
+- a vendored bundle's own art, named by its manifest (`BUNDLE_ART`).
 
 It also fails on a row whose file is gone.

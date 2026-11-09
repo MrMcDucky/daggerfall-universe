@@ -187,7 +187,7 @@ test('DFMOD1-E: the Enhanced Plus avatar follows the attached mods - the composi
   assert.match(doll, /if \(!_live \|\| paperDollStale\(\)\) refreshPaperDoll\(entity\);/, 'the classic doll recomposes on its draw');
   assert.match(src('ui/enhanced/enhancedInventory.js'), /if \(paperDollStale\(\)\) refreshFigure\(\);\n\s*const figure = modelFigure\(\);/, 'the enhanced pack asks for a fresh avatar');
   assert.match(src('ui/textureCanvas.js'), /if \(_iconsGen !== iconsGeneration\(\)\) \{\n\s*icons\.clear\(\);\n\s*_iconsGen = iconsGeneration\(\);\n\s*\}/, 'and its icons are drawn again');
-  assert.match(src('ui/textureCanvas.js'), /const iconsGeneration = \(\) => `\$\{dfmodGeneration\(\)\}:\$\{studioGeneration\(\)\}`;/, 'STUDIO1: the key is the attached-mod set\'s, and the studio\'s');
+  assert.match(src('ui/textureCanvas.js'), /const iconsGeneration = \(\) => `\$\{dfmodGeneration\(\)\}`;/, 'the key is the attached-mod set\'s');
 });
 
 // ---- DFMOD2: big mods (DREAM's full-resolution set) never stand the game on a blank screen ----

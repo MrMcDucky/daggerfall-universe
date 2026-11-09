@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import { createReadStream, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { landingHtml, readBuildSha } from './scripts/landingHtml.mjs';
-import { studioArtIndex } from './scripts/studioArtIndex.mjs';   // STUDIO1: the studio's listing, served and built from the folder
 import { firstVisitPinsPlugin } from './scripts/firstVisitPins.mjs';   // FIRST-VISIT: the kept answers' pins, computed by the build and the dev server
 import { noImportedTopLevelAwait } from './scripts/noTopLevelAwait.mjs';   // WEBKIT-TLA (AUDIT FB1029g TLA-1): no imported chunk awaits at its top level
 import { limitOpenFiles } from './scripts/openFileLimit.mjs';   // FOUNDATION F5: the assets' reads held under Windows' open-file limit (EMFILE)
@@ -305,14 +304,11 @@ export default defineConfig({
         // an item template points at. The player's own ARENA2 through
         // a picker, like mw-inspect - nothing baked in.
         archiveSheet: 'archive-sheet.html',
-        // STUDIO1: THE STUDIO - every picture the port paints itself, as worn, each with its template to download, and the
-        // artists' own pictures beside them (src/tools/studioLab.js; public/art/studio/README.md). No game data.
-        studio: 'studio.html',
         // SKYRIM-FLORA: artist preview — biome ground + one sprite (catalog or uploaded PNG) as crossed cards / hang.
         // Folder entry so Pages serves `/2d-playground/` (floraPlaygroundAlias softens the bare path in dev).
         floraPlayground: '2d-playground/index.html',
       },
     },
   },
-  plugins: [arena2DevServer(), buildTagMeta(), landingHtml(), studioArtIndex(), firstVisitPinsPlugin(), floraPlaygroundAlias(), noImportedTopLevelAwait()],
+  plugins: [arena2DevServer(), buildTagMeta(), landingHtml(), firstVisitPinsPlugin(), floraPlaygroundAlias(), noImportedTopLevelAwait()],
 });

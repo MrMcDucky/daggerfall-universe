@@ -47,7 +47,7 @@ import { YARD_FOOT } from '../world/merchantYards/merchantYardSites.js';
 import { buildYardModel, signBoxOf, yardPoints } from '../world/merchantYards/merchantYardModels.js';
 import { yardArt, YARD_ARCHIVE } from '../world/merchantYards/merchantYardArt.js';
 import { dfLook, lookSeed } from '../world/dfLook.js';   // DF-LOOK: the yards' pictures in Daggerfall's colours
-import { wearPainted } from '../systems/studioArt/studioArt.js';   // STUDIO1: the studio's pictures over the painted ones (their rows top-down, as the yards' are)
+import { wearPainted } from '../systems/paintedReplacement.js';   // a player's texture pack over the painted pictures (their rows top-down, as the yards' are)
 import { PERSON_TEXTURES, PERSON_IDLE_RECORD, PERSON_IDLE_FPS, spriteRaceOf } from '../characters/mobile/mobilePerson.js';
 import { mobileBillboardSize } from '../world/rmbFlats.js';
 import { folkLookOf } from '../characters/folkBodies.js';   // AUDIT MW-NPC II P1: a keeper's body, in the outfit their picture wears

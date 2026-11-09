@@ -291,15 +291,6 @@
     ]
   },
   {
-    "name": "STUDIO1-never-installed",
-    "file": "src/scenes/shared.js",
-    "old": "  const studio = installStudioArt().catch(() => 0);",
-    "new": "  const studio = 0; void installStudioArt;",
-    "tests": [
-      "test/systems/studioArt/studio1_door.test.js"
-    ]
-  },
-  {
     "name": "STUDIO1-any-over-any-absorbed",
     "file": "src/systems/textureReplacement.js",
     "old": "    if (prev?.studio && !entry.studio) {",
@@ -732,15 +723,6 @@
     ]
   },
   {
-    "name": "STUDIO1-icons-blind-to-the-studio",
-    "file": "src/ui/textureCanvas.js",
-    "old": "const iconsGeneration = () => `${dfmodGeneration()}:${studioGeneration()}`;",
-    "new": "const iconsGeneration = () => `${dfmodGeneration()}`;\nvoid studioGeneration;",
-    "tests": [
-      "test/systems/studioArt/auditstudio1.test.js"
-    ]
-  },
-  {
     "name": "STUDIO1-doll-box-unread",
     "file": "src/ui/paperDoll.js",
     "old": "      const classic = tex.vendor ? (tex.getBox?.(record) ?? null) : tex.getSize(record);",
@@ -756,15 +738,6 @@
     "new": "    });",
     "tests": [
       "test/systems/studioArt/auditstudio1.test.js"
-    ]
-  },
-  {
-    "name": "STUDIO1-icon-before-the-studio",
-    "file": "src/world/wagonModels.js",
-    "old": "  await studioLanded();   // STUDIO1: the icon is drawn once - in the studio's pictures where an artist drew them\n",
-    "new": "  void studioLanded;\n",
-    "tests": [
-      "test/systems/studioArt/studio1_door.test.js"
     ]
   },
   {
@@ -943,15 +916,6 @@
     "file": "scripts/studioArtIndex.mjs",
     "old": "    name: 'studio-art-index',",
     "new": "    name: 'studio-art',",
-    "tests": [
-      "test/systems/studioArt/auditstudio1.test.js"
-    ]
-  },
-  {
-    "name": "STUDIO1-plugin-unwired",
-    "file": "vite.config.js",
-    "old": "  plugins: [arena2DevServer(), buildTagMeta(), landingHtml(), studioArtIndex(), firstVisitPinsPlugin(), floraPlaygroundAlias(), noImportedTopLevelAwait()],",
-    "new": "  plugins: [arena2DevServer(), buildTagMeta(), landingHtml(), firstVisitPinsPlugin(), floraPlaygroundAlias(), noImportedTopLevelAwait()].concat(studioArtIndex ? [] : []),",
     "tests": [
       "test/systems/studioArt/auditstudio1.test.js"
     ]
@@ -1215,24 +1179,6 @@
     "new": "    archive: LEFAY_ARCHIVE + 1,",
     "tests": [
       "test/systems/studioArt/auditstudio1.test.js"
-    ]
-  },
-  {
-    "name": "STUDIO1-doctrine-every-studio-file",
-    "file": "test/tooling/doctrine.test.js",
-    "old": "const studioArt = (f) => STUDIO_WORN.has(f);",
-    "new": "const studioArt = (f) => f.startsWith(`${STUDIO_TREE}/`);",
-    "tests": [
-      "test/tooling/doctrine.test.js"
-    ]
-  },
-  {
-    "name": "STUDIO1-doctrine-anything",
-    "file": "test/tooling/doctrine.test.js",
-    "old": "const studioArt = (f) => STUDIO_WORN.has(f);",
-    "new": "const studioArt = (f) => true || STUDIO_WORN.has(f);",
-    "tests": [
-      "test/tooling/doctrine.test.js"
     ]
   },
   {

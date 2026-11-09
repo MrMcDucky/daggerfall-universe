@@ -93,7 +93,6 @@ import { setMusicReplacements } from '../systems/musicReplacement.js';   // M-EX
 import { setSoundReplacements } from '../systems/soundReplacer.js';   // SNDREP1: the player's sound pack, on the same seam
 import { installDiverseWeaponsIcons } from '../combat/diverseWeapons/diverseWeaponsIcons.js';
 import { installRoleplayRealismItems } from '../systems/roleplayRealismItems/rriInstall.js';
-import { installStudioArt } from '../systems/studioArt/studioArt.js';   // STUDIO1: the game's artists' own pictures
 import { installWarmAshesShips } from '../systems/warmAshesShips.js';   // WA1: Warm Ashes - Ships' quest list and save slot
 import { installRestItemLoot, litCandle, meditate, snuffCandle, draughtTaken, spendDraught, DRAUGHT_SPENT_MINUTES } from '../systems/rest/restItems.js';   // REST6: the seven that fill the gaps
 import { installForaging } from '../systems/foraging/foragingInstall.js';   // FORAGE1: Foraging's quest list, tools, foods, pictures and console command
@@ -1521,10 +1520,6 @@ export function ensureAudio(fetch = fetchBytes) {
   // (DFMOD1/DFMOD2), the shipped mods first (VE4), before the first archive loads (the hosts await it), warmed. This
   // seam kept a copy of it with a `?nomods` rule of its own; the rule is the door's now (dfmodTextures.js noModsPage).
   const textures = registerTextureStore().catch(() => 0);
-  // STUDIO1: the studio's pictures (public/art/studio/) on the texture door's vendor tier - this answers at their
-  // registration; an archive's first load waits for it (a bounded while), and the port's own decode after it, a picture
-  // that lands after its host painted handed in late (systems/studioArt/studioArt.js wearPainted).
-  const studio = installStudioArt().catch(() => 0);
   installRaidingParties();   // RAID1: the mod's save record, in every host - a save made in a dungeon carries the day's raids too
   installSmithing();   // PROF3: the Repair Kit's use on the item-use door, in every host (a kit is the pack's, offline too)
   installHealingSupply();   // POTION-COMMON: Potions of Healing in the loot - after the smithing install, its field kit's roll first
@@ -1533,7 +1528,7 @@ export function ensureAudio(fetch = fetchBytes) {
   // MW-IMPORT: same seam, same never-traps rule - no data means the
   // opt-in layer stays inert, which is its resting state anyway.
   const morrowind = registerMorrowindData().catch(() => 0);
-  return Promise.all([sound, songs, replacements, textures, studio, morrowind]);
+  return Promise.all([sound, songs, replacements, textures, morrowind]);
 }
 
 // --- The outdoor fog COLOUR (DaggerfallSky.SetSkyFogColor) -----------

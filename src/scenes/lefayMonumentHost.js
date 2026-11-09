@@ -23,7 +23,7 @@ import {
 } from '../world/lefayMonument.js';
 import { lefayArt } from '../world/lefayArt.js';
 import { dfLook, lookSeed } from '../world/dfLook.js';   // DF-LOOK: the monument's pictures in Daggerfall's colours
-import { wearPainted } from '../systems/studioArt/studioArt.js';   // STUDIO1: the studio's pictures over the painted ones (their rows top-down, as the monument's are)
+import { wearPainted } from '../systems/paintedReplacement.js';   // a player's texture pack over the painted pictures (their rows top-down, as the monument's are)
 import { RAY_DISTANCE, STATIC_NPC_ACTIVATION_DISTANCE } from '../player/activate.js';
 import { CAPSULE_RADIUS, CAPSULE_HEIGHT } from '../player/motor.js';
 import { trs } from '../world/mat4.js';

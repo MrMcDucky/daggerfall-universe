@@ -7,12 +7,10 @@
 // file cut to the 1680 x 1410 its paint covers (none outside it had any
 // alpha), then scaled to 1232 x 1034 at his word, the same 56:47, so the
 // page stays light; it is drawn no wider than 595px.
-// DF WORLD (2026-11-09): a text wordmark, "DF" over "World" in Jacquard 12, at
-// the dragon mark's 1232 x 1034, until a new logo exists.
 import { t } from '../systems/textManager.js'; // L10N4: the mark's alt text in the player's language
 
-export const BRAND_LOGO_URL = new URL('../assets/branding/df-world.png', import.meta.url).href;
-// LOGO-CENTRE: how far right of the file's centre the letters stand, as a share of its width; each surface that
+export const BRAND_LOGO_URL = new URL('../assets/branding/df-world.png', import.meta.url).href;   // "DF" over "World" in Jacquard 12, until a new logo exists
+// How far right of the file's centre the letters stand, as a share of its width; each surface that
 // centres the mark draws it that far back (none while it is 0). test/ui/brand.test.js measures it from the file.
 export const BRAND_LOGO_OPTICAL_SHIFT = 0;
 export const BRAND_LOGO_ALT = 'DF World';

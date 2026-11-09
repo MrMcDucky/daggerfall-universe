@@ -83,7 +83,7 @@ test('TERMS1: the words are held to a hash - editing a document means deciding w
     // case's; the Terms' agreement the game asks for, never one it enforces
     // FORK (2026-11-05): the contact moved from upstream's Discord to this fork's issue tracker, and the
     // website line to its GitHub Pages site - not a new version: the terms themselves are unchanged
-    // DF WORLD (2026-11-09): the operator renamed DF World in both, and nothing else - not a new version
+    // The rename to DF World changed the operator's name in both and nothing else, so the version stands.
     terms: 'b9804fcc0bb300bdeea1dd8361b4bd4e7ed33c6635c5708fa0708f9e7bde809e',
     privacy: 'c98ee0e7d6c237687c9a89a05c2cf3a0e0c0e4e1f70a28f2f5465e7d38d7ac9a',
   };
