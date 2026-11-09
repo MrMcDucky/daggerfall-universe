@@ -83,8 +83,9 @@ test('TERMS1: the words are held to a hash - editing a document means deciding w
     // case's; the Terms' agreement the game asks for, never one it enforces
     // FORK (2026-11-05): the contact moved from upstream's Discord to this fork's issue tracker, and the
     // website line to its GitHub Pages site - not a new version: the terms themselves are unchanged
-    terms: '577b66148f894a5c2bcb5ba45143f294cc5080b4cac52dc914d26801f1cead45',
-    privacy: 'cb18c3b3e31bd4331eeebc873251fe5033fe0a34ce5c6d90a2ba8b9ec3d23eb8',
+    // DF WORLD (2026-11-09): the operator renamed DF World in both, and nothing else - not a new version
+    terms: 'b9804fcc0bb300bdeea1dd8361b4bd4e7ed33c6635c5708fa0708f9e7bde809e',
+    privacy: 'c98ee0e7d6c237687c9a89a05c2cf3a0e0c0e4e1f70a28f2f5465e7d38d7ac9a',
   };
   for (const [name, d] of Object.entries(DOCS)) {
     const words = wordsOf(read(d.file));
