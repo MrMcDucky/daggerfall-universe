@@ -310,7 +310,7 @@ test('STOREFRONT LESS MOTION, FOLLOWED (AUDIT STOREFRONT RENDER L10): the try-on
 });
 
 test('STOREFRONT A FRAME OF THE EFFECTS ALLOCATES NOTHING (AUDIT STOREFRONT RENDER L6; dissolve.js\'s law): the kill effects\' build and light, a skinned portal\'s tick and its batches write their records in place - measured in a node of its own with the collector at hand against a control that allocates (mutants: a colour array a part; a light record a frame; a size a piece; the batches flat-mapped)', () => {
-  const root = fileURLToPath(new URL('../..', import.meta.url));
+  const root = new URL('../..', import.meta.url).href;
   const script = `
     const { KillFx } = await import(${JSON.stringify(`${root}src/render/killFx.js`)});
     const { createPortalSet } = await import(${JSON.stringify(`${root}src/scenes/portalFx.js`)});

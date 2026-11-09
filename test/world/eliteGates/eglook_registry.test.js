@@ -20,6 +20,7 @@ import { dungeonSightLine } from '../../../src/world/spawnedDungeons.js';
 import { EG_TEXT, egRoomKey } from '../../../src/net/eliteGates/egLaw.js';
 import { LAST_CLASSIC_TEXTURE_ARCHIVE } from '../../../src/scenes/dataPipeline.js';
 import { fileURLToPath } from 'node:url';
+import { toPosix } from '../../posixPath.mjs';
 
 const SRC = fileURLToPath(new URL('../../../src/', import.meta.url));
 function walk(dir, out = []) {
@@ -30,7 +31,7 @@ function walk(dir, out = []) {
 function sweep() {
   const nums = [], keys = [];
   for (const p of walk(SRC)) {
-    const rel = p.slice(SRC.length), text = readFileSync(p, 'utf8');
+    const rel = toPosix(p.slice(SRC.length)), text = readFileSync(p, 'utf8');
     for (const m of text.matchAll(/(?:export )?const ([A-Z0-9_]*ARCHIVE[A-Z0-9_]*) *= *([0-9_]+)\b/g)) {
       const v = Number(m[2].replace(/_/g, ''));
       if (v > PSEUDO_ARCHIVE_FLOOR && !/_MAX$|_MIN$/.test(m[1])) nums.push({ owner: rel, name: m[1], value: v });

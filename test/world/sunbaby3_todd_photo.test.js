@@ -17,6 +17,7 @@ import { readFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { SUNBABY_GLSL, SUNBABY_TODD_PHOTO_FIT } from '../../src/world/sunbabySky.js';
 import { SunbabySkyRenderer, SUNBABY_TODD_PHOTO_URL, SUNBABY_UNIFORMS, SUNBABY_FS as FS } from '../../src/render/sunbabySkyRenderer.js';
+import { toPosix } from '../posixPath.mjs';
 
 const rd = (p) => readFileSync(new URL('../../' + p, import.meta.url), 'utf8');
 
@@ -34,7 +35,7 @@ function jpegSize(b) {
 
 test('SUNBABY3 file: the photograph is bundled where the pass asks for it - a square 256 crop of the face, small - and the doctrine allow-list says whose it is', () => {
   const path = fileURLToPath(SUNBABY_TODD_PHOTO_URL);
-  assert.ok(path.endsWith('src/assets/sunbaby/todd.jpg'));
+  assert.ok(toPosix(path).endsWith('src/assets/sunbaby/todd.jpg'));
   const bytes = readFileSync(path);
   assert.deepEqual(jpegSize(bytes), { w: 256, h: 256 }, 'the square the shader maps (its circle the face\'s disk)');
   assert.ok(statSync(path).size < 32 * 1024, 'a sun in the sky needs no more');

@@ -219,7 +219,8 @@ test('R2-D4: the search goes on past its deadline, and a later find is added - n
 });
 
 test('R2-D5: on a Mac the privacy-guarded folders are read LAST - after ~/Games, as "only when nothing else was found" says', () => {
-  const roots = looseRoots({ platform: 'darwin', home: '/Users/p', env: {} }, ['/Users/p/Downloads']);
+  // the folder as this host's path module writes it, so it is the one looseRoots joins (on Windows, \Users\p\...)
+  const roots = looseRoots({ platform: 'darwin', home: '/Users/p', env: {} }, [join('/Users/p', 'Downloads')]);
   assert.deepEqual(roots.map((r) => [toPosix(r.dir), r.guarded]), [
     ['/Users/p/Games', false], ['/Users/p/Downloads', true], ['/Users/p/Desktop', true], ['/Users/p/Documents', true],
   ]);

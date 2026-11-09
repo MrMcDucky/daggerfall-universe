@@ -13,6 +13,7 @@ import { CLIMATES } from '../../src/formats/mapsFile.js';
 import { domPointer } from '../../src/ui/plus/plusPad.js';
 import { capturePointer, releasePointer } from '../../src/ui/pointerCapture.js';
 import { fileURLToPath } from 'node:url';
+import { toPosix } from '../posixPath.mjs';
 
 /** Firefox's refusal for a pointer it does not hold. */
 const refuse = () => { const e = new Error('setPointerCapture: no pointer of that id'); e.name = 'NotFoundError'; throw e; };
@@ -74,7 +75,7 @@ test('RPT1026-CLIENT: no capture or release in the game\'s own code stands outsi
   const walk = (d, out = []) => { for (const n of readdirSync(d)) { const p = join(d, n); if (statSync(p).isDirectory()) walk(p, out); else if (n.endsWith('.js')) out.push(p); } return out; };
   const bare = [];
   for (const p of walk(join(root, 'src'))) {
-    const file = relative(root, p);
+    const file = toPosix(relative(root, p));
     if (file.startsWith('src/tools/') || file === 'src/ui/pointerCapture.js') continue;
     // PIN MOVED (LEGIBLE 3): the formatter opens a try on the line above its body, so that line counts as the try
     readFileSync(p, 'utf8').split('\n').forEach((ln, i, lines) => {

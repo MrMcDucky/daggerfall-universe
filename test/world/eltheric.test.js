@@ -16,6 +16,7 @@ import { logLines, newLog, TRADE_WORD, TRADE_WORDS } from '../../src/systems/nav
 import { etherOfficeText } from '../../src/ui/naval/navalYardWindow.js';
 import { ETHER_CHART_CSS } from '../../src/ui/etherChartWindow.js';
 import { fileURLToPath } from 'node:url';
+import { toPosix } from '../posixPath.mjs';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const walk = (dir) => readdirSync(dir).flatMap((f) => { const p = join(dir, f); return statSync(p).isDirectory() ? walk(p) : p.endsWith('.js') ? [p] : []; });
@@ -38,7 +39,7 @@ test('ELTHERIC: every word a player reads of the sea is the one home\'s - the cr
 test('ELTHERIC: no code names the sea "Etheric" any more, and the word is written in one module (the intro map\'s table beside it) - comments may speak of it, code may not spell it', () => {
   const stale = [], spelt = [];
   for (const file of walk(join(ROOT, 'src'))) {
-    const rel = file.slice(ROOT.length);
+    const rel = toPosix(file.slice(ROOT.length));
     const lines = readFileSync(file, 'utf8').split('\n');
     lines.forEach((line, i) => {
       const code = line.replace(/^\s*(\/\/|\*|\/\*).*$/, '').replace(/\s\/\/\s.*$/, '');

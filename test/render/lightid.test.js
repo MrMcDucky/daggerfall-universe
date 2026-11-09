@@ -26,6 +26,7 @@ import { bossGlow } from '../../src/world/gate/gateBoss.js';
 import { GATE_STATE_EMPTY } from '../../src/net/gate/gateLink.js';
 import { courtShadowCounts, meanOf, worstOf, CASE_FRAMES } from '../../tools/courtShadowProbe.mjs';
 import { fileURLToPath } from 'node:url';
+import { toPosix } from '../posixPath.mjs';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -41,7 +42,7 @@ test('LIGHT-ID: THE ONE CONSTRUCTION SEAM - no light is written into a frame\'s 
   ];
   const hits = [];
   for (const f of walk(join(ROOT, 'src'))) {
-    const rel = f.slice(ROOT.length);
+    const rel = toPosix(f.slice(ROOT.length));
     if (rel === 'src/render/lightId.js') continue;
     readFileSync(f, 'utf8').split('\n').forEach((line, i) => {
       const code = line.replace(/\/\/.*$/, '');

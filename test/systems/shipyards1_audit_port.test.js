@@ -347,7 +347,7 @@ test('AUDIT SHIPYARDS THE BEACON\'S FLAMES CAST NOTHING (L5-2\'s law; BEACON-TOW
 });
 
 test('AUDIT SHIPYARDS A NIGHT FRAME ALLOCATES NOTHING HERE (L4-2, PERF-LIGHTS\' law): the pool\'s frame, its glows (a lit lighthouse\'s 37 particles: 16 KB a call) and its lights write their records in place - measured as perfextb measures, in a node of its own with the collector at hand and a control that allocates', () => {
-  const root = fileURLToPath(new URL('../..', import.meta.url));
+  const root = new URL('../..', import.meta.url).href;
   const script = `
     const { createPortHost } = await import(${JSON.stringify(root + 'src/scenes/portHost.js')});
     const site = { key: '9:lighthouse', kind: 'lighthouse', x: 100, z: 100, yaw: 0, comp: 0, race: 'Breton', name: 'L', keeper: { name: 'K', sex: 'male', variant: 0 } };
