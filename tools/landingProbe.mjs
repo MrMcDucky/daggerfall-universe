@@ -125,7 +125,7 @@ async function landing(label, ctxOpts) {
   );
   check(
     `${label}: the page's one picture is the logo, as its wordmark, loaded`,
-    pics.length === 1 && pics[0].inWordmark && pics[0].loaded && pics[0].alt === 'DFO Online',
+    pics.length === 1 && pics[0].inWordmark && pics[0].loaded && pics[0].alt === 'DF World',
     JSON.stringify(pics),
   );
   const strip = await page.locator('.foot .stat').evaluateAll((els) => els.map((e) => e.textContent));
@@ -155,7 +155,7 @@ async function landing(label, ctxOpts) {
   check(
     `${label}: Install lands on three direct downloads`,
     downloads.length === 3 &&
-      downloads.every(([, h]) => /\/releases\/latest\/download\/DFO-Online-[\w-]+\.(exe|dmg|AppImage)$/.test(h)),
+      downloads.every(([, h]) => /\/releases\/latest\/download\/DF-World-[\w-]+\.(exe|dmg|AppImage)$/.test(h)),
     JSON.stringify(downloads),
   );
   // SUPPORT1: the asks - the addresses, the order, the marks the game draws, a thumb's target, gold under the pointer

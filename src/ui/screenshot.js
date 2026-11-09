@@ -52,7 +52,7 @@ const sayOnHud = (line) => import('../systems/notify.js').then((n) => n.hudText(
 /** `dfo-20260923-141502.png` - local time, sortable, no characters a filesystem refuses. */
 export function screenshotName(d = new Date()) {
   const p = (n) => String(n).padStart(2, '0');
-  return `dfo-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}.png`;
+  return `df-world-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}.png`;
 }
 
 /** AUDIT KB1 (the hosts lens' third finding): how long the object URL outlives the click. Revoked at 0 ms, a browser

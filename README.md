@@ -1,8 +1,8 @@
-# Daggerfall Universe
+# DF World
 
 This is a fork of [DFO Online](https://github.com/Lattymoy/daggerfall-js-source). Currently no official server is hosted, and no pre-built release is distributed.
 
-DFO Universe is an independent, unofficial project. It is not affiliated with or endorsed by Bethesda Softworks or
+DF World is an independent, unofficial project. It is not affiliated with or endorsed by Bethesda Softworks or
 ZeniMax Media. The Elder Scrolls and Daggerfall are trademarks of ZeniMax Media Inc.
 
 ## Reporting a bug

@@ -2,7 +2,7 @@
   {
     "name": "BR5-landing-title-old-name",
     "file": "index.html",
-    "old": "<title>DFO Online</title>",
+    "old": "<title>DF World</title>",
     "new": "<title>Daggerfall Online</title>",
     "tests": [
       "test/ui/brand.test.js"
@@ -12,8 +12,8 @@
   {
     "name": "BR5-landing-wordmark-split",
     "file": "index.html",
-    "old": "<h1 class=\"wordmark\"><img src=\"./src/assets/branding/dfo-online.png\" alt=\"DFO Online\"",
-    "new": "<h1 class=\"wordmark\"><img src=\"./src/assets/branding/dfo-online.png\" alt=\"Daggerfall Online\"",
+    "old": "<h1 class=\"wordmark\"><img src=\"./src/assets/branding/df-world.png\" alt=\"DF World\"",
+    "new": "<h1 class=\"wordmark\"><img src=\"./src/assets/branding/df-world.png\" alt=\"Daggerfall Online\"",
     "tests": [
       "test/ui/brand.test.js"
     ],
@@ -22,7 +22,7 @@
   {
     "name": "BR5-short-name-back",
     "file": "public/manifest.webmanifest",
-    "old": "\"short_name\": \"DFO\",",
+    "old": "\"short_name\": \"DF World\",",
     "new": "\"short_name\": \"Daggerfall\",",
     "tests": [
       "test/ui/brand.test.js"
@@ -32,7 +32,7 @@
   {
     "name": "BR5-iphone-title-back",
     "file": "play/index.html",
-    "old": "<meta name=\"apple-mobile-web-app-title\" content=\"DFO\" />",
+    "old": "<meta name=\"apple-mobile-web-app-title\" content=\"DF World\" />",
     "new": "<meta name=\"apple-mobile-web-app-title\" content=\"Daggerfall\" />",
     "tests": [
       "test/ui/brand.test.js"
@@ -42,7 +42,7 @@
   {
     "name": "BR5-download-old-name",
     "file": "app/package.json",
-    "old": "\"artifactName\": \"DFO-Online-${os}-${arch}.${ext}\"",
+    "old": "\"artifactName\": \"DF-World-${os}-${arch}.${ext}\"",
     "new": "\"artifactName\": \"DaggerfallOnline-${os}-${arch}.${ext}\"",
     "tests": [
       "test/ui/brand.test.js",
@@ -53,7 +53,7 @@
   {
     "name": "BR5-chargen-masthead-back",
     "file": "src/ui/enhanced/enhancedChargen.js",
-    "old": "brand.append(el('div', 'sub', 'DFO Online'));",
+    "old": "brand.append(el('div', 'sub', 'DF World'));",
     "new": "brand.append(el('div', 'sub', 'Daggerfall'));",
     "tests": [
       "test/ui/brand.test.js"
@@ -63,8 +63,8 @@
   {
     "name": "BR5-launcher-wordmark-split",
     "file": "app/launcher/index.html",
-    "old": "<h1 class=\"wordmark\"><img src=\"dfo-online.png\" alt=\"DFO Online\"",
-    "new": "<h1 class=\"wordmark\"><img src=\"dfo-online.png\" alt=\"Daggerfall Online\"",
+    "old": "<h1 class=\"wordmark\"><img src=\"df-world.png\" alt=\"DF World\"",
+    "new": "<h1 class=\"wordmark\"><img src=\"df-world.png\" alt=\"Daggerfall Online\"",
     "tests": [
       "test/ui/brand.test.js"
     ],
@@ -73,8 +73,8 @@
   {
     "name": "BR5-alt-names-a-game",
     "file": "src/ui/brandMark.js",
-    "old": "export const BRAND_LOGO_ALT = 'DFO Online';",
-    "new": "export const BRAND_LOGO_ALT = 'The Elder Scrolls II: DFO Online';",
+    "old": "export const BRAND_LOGO_ALT = 'DF World';",
+    "new": "export const BRAND_LOGO_ALT = 'The Elder Scrolls II: DF World';",
     "tests": [
       "test/ui/brand.test.js",
       "test/ui/intro.test.js"
@@ -84,7 +84,7 @@
   {
     "name": "BR5-readme-old-name",
     "file": "README.md",
-    "old": "# DFO Online\n",
+    "old": "# DF World\n",
     "new": "# Daggerfall Online\n",
     "tests": [
       "test/ui/brand.test.js"
@@ -294,7 +294,7 @@
   {
     "name": "BR5-screenshot-old-name",
     "file": "src/ui/screenshot.js",
-    "old": "return `dfo-${d.getFullYear()}",
+    "old": "return `df-world-${d.getFullYear()}",
     "new": "return `daggerfall-${d.getFullYear()}",
     "tests": [
       "test/ui/brand.test.js"
@@ -304,7 +304,7 @@
   {
     "name": "BR5-loading-shot-old-name",
     "file": "src/ui/shotsPane.js",
-    "old": "a.download = `dfo-shot-${s.id}.jpg`;",
+    "old": "a.download = `df-world-shot-${s.id}.jpg`;",
     "new": "a.download = `daggerfall-shot-${s.id}.jpg`;",
     "tests": [
       "test/ui/brand.test.js"
@@ -314,7 +314,7 @@
   {
     "name": "BR5-patreon-page-old-name",
     "file": "server-account/src/patreon.js",
-    "old": "    `<title>${esc(heading)} - DFO Online</title><style>` + // BR5: the product's name on the page a player is sent back to",
+    "old": "    `<title>${esc(heading)} - DF World</title><style>` + // BR5: the product's name on the page a player is sent back to",
     "new": "    `<title>${esc(heading)} - Daggerfall</title><style>` + // BR5: the product's name on the page a player is sent back to",
     "tests": [
       "test/ui/brand.test.js"
@@ -324,7 +324,7 @@
   {
     "name": "BR5-terms-heading-old-name",
     "file": "terms/index.html",
-    "old": "<h1>DFO ONLINE MULTIPLAYER — ",
+    "old": "<h1>DF WORLD MULTIPLAYER — ",
     "new": "<h1>DAGGERFALL ONLINE MULTIPLAYER — ",
     "tests": [
       "test/ui/brand.test.js",

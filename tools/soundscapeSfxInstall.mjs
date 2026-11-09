@@ -155,7 +155,7 @@ if (isMain(import.meta.url)) {
   for (const p of PICKS) {
     const local = join(SRC, decodeURIComponent(p.file));
     if (existsSync(local)) continue;
-    const r = await fetch(OGA + p.file, { headers: { 'user-agent': 'DFO-Online-sfx/1.0' } });
+    const r = await fetch(OGA + p.file, { headers: { 'user-agent': 'DF-World-sfx/1.0' } });
     if (!r.ok) throw new Error(`${p.file}: ${r.status}`);
     writeFileSync(local, new Uint8Array(await r.arrayBuffer()));
   }

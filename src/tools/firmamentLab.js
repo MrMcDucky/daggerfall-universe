@@ -73,7 +73,7 @@ function lanes() {
       mount();
     });
   const grim = params.get('dress') === 'grimoire';
-  b(grim ? 'Enhanced Plus' : 'DFO Grimoire', false, () => {
+  b(grim ? 'Enhanced Plus' : 'DF World Grimoire', false, () => {
     const u = new URL(location.href);
     u.searchParams.set('dress', grim ? 'none' : 'grimoire');
     location.href = u.toString();

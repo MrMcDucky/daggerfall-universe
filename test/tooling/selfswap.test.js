@@ -20,16 +20,16 @@ test('UPDATE-SWAP: the release\'s own size and sha256 are what a download is hel
 });
 
 test('UPDATE-SWAP: who swaps - the portable exe and a Mac app in a folder it can write; never the disk image, a translocated copy, or a folder it cannot', () => {
-  const portable = swapPlan({ platform: 'win32', packaged: true, portableFile: 'C:\\Games\\DFO-Online-win-x64-portable.exe', execPath: 'C:\\x\\a.exe', file: 'DFO-Online-win-x64-portable.exe', writable: yes });
-  assert.deepEqual(portable, { kind: 'portable', target: 'C:\\Games\\DFO-Online-win-x64-portable.exe', staged: 'C:\\Games\\DFO-Online-win-x64-portable.exe.new' });
-  assert.equal(swapPlan({ platform: 'win32', packaged: true, portableFile: 'C:\\Games\\p.exe', execPath: '', file: 'DFO-Online-win-x64-portable.exe', writable: no }).kind, null);
-  assert.equal(swapPlan({ platform: 'win32', packaged: true, execPath: 'C:\\Program Files\\DFO\\DFO.exe', file: 'DFO-Online-win-x64-setup.exe', writable: yes }).kind, null, 'an installed copy installs');
-  const exec = '/Applications/DFO Online.app/Contents/MacOS/DFO Online';
-  assert.deepEqual(swapPlan({ platform: 'darwin', packaged: true, execPath: exec, file: 'DFO-Online-mac-arm64.dmg', writable: yes }),
-    { kind: 'mac', bundle: '/Applications/DFO Online.app', staged: '/Applications/.DFO Online.app.new' });
-  assert.equal(swapPlan({ platform: 'darwin', packaged: true, execPath: '/Volumes/DFO Online/DFO Online.app/Contents/MacOS/DFO Online', file: 'DFO-Online-mac-arm64.dmg', writable: yes }).kind, null, 'run from the disk image');
-  assert.equal(swapPlan({ platform: 'darwin', packaged: true, execPath: '/private/var/folders/x/AppTranslocation/1/d/DFO Online.app/Contents/MacOS/DFO Online', file: 'DFO-Online-mac-arm64.dmg', writable: yes }).kind, null, 'translocated');
-  assert.equal(swapPlan({ platform: 'darwin', packaged: true, execPath: exec, file: 'DFO-Online-mac-arm64.dmg', writable: no }).kind, null);
+  const portable = swapPlan({ platform: 'win32', packaged: true, portableFile: 'C:\\Games\\DF-World-win-x64-portable.exe', execPath: 'C:\\x\\a.exe', file: 'DF-World-win-x64-portable.exe', writable: yes });
+  assert.deepEqual(portable, { kind: 'portable', target: 'C:\\Games\\DF-World-win-x64-portable.exe', staged: 'C:\\Games\\DF-World-win-x64-portable.exe.new' });
+  assert.equal(swapPlan({ platform: 'win32', packaged: true, portableFile: 'C:\\Games\\p.exe', execPath: '', file: 'DF-World-win-x64-portable.exe', writable: no }).kind, null);
+  assert.equal(swapPlan({ platform: 'win32', packaged: true, execPath: 'C:\\Program Files\\DFO\\DFO.exe', file: 'DF-World-win-x64-setup.exe', writable: yes }).kind, null, 'an installed copy installs');
+  const exec = '/Applications/DF World.app/Contents/MacOS/DF World';
+  assert.deepEqual(swapPlan({ platform: 'darwin', packaged: true, execPath: exec, file: 'DF-World-mac-arm64.dmg', writable: yes }),
+    { kind: 'mac', bundle: '/Applications/DF World.app', staged: '/Applications/.DF World.app.new' });
+  assert.equal(swapPlan({ platform: 'darwin', packaged: true, execPath: '/Volumes/DF World/DF World.app/Contents/MacOS/DF World', file: 'DF-World-mac-arm64.dmg', writable: yes }).kind, null, 'run from the disk image');
+  assert.equal(swapPlan({ platform: 'darwin', packaged: true, execPath: '/private/var/folders/x/AppTranslocation/1/d/DF World.app/Contents/MacOS/DF World', file: 'DF-World-mac-arm64.dmg', writable: yes }).kind, null, 'translocated');
+  assert.equal(swapPlan({ platform: 'darwin', packaged: true, execPath: exec, file: 'DF-World-mac-arm64.dmg', writable: no }).kind, null);
   assert.equal(swapPlan({ platform: 'darwin', packaged: false, execPath: exec, file: 'x.dmg', writable: yes }).kind, null);
   assert.equal(swapPlan({ platform: 'linux', packaged: true, execPath: '/opt/x', file: 'x.AppImage', writable: yes }).kind, null);
 });

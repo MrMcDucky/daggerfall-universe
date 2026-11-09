@@ -1,6 +1,6 @@
 # Reporting exploits, bugs and security issues
 
-DFO Online is a live online game. If you find a way to break it, please tell the developers privately and not in
+DF World is a live online game. If you find a way to break it, please tell the developers privately and not in
 public: an exploit, a way to duplicate gold or items, or a hole in the accounts or the servers. Once an exploit is
 posted publicly it spreads before it can be fixed, and every player pays for it.
 
@@ -63,4 +63,4 @@ lead to the actions the Terms describe.
 
 A developer reads the report and closes it as **Fixed**, **Won't fix** or **Duplicate**. An in-game report shows this
 in your list under the form. A fix ships in an update, and its patch notes say what changed. If you would like to be
-credited for a report, say so in it. DFO Online is a free project and has no paid bug bounty.
+credited for a report, say so in it. DF World is a free project and has no paid bug bounty.

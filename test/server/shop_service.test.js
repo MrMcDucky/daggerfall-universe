@@ -143,7 +143,7 @@ test('SHOP: the checkout is priced by the service, names the account, and carrie
   const f = checkoutFields({ id: 'a'.repeat(24), player: 'p1', handle: 'Buyer', ware, origin: 'https://accounts.invalid', expiresAt: 123 });
   assert.equal(f['line_items[0][price_data][unit_amount]'], 499);
   assert.equal(f['line_items[0][price_data][currency]'], 'usd');
-  assert.equal(f['line_items[0][price_data][product_data][name]'], '500 Aurum - DFO Online');
+  assert.equal(f['line_items[0][price_data][product_data][name]'], '500 Aurum - DF World');
   assert.ok(f['line_items[0][price_data][product_data][description]'].includes('Buyer') && f['line_items[0][price_data][product_data][description]'].includes(SHOP_PROCEEDS));
   assert.equal(f['metadata[order]'], 'a'.repeat(24));
   assert.equal(f['payment_intent_data[metadata][order]'], 'a'.repeat(24), 'a refund on the payment finds its order');

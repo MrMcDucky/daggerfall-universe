@@ -21,8 +21,9 @@ test('INTRO2: supplied logo and Mac\u2019s remastered recording are byte-exact; 
   // its paint covers - every pixel inside his, unchanged, and none outside
   // with any alpha. BR6 (2026-10-26): his dragon mark - its 2000 x 1434
   // file cut to the 1680 x 1410 its paint covers, then scaled to 1232 x 1034
-  // at his word (the same 56:47; 785 KB where the cut was 1.28 MB).
-  assert.equal(createHash('sha256').update(read('src/assets/branding/dfo-online.png')).digest('hex'), 'bf7a6bca77b6f29f31738a85545cd7fb51c3e91dce4df985a93c7874804b57a7');
+  // at his word (the same 56:47; 785 KB where the cut was 1.28 MB). DF WORLD
+  // (2026-11-09): a text wordmark at the same size.
+  assert.equal(createHash('sha256').update(read('src/assets/branding/df-world.png')).digest('hex'), 'e06dd49d66af570502ee93fe7418f2ad30b5963aaac1d999357aaf2c3f3d944e');
   const track = read('src/assets/intro/theme.mp3');
   assert.equal(createHash('sha256').update(track).digest('hex'), 'c8eb0eccf3265244c0f4424d26efee835d40cccf4e11a66744ec4b284d8392e3');
 
@@ -225,11 +226,11 @@ test('INTRO2: disposing during fetch prevents late audio and releases the loadin
 
 test('INTRO2: the shared logo has accessible text and its exact natural aspect ratio', () => {
   const logo = brandMark({ createElement: (tag) => ({ tag }) });
-  assert.equal(logo.tag, 'img'); assert.equal(logo.alt, 'DFO Online');   // BR5: the product's name alone - the mark names no other game
+  assert.equal(logo.tag, 'img'); assert.equal(logo.alt, 'DF World');   // BR5: the product's name alone - the mark names no other game
   // BR4: the element's size is the FILE's, read from its own IHDR - a new
   // logo dropped in without its dimensions reddens here, not in a layout
   // (BR5's did: 2112 x 850 to 526 x 322; BR6's: to 1232 x 1034).
-  const png = read('src/assets/branding/dfo-online.png');
+  const png = read('src/assets/branding/df-world.png');
   assert.equal(png.toString('latin1', 12, 16), 'IHDR');
   assert.deepEqual([logo.width, logo.height], [png.readUInt32BE(16), png.readUInt32BE(20)]);
   assert.equal(logo.draggable, false);

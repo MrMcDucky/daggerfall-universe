@@ -76,7 +76,7 @@ concurrency:
 
 env:
   CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}   # the Cloudflare account; not kept in wrangler.toml
-  RELAY_BASE: ${{ vars.RELAY_BASE_URL }}       # this fork's relay, e.g. https://daggerfall-online.<subdomain>.workers.dev
+  RELAY_BASE: ${{ vars.RELAY_BASE_URL }}       # this fork's relay, e.g. https://df-world-relay.<subdomain>.workers.dev
   ACCOUNT_BASE: ${{ vars.ACCOUNT_BASE_URL }}   # this fork's account service
 
 jobs:

@@ -60,7 +60,7 @@ export const GRIMOIRE_VITALS = Object.freeze({ upright: 'Upright vials', row: 'V
 /** GRIM3 (a player: "Any chance you could work it in a way that it can (optionallly) rettain the look of the original
  *  GrimoireUI spellbook?"): the spellbook as the dress's book (the desk's painted book, like every other) or as
  *  GrimoireUI's own spellbook picture (SPBK00I0), every press of the enhanced book written on it. */
-export const GRIMOIRE_SPELLBOOKS = Object.freeze({ book: 'DFO book', pack: 'GrimoireUI\'s own' });
+export const GRIMOIRE_SPELLBOOKS = Object.freeze({ book: 'DF World book', pack: 'GrimoireUI\'s own' });
 /** DIAL-PACK (2026-10-12, Mac: "add the old Tab selector as optional to the overhaul option"): the Tab dial's doors in
  *  Daggerfall's own art (the face and the HUD bar's icons - ui/dialClassicArt.js, the default) or the pack's paintings
  *  (GRIM4's helm, book, chest and map). */

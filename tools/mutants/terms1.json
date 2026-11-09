@@ -232,8 +232,8 @@
   {
     "name": "TERMS1-a-word-changed",
     "file": "terms/index.html",
-    "old": "DFO Online is an experimental community multiplayer project.",
-    "new": "DFO Online is a community multiplayer project.",
+    "old": "DF World is an experimental community multiplayer project.",
+    "new": "DF World is a community multiplayer project.",
     "tests": [
       "test/ui/enhanced/terms1.test.js"
     ],

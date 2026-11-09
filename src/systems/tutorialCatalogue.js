@@ -59,7 +59,7 @@ const page = (p) => {
 export const TUTORIALS = Object.freeze([
   // ── GETTING STARTED ──────────────────────────────────────────
   page({
-    id: 'welcome', group: 'basics', title: 'Welcome to DFO', trigger: TOUR,
+    id: 'welcome', group: 'basics', title: 'Welcome to DF World', trigger: TOUR,
     body: [
       // START1 (bible/06-Systems/Alternate-Starts-Arc.md): the main story waits on the commission (systems/starts/starts.js) -
       // START2: in whichever start the character chose, so the page names none of them. AUDIT STARTS U9: neither "find
@@ -103,7 +103,7 @@ export const TUTORIALS = Object.freeze([
       '{QuickSave} saves your game at once and {QuickLoad} loads that save. Save often.',
     ],
     points: [
-      'Every feature DFO adds can be turned off under Settings > Features.',
+      'Every feature DF World adds can be turned off under Settings > Features.',
       'Online, the world goes on while the menu is open.',
     ],
   }),

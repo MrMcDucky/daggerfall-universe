@@ -487,7 +487,7 @@ export function shopWindow(
   const proceeds = el('aside', 'sh-proceeds');
   proceeds.setAttribute('role', 'note');
   proceeds.append(
-    el('strong', 'sh-proceeds-main', t('shop.proceeds', 'All proceeds go to the costs of developing DFO Online.')),
+    el('strong', 'sh-proceeds-main', t('shop.proceeds', 'All proceeds go to the costs of developing DF World.')),
     el('span', 'sh-proceeds-sub', t('shop.cosmetic', 'Every item is cosmetic. It gives no power in the game.')),
   ); // net/shopLaw.js SHOP_PROCEEDS, SHOP_COSMETIC - a pin holds them equal
   // STOREFRONT: THE CAROUSEL - a region of slides (the WAI-ARIA carousel pattern), its controls before its panel

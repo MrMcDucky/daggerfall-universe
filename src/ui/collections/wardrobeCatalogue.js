@@ -252,7 +252,7 @@ const shopPiece = (/** @type {string} */ id) => () =>
 const patron = (/** @type {string} */ tier) => () =>
   t(
     'coll.how.patron',
-    'Support DFO Online on Patreon at the {tier} tier, then link Patreon from your profile - or be granted it by name.',
+    'Support DF World on Patreon at the {tier} tier, then link Patreon from your profile - or be granted it by name.',
     { tier: TITLE_TEXT[/** @type {keyof typeof TITLE_TEXT} */ (tier)] },
   );
 /** Apostle: a Patreon tier's title no pledge maps yet (server-account/wrangler.toml PATREON_TIERS), held by name alone. */

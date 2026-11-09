@@ -44,8 +44,8 @@ export const myReportStateText = (/** @type {{ read: boolean, state: string }} *
 export function reportBuildText(/** @type {any} */ ctx) {
   if (!ctx?.update && !ctx?.build) return t('report.build.unknown', 'an unknown build');
   const name = ctx.update
-    ? t('report.build.update', 'DFO Online {update}', { update: ctx.update })
-    : t('report.build.name', 'DFO Online');
+    ? t('report.build.update', 'DF World {update}', { update: ctx.update })
+    : t('report.build.name', 'DF World');
   const where =
     ctx.app === 'desktop'
       ? t('report.build.desktop', 'desktop app')

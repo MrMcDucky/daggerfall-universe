@@ -2,7 +2,7 @@
   {
     "name": "BR4-landing-title-old-name",
     "file": "index.html",
-    "old": "<title>DFO Online</title>",
+    "old": "<title>DF World</title>",
     "new": "<title>Daggerfall Enhanced</title>",
     "tests": [
       "test/ui/brand.test.js"
@@ -21,8 +21,8 @@
   {
     "name": "BR4-door-logo-screen-blend",
     "file": "src/ui/enhanced/enhancedStyle.js",
-    "old": ".brand-logo { display: block; width: 100%; height: auto; object-fit: contain;\n  image-rendering: auto; transform: translateX(-10%); }",
-    "new": ".brand-logo { display: block; width: 100%; height: auto; object-fit: contain;\n  mix-blend-mode: screen; image-rendering: auto; transform: translateX(-10%); }",
+    "old": ".brand-logo { display: block; width: 100%; height: auto; object-fit: contain;\n  image-rendering: auto; }",
+    "new": ".brand-logo { display: block; width: 100%; height: auto; object-fit: contain;\n  mix-blend-mode: screen; image-rendering: auto; }",
     "tests": [
       "test/ui/brand.test.js"
     ]
@@ -30,7 +30,7 @@
   {
     "name": "BR4-prototype-split-wordmark",
     "file": "menu-pixel.html",
-    "old": "DFO<small>Online</small>",
+    "old": "DF<small>World</small>",
     "new": "Daggerfall<small>Enhanced</small>",
     "tests": [
       "test/ui/brand.test.js"
@@ -49,7 +49,7 @@
   {
     "name": "BR4-intro-aria-old-name",
     "file": "src/ui/intro/introScreen.js",
-    "old": "host.setAttribute('aria-label', t('menu.intro.aria', 'DFO Online introduction'));",
+    "old": "host.setAttribute('aria-label', t('menu.intro.aria', 'DF World introduction'));",
     "new": "host.setAttribute('aria-label', t('menu.intro.aria', 'Daggerfall Enhanced introduction'));",
     "tests": [
       "test/ui/brand.test.js"
@@ -69,7 +69,7 @@
   {
     "name": "BR4-zip-old-name",
     "file": "src/systems/save/saveTransfer.js",
-    "old": "export const TRANSFER_ZIP_NAME = 'DFO-Online-Saves.zip';",
+    "old": "export const TRANSFER_ZIP_NAME = 'DF-World-Saves.zip';",
     "new": "export const TRANSFER_ZIP_NAME = 'DaggerfallEnhanced-Saves.zip';",
     "tests": [
       "test/ui/brand.test.js",

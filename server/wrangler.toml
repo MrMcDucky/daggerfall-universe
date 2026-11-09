@@ -26,7 +26,7 @@
 # holds every live comment to it - the claim is derived from the
 # workflow rather than retyped beside it, which is what let the old
 # sentence rot in place.)
-name = "daggerfall-online"
+name = "df-world-relay"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
 # account_id is not kept here: wrangler reads CLOUDFLARE_ACCOUNT_ID (CI: vars.CLOUDFLARE_ACCOUNT_ID).
@@ -159,7 +159,7 @@ KT_DISCORD_THREAD = ""
 # retried: a batch the service does not take is dropped. EMPTY IS A
 # LEGAL STATE: nothing is kept and nothing is posted. The service drops
 # what it is fed while its reviewer is off (MOD_AI, or no key).
-MOD_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/feed"
+MOD_FEED_URL = "https://df-world-accounts.invalid/v1/mod/feed"
 # ═══ GRANT2: THE SPAWN GRANTS' MEASURE ═══════════════════════════════
 #
 # Where each cell posts its window of spawn grant asks for the account
@@ -185,7 +185,7 @@ MOD_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/feed"
 # reason; once it does, set it here as well as at the hub, so a room just
 # woken (or one whose hub did not answer) never reads it off. Leases are
 # signed with a key derived from GATE_SIGNING_KEY; no new secret.
-GRANT_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/grant-feed"
+GRANT_FEED_URL = "https://df-world-accounts.invalid/v1/mod/grant-feed"
 # COST-2 part two (bible/11-Multiplayer/Scale-Arc.md): THE CELL TREE MOVES.
 # The setting `cellSeed` (CELL_SEED, off unset) is the level the cell
 # directory seeds its tree at - 2 is 64-pixel cells. It stays off until the
@@ -211,7 +211,7 @@ CELL_MERGE_DWELL_MS = "600000"
 # EMPTY (or no GATE_SIGNING_KEY) CLOSES EVERY PRIVATE HOME TO A HIDDEN
 # SOCKET (server/src/staffHidden.js hiddenSeenOn): an entry the log
 # would not hold is never made.
-HIDDEN_SEEN_URL = "https://daggerfall-accounts.invalid/v1/mod/hidden-seen"
+HIDDEN_SEEN_URL = "https://df-world-accounts.invalid/v1/mod/hidden-seen"
 # ═══ STAFF-PANEL5-FEEDS: THE STAFF PANEL'S NET AND BOT-CHECK FEEDS ═════
 #
 # . Where
@@ -229,8 +229,8 @@ HIDDEN_SEEN_URL = "https://daggerfall-accounts.invalid/v1/mod/hidden-seen"
 # Only these vars change, so RELAY_VERSION does not move: the relay deploy
 # is a manual run of the relay's deploy with `redeploy` ticked (a plain
 # dispatch deploys only on drift), which drops every connected player once.
-STAFF_NET_FEED_URL = "https://daggerfall-accounts.invalid/v1/staff/net-feed"
-REACTION_FEED_URL = "https://daggerfall-accounts.invalid/v1/mod/reaction-feed"
+STAFF_NET_FEED_URL = "https://df-world-accounts.invalid/v1/staff/net-feed"
+REACTION_FEED_URL = "https://df-world-accounts.invalid/v1/mod/reaction-feed"
 # ═══ INT11-INT14: THE LINE THE BOSS FIGHTS' COUNT RUNS BY ════════════
 #
 # The relay counts each fighter's body in a gate, an Abyss Dungeon and
@@ -295,7 +295,7 @@ dataset = "daggerfall_relay"
 # feed's answer.
 [[services]]
 binding = "ACCOUNTS"
-service = "daggerfall-accounts"
+service = "df-world-accounts"
 
 [[durable_objects.bindings]]
 name = "ROOMS"

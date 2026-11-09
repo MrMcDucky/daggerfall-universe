@@ -54,7 +54,7 @@ export const SHOP_OPEN_ROUTES = new Set([
 
 /** THE DISCLAIMER, in English: the service's pages, Stripe's product line and the receipt say it in these words, and
  *  the window says the same through the text core (a pin holds the two equal). */
-export const SHOP_PROCEEDS = 'All proceeds go to the costs of developing DFO Online.';
+export const SHOP_PROCEEDS = 'All proceeds go to the costs of developing DF World.';
 /** And what a ware is - and is not. */
 export const SHOP_COSMETIC = 'Every item is cosmetic. It gives no power in the game.';
 
@@ -296,7 +296,7 @@ export function checkoutFields(
     'line_items[0][quantity]': 1,
     'line_items[0][price_data][currency]': SHOP_CURRENCY,
     'line_items[0][price_data][unit_amount]': o.cents ?? o.ware.cents, // STOREFRONT: the account's price - a bundle's share
-    'line_items[0][price_data][product_data][name]': `${wareLine(o.ware)} - DFO Online`,
+    'line_items[0][price_data][product_data][name]': `${wareLine(o.ware)} - DF World`,
     'line_items[0][price_data][product_data][description]': `For the game account ${o.handle}. ${SHOP_COSMETIC} ${SHOP_PROCEEDS}`,
     client_reference_id: o.id,
     'metadata[order]': o.id,

@@ -241,7 +241,7 @@ export function codesOf(d) {
  *  numbered as the card numbers them. */
 export function recoveryCodesText(handle, codes) {
   return [
-    t('account.codes.fileHead', 'DFO Online recovery codes for {name}', { name: handle || '?' }),
+    t('account.codes.fileHead', 'DF World recovery codes for {name}', { name: handle || '?' }),
     t('account.codes.fileNote', 'Each code works once, if you forget your password. Keep this file somewhere safe.'),
     '',
     ...codes.map((c, i) => `${i + 1}. ${c}`),
@@ -251,7 +251,7 @@ export function recoveryCodesText(handle, codes) {
 
 /** RECOVERY-SET: the file's name - the account's username in it, so two accounts' files never overwrite each other. */
 export const recoveryCodesFileName = (handle) =>
-  `dfo-recovery-codes-${
+  `df-world-recovery-codes-${
     String(handle || 'account')
       .replace(/[^\w-]+/g, '')
       .toLowerCase() || 'account'

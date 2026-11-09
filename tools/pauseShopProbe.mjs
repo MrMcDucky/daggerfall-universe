@@ -149,7 +149,7 @@ for (const [label, opts] of [
     const said = await page.locator('.sh-proceeds').textContent();
     check(
       `${tag}: it says the proceeds' use`,
-      /All proceeds go to the costs of developing DFO Online\./.test(said ?? ''),
+      /All proceeds go to the costs of developing DF World\./.test(said ?? ''),
       said ?? '',
     );
     const tabs = await page.$$eval('.sh-tab', (ns) => ns.map((n) => n.textContent));

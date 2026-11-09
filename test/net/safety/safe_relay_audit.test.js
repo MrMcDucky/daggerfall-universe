@@ -361,7 +361,7 @@ test('AUDIT SAFE RELAY S1: THE FEED POSTS THROUGH THE ACCOUNTS SERVICE BINDING w
   assert.deepEqual(opened.batch.lines.map((l) => l.text), ['one']);
   const toml = rd('server/wrangler.toml');
   const name = /^name = "([^"]+)"$/m.exec(rd('server-account/wrangler.toml'))?.[1];
-  assert.equal(name, 'daggerfall-accounts');
+  assert.equal(name, 'df-world-accounts');
   assert.match(toml, new RegExp(`^\\[\\[services\\]\\]\\nbinding = "ACCOUNTS"\\nservice = "${name}"$`, 'm'));
 });
 

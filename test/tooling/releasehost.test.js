@@ -50,7 +50,7 @@ function stubGh() {
     '  "api repos/o/pub/releases/tags/"*) t=${args##*/tags/}; t=${t%% *}; [ -f "$here/published-$t" ] && exit 0; echo "gh: Not Found (HTTP 404)" >&2; exit 1 ;;',
     '  *"--paginate"*) cat "$here/left" 2>/dev/null ;;',
     '  "api repos/o/priv/releases/tags/"*) echo \'{"name":"Update 0.0.9","body":"# Patch Notes: Boats"}\' ;;',
-    '  "release download"*) d=${args##*--dir }; mkdir -p "$d"; echo bytes > "$d/DFO-Online-game.pack" ;;',
+    '  "release download"*) d=${args##*--dir }; mkdir -p "$d"; echo bytes > "$d/DF-World-game.pack" ;;',
     '  "api -X POST repos/o/pub/releases "*) echo 7 ;;',
     '  *) : ;;',
     'esac',
@@ -205,7 +205,7 @@ test('public copy: each release goes over whole as a draft, published in one ste
     assert.ok(calls.some((c) => c.endsWith('api -X POST repos/o/pub/releases -f tag_name=app-v0.1.14513 -f name=Update 0.0.9 -F body=@body.md -F draft=true --jq .id')),
       'staged as a draft, under the release\'s own name and text');
     assert.equal(calls.filter((c) => c.includes('-X DELETE repos/o/pub/releases/5')).length, 2, 'a draft a failed run left is deleted before each staging');
-    assert.ok(calls.some((c) => /release upload app-v0\.1\.14487 files\/DFO-Online-game\.pack --repo o\/pub$/.test(c)), 'every file');
+    assert.ok(calls.some((c) => /release upload app-v0\.1\.14487 files\/DF-World-game\.pack --repo o\/pub$/.test(c)), 'every file');
     assert.ok(!calls.some((c) => c.includes('tag_name=app-v0.1.14400')), 'a release already published there is left alone');
     assert.match(r.stdout, /app-v0\.1\.14400 is already published on o\/pub/);
   } finally { rmSync(bin, { recursive: true, force: true }); }

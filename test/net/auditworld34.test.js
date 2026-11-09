@@ -251,7 +251,7 @@ test('AUDIT WORLD34 C3 by source: a refused act is KEPT while the socket is away
 
 test('AUDIT WORLD34 D4/D5: the relay names itself in /health; the session says the room and whether it is a shared world, and the host; the Online pane\'s copy says what is shared', () => {
   assert.match(RELAY_VERSION, /^world\d+$/, 'bumped with every relay-changing slice - the latest slice pins its own value (WORLD5 pinned world5)');
-  assert.match(rd('server/src/index.js'), /json\(\{ ok: true, service: 'daggerfall-online', version: RELAY_VERSION, t: Date\.now\(\) \}\)/);
+  assert.match(rd('server/src/index.js'), /json\(\{ ok: true, service: 'df-world-relay', version: RELAY_VERSION, t: Date\.now\(\) \}\)/);
   const o = rd('src/net/online.js');
   assert.match(o, /console\.info\(`\[online\] room \$\{room\} - \$\{isWorldRoom\(room\) \? 'a shared world' : isCellRoom\(room\) \? 'shared country \(each player\\'s foes are everyone\\'s\)' : isChatRoom\(room\) \? 'a chat channel' : 'presence only'\}`\);/);   // WORLD6b: the cell says what it shares
   assert.match(o, /if \(host && isWorldRoom\(this\.room\)\) console\.info\(`\[online\] host \$\{host\}\$\{host === this\.id \? ' \(me\)' : ''\}`\);/);

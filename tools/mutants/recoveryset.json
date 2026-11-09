@@ -310,8 +310,8 @@
   {
     "name": "RS-the-name-unsanitised",
     "file": "src/ui/accountFlow.js",
-    "old": "  `dfo-recovery-codes-${\n    String(handle || 'account')\n      .replace(/[^\\w-]+/g, '')\n      .toLowerCase() || 'account'\n  }.txt`;",
-    "new": "  `dfo-recovery-codes-${String(handle || 'account').toLowerCase() || 'account'}.txt`;",
+    "old": "  `df-world-recovery-codes-${\n    String(handle || 'account')\n      .replace(/[^\\w-]+/g, '')\n      .toLowerCase() || 'account'\n  }.txt`;",
+    "new": "  `df-world-recovery-codes-${String(handle || 'account').toLowerCase() || 'account'}.txt`;",
     "tests": [
       "test/server/recoveryset.test.js"
     ]

@@ -686,7 +686,7 @@ async function lawKeyOf(env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === '/health') return json({ ok: true, service: 'daggerfall-online', version: RELAY_VERSION, t: Date.now() });
+    if (url.pathname === '/health') return json({ ok: true, service: 'df-world-relay', version: RELAY_VERSION, t: Date.now() });
     if (url.pathname === SD_OPEN_PATH) return sdOpenDoor(env, url);   // SD-SOLO: which shared Hour a player in no party goes to
     if (url.pathname === EG_LIVE_PATH) return egLiveAsk(env.ROOMS);   // EG-H2: the Spire's live breaches, for the deploy's hold and drain
     if (url.pathname === SAFE_LAW_PATH) return lawDoor(request, env);   // SAFE4: a mute or ban the account service pushed, for the hub

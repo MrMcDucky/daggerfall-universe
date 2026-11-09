@@ -80,7 +80,7 @@ test('DA8: silence is not a reason to wait - an error, a timeout, or no check at
 
 test('DA8: the notice transport offers its own file beside Play - Download it, or play this version', () => {
   let s = fresh({ transport: 'notice' });
-  s = run(s, { type: 'check-available', version: '0.1.4684', download: 'https://github.com/MrMcDucky/daggerfall-universe/releases/latest/download/DFO-Online-mac-arm64.dmg' });
+  s = run(s, { type: 'check-available', version: '0.1.4684', download: 'https://github.com/MrMcDucky/daggerfall-universe/releases/latest/download/DF-World-mac-arm64.dmg' });
   assert.equal(s.update.status, 'notice');
   assert.equal(L.nextStep(s), 'wait', 'the player decides');
   const v = L.viewOf(s);
@@ -88,7 +88,7 @@ test('DA8: the notice transport offers its own file beside Play - Download it, o
   assert.match(v.detail, /^You have v0\.1\.4613\./);
   assert.deepEqual(v.statusActions.map((a) => [a.id, !!a.primary]), [['download', true]]);
   assert.equal(v.play.enabled, true, 'DA10: this version plays - Play is the other answer');
-  assert.equal(s.update.download.endsWith('/DFO-Online-mac-arm64.dmg'), true, 'REL5: the file, not a page of eleven');
+  assert.equal(s.update.download.endsWith('/DF-World-mac-arm64.dmg'), true, 'REL5: the file, not a page of eleven');
 });
 
 test('DA8/DA9: the first run - detection runs at once, and a folder is OFFERED, never taken silently', () => {
@@ -202,10 +202,10 @@ test('DA8: the shell - a sandboxed window on its own origin, two words of bridge
   assert.match(main, /const LAUNCHER_URL = 'dagger:\/\/launcher\/index\.html';/, 'its own origin - no storage shared with dagger://game');
   const serve = main.slice(main.indexOf('async function serveLauncherFile'), main.indexOf('function handleDagger'));
   // PIN MOVED: AUDIT BR5 - and the logo by its one name, the game's own file (src/assets/branding), packed beside the page
-  assert.match(main, /const LAUNCHER_LOGO = app\.isPackaged \? path\.join\(LAUNCHER_DIR, 'dfo-online\.png'\) : path\.join\(__dirname, '\.\.', 'src', 'assets', 'branding', 'dfo-online\.png'\);/);
-  assert.match(serve, /: parts\.length === 1 && parts\[0\] === 'dfo-online\.png'\s*\? LAUNCHER_LOGO/);
+  assert.match(main, /const LAUNCHER_LOGO = app\.isPackaged \? path\.join\(LAUNCHER_DIR, 'df-world\.png'\) : path\.join\(__dirname, '\.\.', 'src', 'assets', 'branding', 'df-world\.png'\);/);
+  assert.match(serve, /: parts\.length === 1 && parts\[0\] === 'df-world\.png'\s*\? LAUNCHER_LOGO/);
   assert.ok(JSON.parse(rd('app/package.json')).build.files.includes('launcher/**'), 'packed beside the page');
-  assert.match(rd('scripts/desktopRelease.mjs'), /\{ from: 'src\/assets\/branding\/dfo-online\.png', to: 'app\/launcher\/dfo-online\.png' \}/, 'copied there from the game\'s own file');
+  assert.match(rd('scripts/desktopRelease.mjs'), /\{ from: 'src\/assets\/branding\/df-world\.png', to: 'app\/launcher\/df-world\.png' \}/, 'copied there from the game\'s own file');
   assert.match(serve, /if \(p !== MENU_PAD && p !== LAUNCHER_LOGO && !p\.startsWith\(LAUNCHER_DIR \+ path\.sep\)\) return new Response\('forbidden', \{ status: 403 \}\);/, 'the same traversal law as dist/ - DA12: the pad module by its one name the only exception');
   assert.match(main, /if \(url\.host === 'launcher'\) return serveLauncherFile\(parts\);/);
   // the IPC hears ONLY the launcher's window, and a link is a NAME
@@ -258,10 +258,10 @@ test('DA8: the shell - a sandboxed window on its own origin, two words of bridge
 test('DA8: in the game - the update is a HUD line saying what the player can do; a browser tab hears nothing', () => {
   assert.equal(updateReadyText({ version: '0.1.4684', manual: false }),
     // PIN MOVED: DA13 - the next start is when both kinds play: the installer's (run at quit) and the game channel's
-    'DFO Online 0.1.4684 is ready. It runs the next time you start, or now from File > Restart to Update. Save first.');
+    'DF World 0.1.4684 is ready. It runs the next time you start, or now from File > Restart to Update. Save first.');
   assert.equal(updateReadyText({ version: '0.1.4684', manual: true }),
-    'DFO Online 0.1.4684 is out. Download it from the File menu when you are ready. Your saves stay where they are.');
-  assert.match(updateReadyText({ version: '<img src=x>' }), /^A new version of DFO Online is ready\./, 'only a version\'s own shape is spoken');
+    'DF World 0.1.4684 is out. Download it from the File menu when you are ready. Your saves stay where they are.');
+  assert.match(updateReadyText({ version: '<img src=x>' }), /^A new version of DF World is ready\./, 'only a version\'s own shape is spoken');
   assert.equal(listenForShellUpdates(undefined, () => {}), false, 'a browser tab has no shell');
   assert.equal(listenForShellUpdates({}, () => {}), false, 'a shell too old to have the word');
   const said = [];

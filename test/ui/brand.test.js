@@ -20,7 +20,7 @@
 // It also pins what did NOT change, and why. Upstream, the GitHub
 // repository, the live domain and the desktop app's identifier kept
 // the old spelling; this fork pins its own (MrMcDucky/daggerfall-universe,
-// its GitHub Pages site, io.github.mrmcducky.daggerfalluniverse). Those are not branding, they are keys other systems
+// its GitHub Pages site, io.github.mrmcducky.dfworld). Those are not branding, they are keys other systems
 // hold: renaming the repo breaks every link in the bible and every
 // release URL, changing the domain breaks the site, and changing the
 // appId orphans every installed copy from its updates - an install-over
@@ -49,6 +49,9 @@
 // player reads "the original game" or "classic". And the KEYS other systems
 // hold keep their spelling, as BR1 ruled - each is listed with what moving it
 // would break.
+//
+// DF WORLD (2026-11-09, the owner: "rename all DFO / DFO Online or similar, and "Daggerfall Universe" to "DF World""):
+// NAME below. The keys stay, but for the Workers' names and the appId, which nothing outside the tree held yet.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
@@ -64,9 +67,9 @@ const read = (p) => readFileSync(join(root, p), 'utf8');
 
 /** The name, its short form, its form in a file name, and the one sentence
  *  that says what it is - which names no other game (BR5). */
-const NAME = 'DFO Online';
-const SHORT_NAME = 'DFO';
-const FILE_NAME = 'DFO-Online';
+const NAME = 'DF World';
+const SHORT_NAME = 'DF World';
+const FILE_NAME = 'DF-World';
 const TAGLINE = 'An open-source reimplementation of a classic 1996 RPG';
 
 test('BR1: every surface the player reads carries the one name', () => {
@@ -78,7 +81,7 @@ test('BR1: every surface the player reads carries the one name', () => {
   // AUDIT BR5 (Mac, 2026-10-11: "Use the new logo"): it is the product's
   // logo again, the game's own file, named by its alt.
   // BR6 (Mac, 2026-10-26): the dragon mark, at its own 1232 x 1034.
-  assert.ok(landing.includes(`<h1 class="wordmark"><img src="./src/assets/branding/dfo-online.png" alt="${NAME}" width="1232" height="1034" /></h1>`), 'the wordmark');
+  assert.ok(landing.includes(`<h1 class="wordmark"><img src="./src/assets/branding/df-world.png" alt="${NAME}" width="1232" height="1034" /></h1>`), 'the wordmark');
   assert.equal((landing.match(/<img\s/g) ?? []).length, 1, 'and it is the one image on the page');
   // THE WORDMARK SPLITS THE NAME ACROSS TWO ELEMENTS, so no adjacency
   // sweep can ever see it whole: the front door rendered DAGGERFALL over
@@ -92,7 +95,7 @@ test('BR1: every surface the player reads carries the one name', () => {
     'the front door uses the same accessible mark as the cinematic');
   assert.match(read('src/ui/brandMark.js'), new RegExp(`export const BRAND_LOGO_ALT = '${NAME}';`), 'the mark\'s own alt text - the product\'s name and no other game\'s (BR5)');
   for (const proto of ['menu-pixel.html', 'menu-redesign.html']) {
-    assert.match(read(proto), new RegExp(`<h1 class="wordmark">${SHORT_NAME}<small>Online<\\/small><\\/h1>`), `${proto}'s wordmark`);
+    assert.match(read(proto), /<h1 class="wordmark">DF<small>World<\/small><\/h1>/, `${proto}'s wordmark`);
   }
   assert.match(landing, new RegExp(`<span>${NAME}</span>`), 'and the footer');
   assert.match(read('play/index.html'), new RegExp(`<title>${NAME}</title>`), 'the game\'s own page');
@@ -179,7 +182,7 @@ test('BR1: what the rebrand deliberately did NOT touch, and why', () => {
   // THE KEYS OTHER SYSTEMS HOLD. Each of these is the old spelling on
   // purpose; changing one here without the matching move outside the
   // tree breaks something live, so each fails loudly instead.
-  assert.match(read('app/package.json'), /"appId": "io\.github\.mrmcducky\.daggerfalluniverse"/,
+  assert.match(read('app/package.json'), /"appId": "io\.github\.mrmcducky\.dfworld"/,
     'the appId is an INSTALL IDENTITY - change it and every installed copy stops seeing updates and an install-over leaves two apps');
   assert.match(read('app/package.json'), /"homepage": "https:\/\/mrmcducky\.github\.io\/daggerfall-universe\/"/,
     'the fork\'s site - it moves with DNS, not with a commit');
@@ -216,7 +219,7 @@ test('BR4: the logo is Mac’s transparent cut, and nothing blends it away - BR5
   // was MADE of black, so screen would erase the art itself; BR5's DFO mark
   // is the same - white letters inside dark outlines over a soft shadow.
   const mark = read('src/ui/brandMark.js');
-  assert.match(mark, /new URL\('\.\.\/assets\/branding\/dfo-online\.png', import\.meta\.url\)/, 'the one asset');
+  assert.match(mark, /new URL\('\.\.\/assets\/branding\/df-world\.png', import\.meta\.url\)/, 'the one asset');
   assert.match(mark, /image\.className = 'brand-logo';/);
   const intro = read('src/ui/intro/introScreen.js'), style = read('src/ui/enhanced/enhancedStyle.js');
   const introTitle = intro.match(/\.intro-title\{[^}]*\}/)[0];
@@ -230,11 +233,11 @@ test('BR4: the logo is Mac’s transparent cut, and nothing blends it away - BR5
   // ratio - worked here from the file's own IHDR, so the next logo's size
   // reddens this, not a layout. BR6's dragon mark (Mac, 2026-10-26) is the
   // next logo: 1232 x 1034, 1.19:1, so every box below narrowed to its height.
-  const png = readFileSync(join(root, 'src/assets/branding/dfo-online.png'));
+  const png = readFileSync(join(root, 'src/assets/branding/df-world.png'));
   const ratio = png.readUInt32BE(16) / png.readUInt32BE(20);
   // AUDIT BR5: the site's and the launcher's logo reserve the file's own size, so neither page moves as it loads
   for (const page of ['index.html', 'app/launcher/index.html']) {
-    assert.match(read(page), new RegExp(`dfo-online\\.png" alt="${NAME}" width="${png.readUInt32BE(16)}" height="${png.readUInt32BE(20)}"`), `${page}: the logo's own size`);
+    assert.match(read(page), new RegExp(`df-world\\.png" alt="${NAME}" width="${png.readUInt32BE(16)}" height="${png.readUInt32BE(20)}"`), `${page}: the logo's own size`);
   }
   const door = (w) => w * 769 / 2112 * ratio, film = (w) => w * 850 / 2112 * ratio;
   const px = (v) => `${Math.round(v)}px`, vw = (v) => `${Math.round(v * 10) / 10}vw`;
@@ -300,7 +303,7 @@ test('BR4: what the rebrand deliberately did NOT touch, and why', () => {
   // THE ADDRESSES OTHER PEOPLE HOLD. The fork carries no upstream Patreon, Ko-fi or Discord links.
   assert.doesNotMatch(read('index.html'), /patreon\.com\/c\/|ko-fi\.com\/|discord\.gg\//, 'no upstream community or funding link');
   // The desktop shell's install identity and storage root, as BR1 left them.
-  assert.match(read('app/package.json'), /"appId": "io\.github\.mrmcducky\.daggerfalluniverse"/, 'an update installs over the copy that is there');
+  assert.match(read('app/package.json'), /"appId": "io\.github\.mrmcducky\.dfworld"/, 'an update installs over the copy that is there');
   assert.match(read('app/main.cjs'), /app\.setPath\('userData', path\.join\(app\.getPath\('appData'\), 'Daggerfall JavaScript'\)\)/,
     'and the saves stay where they are');
 });
@@ -333,9 +336,9 @@ test('BR5: no surface still says Daggerfall Online - whole, split across a wordm
   assert.equal(split, '', `a wordmark still spells the old name across two elements:\n${split}`);
   assert.match(read('src/ui/enhanced/enhancedChargen.js'), new RegExp(`brand\\.append\\(el\\('div', 'sub', '${NAME}'\\)\\);`), 'the new character\'s masthead');
   // AUDIT BR5: the launcher wears the logo too, the game's own file, named by its alt
-  assert.ok(read('app/launcher/index.html').includes(`<h1 class="wordmark"><img src="dfo-online.png" alt="${NAME}" width="1232" height="1034"></h1>`), 'and the desktop launcher\'s');
-  assert.match(read('src/ui/screenshot.js'), /return `dfo-\$\{d\.getFullYear\(\)\}/, 'a screenshot is named for the product');
-  assert.match(read('src/ui/shotsPane.js'), /a\.download = `dfo-shot-\$\{s\.id\}\.jpg`;/, 'and so is a saved loading shot');
+  assert.ok(read('app/launcher/index.html').includes(`<h1 class="wordmark"><img src="df-world.png" alt="${NAME}" width="1232" height="1034"></h1>`), 'and the desktop launcher\'s');
+  assert.match(read('src/ui/screenshot.js'), /return `df-world-\$\{d\.getFullYear\(\)\}/, 'a screenshot is named for the product');
+  assert.match(read('src/ui/shotsPane.js'), /a\.download = `df-world-shot-\$\{s\.id\}\.jpg`;/, 'and so is a saved loading shot');
   assert.match(read('server-account/src/patreon.js'), new RegExp(`<title>\\$\\{esc\\(heading\\)\\} - ${NAME}</title>`), 'and the Patreon link\'s page');
   for (const doc of ['terms', 'privacy']) {
     assert.match(read(`${doc}/index.html`), new RegExp(`<h1>${NAME.toUpperCase()} MULTIPLAYER — `), `the ${doc} name the operator`);
@@ -453,7 +456,7 @@ test('BR5: the keys other systems hold keep their spelling, and what moving each
     'the relay\'s address - unconfigured in the fork until it hosts one');
   assert.match(read('src/net/accountClient.js'), /export const DEFAULT_ACCOUNT_SERVICE = 'https:\/\/accounts\.unconfigured\.invalid';/,
     'the account service\'s - the same');
-  assert.match(read('server/wrangler.toml'), /^name = "daggerfall-online"$/m, 'the relay Worker\'s name IS its hostname');
+  assert.match(read('server/wrangler.toml'), /^name = "df-world-relay"$/m, 'the relay Worker\'s name IS its hostname');
   // PIN MOVED (SHOP): the sealing moved to sealed.js, shared with the shop - the salt is still Patreon's own constant
   assert.match(read('server-account/src/patreon.js'), /const PATREON_SEAL_SALT = 'daggerfall-accounts patreon-link';/,
     'a key-derivation salt - change it and every linked Patreon\'s stored secret stops opening');
@@ -473,27 +476,32 @@ test('BR5: the keys other systems hold keep their spelling, and what moving each
   }, 'the downloads a copy from before the rename asks for, by the names it was built with');
 });
 
-test('LOGO-CENTRE: the mark stands on its letters\' centre, not its box\'s - measured from the file, and every surface that centres it shifts it by that (mutants: the film unshifted; the door shifted by another amount)', async () => {
+test('LOGO-CENTRE: the mark stands on its letters\' centre, not its box\'s - measured from the file, and every surface that centres it shifts it by that (mutants: the film shifted; the door shifted; the shift not measured)', async () => {
   // Mac, 2026-10-26: "The main logo is off center". The box WAS centred (the film's last frame: 480.5 of 960); the
   // dragon's wing and tail fill its left, so the letters were not. The letters at mid-height run from the D's bowl
   // (its red) to the O's outline (the last paint); their centre, against the file's, is the shift.
   const { readPng } = await import('../../tools/pngIO.mjs');
   const { BRAND_LOGO_OPTICAL_SHIFT } = await import('../../src/ui/brandMark.js');
-  const { width, height, data } = readPng(readFileSync(join(root, 'src/assets/branding/dfo-online.png')));
+  // DF WORLD (2026-11-09): the mark is type, so its letters are its paint, measured whole.
+  const { width, height, data } = readPng(readFileSync(join(root, 'src/assets/branding/df-world.png')));
   let left = width, right = 0;
-  for (let y = Math.round(height * 0.4); y < Math.round(height * 0.5); y++) {
+  for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      const i = (y * width + x) * 4, r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
-      if (a > 200 && r > 200 && g < 110 && b < 80) left = Math.min(left, x);
-      if (a > 128) right = Math.max(right, x);
+      if (data[(y * width + x) * 4 + 3] > 128) { left = Math.min(left, x); right = Math.max(right, x); }
     }
   }
   const shift = ((left + right) / 2 - width / 2) / width;
   assert.ok(Math.abs(shift - BRAND_LOGO_OPTICAL_SHIFT) < 0.005, `the letters (x ${left} to ${right} of ${width}) centre ${(shift * 100).toFixed(2)}% right of the file's centre; brandMark.js says ${BRAND_LOGO_OPTICAL_SHIFT * 100}%`);
-  const back = `translateX(-${BRAND_LOGO_OPTICAL_SHIFT * 100}%)`;
+  const back = BRAND_LOGO_OPTICAL_SHIFT ? `translateX(-${BRAND_LOGO_OPTICAL_SHIFT * 100}%)` : null;
   const intro = read('src/ui/intro/introScreen.js'), style = read('src/ui/enhanced/enhancedStyle.js');
-  assert.ok(intro.match(/\.intro-title \.brand-logo\{[^}]*\}/)[0].includes(`transform:${back}`), 'the film\'s title');
-  assert.ok(style.match(/\n\.brand-logo \{[^}]*\}/)[0].includes(`transform: ${back};`), 'the door and the masthead');
-  assert.ok(read('index.html').match(/\.wordmark img \{[^}]*\}/)[0].includes(`transform: ${back};`), 'the site\'s page');
+  const rules = [
+    ['the film\'s title', intro.match(/\.intro-title \.brand-logo\{[^}]*\}/)[0]],
+    ['the door and the masthead', style.match(/\n\.brand-logo \{[^}]*\}/)[0]],
+    ['the site\'s page', read('index.html').match(/\.wordmark img \{[^}]*\}/)[0]],
+  ];
+  for (const [what, rule] of rules) {
+    if (back) assert.ok(rule.replace(/: /g, ':').includes(`transform:${back}`), what);
+    else assert.doesNotMatch(rule, /transform/, `${what}: a centred mark is not moved`);
+  }
   assert.doesNotMatch(read('app/launcher/launcher.css').match(/\.wordmark img \{[^}]*\}/)[0], /transform/, 'the launcher sets it at its left edge, where its box is what lines up');
 });

@@ -97,8 +97,8 @@
   {
     "name": "REL5-1-the-version-is-back-in-the-installer-name",
     "file": "app/package.json",
-    "old": "      \"artifactName\": \"DFO-Online-win-${arch}-setup.${ext}\",\n",
-    "new": "      \"artifactName\": \"DFO-Online-${version}-win-${arch}-setup.${ext}\",\n",
+    "old": "      \"artifactName\": \"DF-World-win-${arch}-setup.${ext}\",\n",
+    "new": "      \"artifactName\": \"DF-World-${version}-win-${arch}-setup.${ext}\",\n",
     "tests": [
       "test/tooling/rel4_release.test.js",
       "test/tooling/relwin1.test.js"
@@ -108,8 +108,8 @@
   {
     "name": "REL5-2-the-promise-and-the-build-disagree",
     "file": "app/lib/downloads.cjs",
-    "old": "  mac: 'DFO-Online-mac-arm64.dmg',\n",
-    "new": "  mac: 'DFO-Online-mac-x64.dmg',\n",
+    "old": "  mac: 'DF-World-mac-arm64.dmg',\n",
+    "new": "  mac: 'DF-World-mac-x64.dmg',\n",
     "tests": [
       "test/tooling/rel4_release.test.js"
     ],
@@ -118,8 +118,8 @@
   {
     "name": "REL5-3-the-site-links-a-name-the-release-does-not-carry",
     "file": "index.html",
-    "old": "releases/latest/download/DFO-Online-mac-arm64.dmg\">macOS",
-    "new": "releases/latest/download/DFO-Online-0.1.4684-mac-arm64.dmg\">macOS",
+    "old": "releases/latest/download/DF-World-mac-arm64.dmg\">macOS",
+    "new": "releases/latest/download/DF-World-0.1.4684-mac-arm64.dmg\">macOS",
     "tests": [
       "test/tooling/rel4_release.test.js"
     ],

@@ -1,18 +1,18 @@
 [
   {
-    "name": "LOGO-CENTRE-FILM-UNSHIFTED",
+    "name": "LOGO-CENTRE-FILM-SHIFTED",
     "file": "src/ui/intro/introScreen.js",
-    "old": ".intro-title .brand-logo{display:block;width:100%;height:auto;transform:translateX(-10%)}",
-    "new": ".intro-title .brand-logo{display:block;width:100%;height:auto}",
+    "old": ".intro-title .brand-logo{display:block;width:100%;height:auto}",
+    "new": ".intro-title .brand-logo{display:block;width:100%;height:auto;transform:translateX(-10%)}",
     "tests": [
       "test/ui/brand.test.js"
     ]
   },
   {
-    "name": "LOGO-CENTRE-DOOR-BY-ANOTHER",
+    "name": "LOGO-CENTRE-DOOR-SHIFTED",
     "file": "src/ui/enhanced/enhancedStyle.js",
-    "old": "image-rendering: auto; transform: translateX(-10%); }",
-    "new": "image-rendering: auto; transform: translateX(-16%); }",
+    "old": "image-rendering: auto; }",
+    "new": "image-rendering: auto; transform: translateX(-10%); }",
     "tests": [
       "test/ui/brand.test.js"
     ]
@@ -20,8 +20,8 @@
   {
     "name": "LOGO-CENTRE-SHIFT-NOT-MEASURED",
     "file": "src/ui/brandMark.js",
-    "old": "export const BRAND_LOGO_OPTICAL_SHIFT = 0.1;",
-    "new": "export const BRAND_LOGO_OPTICAL_SHIFT = 0.166;",
+    "old": "export const BRAND_LOGO_OPTICAL_SHIFT = 0;",
+    "new": "export const BRAND_LOGO_OPTICAL_SHIFT = 0.1;",
     "tests": [
       "test/ui/brand.test.js"
     ]

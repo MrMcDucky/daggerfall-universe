@@ -349,7 +349,7 @@ function saveFile(s) {
   const url = URL.createObjectURL(s.blob);
   const a = el('a');
   a.href = url;
-  a.download = `dfo-shot-${s.id}.jpg`;
+  a.download = `df-world-shot-${s.id}.jpg`;
   document.body.append(a);
   a.click();
   a.remove();

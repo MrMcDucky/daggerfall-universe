@@ -90,7 +90,7 @@ jobs:
             fi
             PARENT=(-p "$BASE")
           fi
-          COMMIT=$(git commit-tree "$(git write-tree)" "${PARENT[@]}" -m "DFO Online, open-source edition ($DAY)")
+          COMMIT=$(git commit-tree "$(git write-tree)" "${PARENT[@]}" -m "DF World, open-source edition ($DAY)")
           far push --quiet "https://github.com/$TO.git" "$COMMIT:refs/heads/main"
           echo "seeded $TO: $COMMIT, main's tree at $(git rev-parse HEAD) without the internal docs, $(git ls-files | wc -l) files"
 

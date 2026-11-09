@@ -317,12 +317,12 @@ test('RECOVERY-SET: a recovery that leaves the set\'s others standing lands sign
 test('RECOVERY-SET: the saved file - whose codes, the rule, a code a line numbered as the card numbers them; a name per account, nothing a path could hold (mutants: unnumbered; the name unsanitised)', () => {
   const text = recoveryCodesText('Nystul', SET);
   const lines = text.split('\n');
-  assert.equal(lines[0], 'DFO Online recovery codes for Nystul');
+  assert.equal(lines[0], 'DF World recovery codes for Nystul');
   assert.match(lines[1], /works once/);
   assert.deepEqual(lines.slice(3, 6), ['1. AAAAA-AAAAA-AAAAA-AAAA1', '2. AAAAA-AAAAA-AAAAA-AAAA2', '3. AAAAA-AAAAA-AAAAA-AAAA3']);
-  assert.equal(recoveryCodesFileName('Nystul'), 'dfo-recovery-codes-nystul.txt');
-  assert.equal(recoveryCodesFileName('../evil/name'), 'dfo-recovery-codes-evilname.txt');
-  assert.equal(recoveryCodesFileName(''), 'dfo-recovery-codes-account.txt');
+  assert.equal(recoveryCodesFileName('Nystul'), 'df-world-recovery-codes-nystul.txt');
+  assert.equal(recoveryCodesFileName('../evil/name'), 'df-world-recovery-codes-evilname.txt');
+  assert.equal(recoveryCodesFileName(''), 'df-world-recovery-codes-account.txt');
 });
 
 // ── THE CARD (enhancedAccount.js) ────────────────────────────────────
@@ -406,7 +406,7 @@ test('RECOVERY-SET: on `code`, Copy puts the file\'s text on the clipboard and S
     card.paint();
     buttons(card).find((b) => b.textContent === 'Save as a file').onclick();
     const link = doc.made.find((n) => n.tag === 'a');
-    assert.equal(link?.download, 'dfo-recovery-codes-nystul.txt');
+    assert.equal(link?.download, 'df-world-recovery-codes-nystul.txt');
     assert.equal(link.href, 'blob:codes');
     assert.ok(link.clicked, 'the file was never asked for');
     assert.equal(urls.created, 1);

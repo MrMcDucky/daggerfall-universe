@@ -1,9 +1,9 @@
 {
   "name": "daggerfall-js-app",
-  "productName": "DFO Online",
+  "productName": "DF World",
   "private": true,
   "version": "0.1.0",
-  "description": "DFO Online - the downloadable desktop shell. Loads the same dist/ the website deploys; adds ARENA2-from-disk and file-backed saves.",
+  "description": "DF World - the downloadable desktop shell. Loads the same dist/ the website deploys; adds ARENA2-from-disk and file-backed saves.",
   "author": "Lattymoy",
   "homepage": "https://mrmcducky.github.io/daggerfall-universe/",
   "repository": {
@@ -22,11 +22,11 @@
     "electron-builder": "^25.1.8"
   },
   "build": {
-    "appId": "io.github.mrmcducky.daggerfalluniverse",
-    "productName": "DFO Online",
+    "appId": "io.github.mrmcducky.dfworld",
+    "productName": "DF World",
     "icon": "../public/icons/icon-512.png",
     "afterPack": "./afterPack.cjs",
-    "artifactName": "DFO-Online-${os}-${arch}.${ext}",
+    "artifactName": "DF-World-${os}-${arch}.${ext}",
     "directories": {
       "output": "release"
     },
@@ -62,13 +62,13 @@
       ]
     },
     "nsis": {
-      "artifactName": "DFO-Online-win-${arch}-setup.${ext}",
+      "artifactName": "DF-World-win-${arch}-setup.${ext}",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "perMachine": false
     },
     "portable": {
-      "artifactName": "DFO-Online-win-${arch}-portable.${ext}"
+      "artifactName": "DF-World-win-${arch}-portable.${ext}"
     },
     "mac": {
       "target": [
@@ -76,9 +76,9 @@
       ],
       "category": "public.app-category.games",
       "extendInfo": {
-        "NSDownloadsFolderUsageDescription": "DFO Online looks here for the Daggerfall game files you unpacked, only when it found none elsewhere. Nothing is copied or uploaded.",
-        "NSDesktopFolderUsageDescription": "DFO Online looks here for the Daggerfall game files you unpacked, only when it found none elsewhere. Nothing is copied or uploaded.",
-        "NSDocumentsFolderUsageDescription": "DFO Online looks here for the Daggerfall game files you unpacked, only when it found none elsewhere. Nothing is copied or uploaded."
+        "NSDownloadsFolderUsageDescription": "DF World looks here for the Daggerfall game files you unpacked, only when it found none elsewhere. Nothing is copied or uploaded.",
+        "NSDesktopFolderUsageDescription": "DF World looks here for the Daggerfall game files you unpacked, only when it found none elsewhere. Nothing is copied or uploaded.",
+        "NSDocumentsFolderUsageDescription": "DF World looks here for the Daggerfall game files you unpacked, only when it found none elsewhere. Nothing is copied or uploaded."
       }
     },
     "asarUnpack": [

@@ -100,7 +100,7 @@ test('SHOP: the window\'s disclaimer is the service\'s, word for word - the proc
   const src = rd('src/ui/enhanced/enhancedShop.js');
   assert.ok(src.includes(`t('shop.proceeds', '${SHOP_PROCEEDS}')`), 'the proceeds, the service\'s own words');
   assert.ok(src.includes(`t('shop.cosmetic', '${SHOP_COSMETIC}')`));
-  assert.equal(SHOP_PROCEEDS, 'All proceeds go to the costs of developing DFO Online.');
+  assert.equal(SHOP_PROCEEDS, 'All proceeds go to the costs of developing DF World.');
   const w = shopWindow(fakeDoc(), { flow: () => flowIn(), onClose() {}, focus: false, preview: async () => null });
   const body = w.root.children.find((c) => c.className === 'px-body');
   // PIN MOVED (AUDIT-STOREFRONT II, lane E 6): the featured wares and the panels scroll under the standing disclaimer and

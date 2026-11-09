@@ -286,7 +286,7 @@
   {
     "name": "AUDIT-SAFE-RELAY-S1-the-binding-dropped",
     "file": "server/wrangler.toml",
-    "old": "[[services]]\nbinding = \"ACCOUNTS\"\nservice = \"daggerfall-accounts\"\n",
+    "old": "[[services]]\nbinding = \"ACCOUNTS\"\nservice = \"df-world-accounts\"\n",
     "new": "",
     "tests": [
       "test/net/safety/safe_relay_audit.test.js"

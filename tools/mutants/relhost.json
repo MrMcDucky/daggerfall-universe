@@ -68,8 +68,8 @@
   {
     "name": "RELHOST-seed-keeps-the-history",
     "file": ".github/workflows/public-copy.yml",
-    "old": "          COMMIT=$(git commit-tree \"$(git write-tree)\" \"${PARENT[@]}\" -m \"DFO Online, open-source edition ($DAY)\")\n",
-    "new": "          COMMIT=$(git commit-tree \"$(git write-tree)\" -p HEAD -m \"DFO Online, open-source edition ($DAY)\")\n",
+    "old": "          COMMIT=$(git commit-tree \"$(git write-tree)\" \"${PARENT[@]}\" -m \"DF World, open-source edition ($DAY)\")\n",
+    "new": "          COMMIT=$(git commit-tree \"$(git write-tree)\" -p HEAD -m \"DF World, open-source edition ($DAY)\")\n",
     "tests": [
       "test/tooling/releasehost.test.js"
     ],

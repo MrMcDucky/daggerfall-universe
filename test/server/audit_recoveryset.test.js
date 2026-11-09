@@ -339,7 +339,7 @@ test('AUDIT RECOVERY-SET C9 B7: the card numbers the codes as the file does; Cop
     assert.ok(link.clicked && link.removed, 'the link was left in the page');
     for (const fn of timers) fn();
     assert.deepEqual(revoked, ['blob:codes'], 'the file\'s URL was never freed');
-    assert.equal(flow.note, 'Saving as dfo-recovery-codes-nystul.txt.');
+    assert.equal(flow.note, 'Saving as df-world-recovery-codes-nystul.txt.');
   } finally {
     URL.createObjectURL = createObjectURL; URL.revokeObjectURL = revokeObjectURL; globalThis.setTimeout = realTimeout;
     if (nav) Object.defineProperty(globalThis, 'navigator', nav); else delete globalThis.navigator;

@@ -109,7 +109,7 @@ test('TERMS1: nothing of the draft is left unfilled - no placeholder, no old nam
     // every tracked file for it); its CAPITALS are this pin's, because the
     // sweep is case-sensitive and the draft's titles were all capitals.
     assert.doesNotMatch(html, /DAGGERFALLJS/, `${name}: the old name survives in a title`);
-    assert.equal((words.match(/DFO Online/g) ?? []).length > 10, true, `${name}: the documents speak of the project by its name`);
+    assert.equal((words.match(/DF World/g) ?? []).length > 10, true, `${name}: the documents speak of the project by its name`);
     const contacts = [...html.matchAll(/<a href="(https:\/\/github\.com\/[\w/-]+)" rel="noopener">(github\.com\/[\w/-]+)<\/a>/g)];
     assert.equal(contacts.length, counts[name], `${name}: every contact is the issue tracker`);
     for (const [, href, text] of contacts) {
@@ -124,8 +124,8 @@ test('TERMS1: each is a document in order - one heading, every section numbered 
   for (const [name, d] of Object.entries(DOCS)) {
     const html = read(d.file);
     assert.equal((html.match(/<h1>/g) ?? []).length, 1, `${name}: one title`);
-    assert.match(html, new RegExp(`<h1>DFO ONLINE MULTIPLAYER — ${d.title.toUpperCase()}</h1>`), `${name}: its own title`);
-    assert.match(html, new RegExp(`<title>${d.title} - DFO Online</title>`), `${name}: the tab says which document`);
+    assert.match(html, new RegExp(`<h1>DF WORLD MULTIPLAYER — ${d.title.toUpperCase()}</h1>`), `${name}: its own title`);
+    assert.match(html, new RegExp(`<title>${d.title} - DF World</title>`), `${name}: the tab says which document`);
     const sections = [...html.matchAll(/<h2 id="section-(\d+)">(\d+)\. [A-Z]/g)].map((m) => [Number(m[1]), Number(m[2])]);
     assert.deepEqual(sections.map(([id]) => id), Array.from({ length: d.sections }, (_, i) => i + 1), `${name}: the sections, in order`);
     for (const [id, n] of sections) assert.equal(id, n, `${name}: section ${n}'s anchor says ${id}`);
@@ -139,7 +139,7 @@ test('TERMS1: the documents are DOCUMENTS - no script, no file and no style of t
     assert.doesNotMatch(html, /<img|<link\b|<style/i, `${name}: references no file and brings no style - the skin is put in at build`);
     assert.match(html, /<a class="skip" href="#main">Skip to content<\/a>/, `${name}: a keyboard reader can skip the bar`);
     assert.match(html, /<main id="main" class="doc">/);
-    assert.match(html, /<a class="home" href="\.\.\/">DFO Online<\/a>/, `${name}: the way home is relative, as the site's links are`);
+    assert.match(html, /<a class="home" href="\.\.\/">DF World<\/a>/, `${name}: the way home is relative, as the site's links are`);
     for (const [other, o] of Object.entries(DOCS)) {
       const current = other === name ? ' aria-current="page"' : '';
       assert.ok(html.includes(`<a href="../${other}/"${current}>${o.title}</a>`), `${name}: its bar names ${other}${current ? ' as the page it is' : ''}`);

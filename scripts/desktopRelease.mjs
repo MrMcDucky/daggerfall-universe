@@ -89,7 +89,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
  *  `../` fails the build. Each lands where the shell reads it, so the archive's layout is unchanged. */
 export const DESKTOP_STAGED = Object.freeze([
   Object.freeze({ from: 'src/ui/menu/menuPad.js', to: 'app/launcher/menuPad.js' }),
-  Object.freeze({ from: 'src/assets/branding/dfo-online.png', to: 'app/launcher/dfo-online.png' }),
+  Object.freeze({ from: 'src/assets/branding/df-world.png', to: 'app/launcher/df-world.png' }),
   Object.freeze({ from: 'dist', to: 'app/dist' }),
 ]);
 
